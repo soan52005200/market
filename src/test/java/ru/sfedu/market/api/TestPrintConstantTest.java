@@ -11,12 +11,6 @@ import static ru.sfedu.market.Constants.FIRST_TEST_RESULT;
 class TestPrintConstantTest {
     @Test
     void name() {
-        try {
-            System.out.println(ConfigurationUtil.getConfigurationEntry(FIRST_TEST_RESULT));
-        }
-        catch (IOException e)
-        {
-            System.out.println(e);
-        }
+        System.out.println(FIRST_TEST_RESULT);
     }
 }

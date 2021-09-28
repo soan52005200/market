@@ -4,25 +4,23 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <File name="File" fileName="all.log" append="true">
+        <RollingFile name="File" fileName="all.log" append="true" filePattern="${log-path}/trace-%d{yyyy-MM-dd}.log">
 
-            <Policies>
-                <SizeBasedTriggeringPolicy size="1 KB"/>
-            </Policies>
             <PatternLayout>
                 <pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</pattern>
-
             </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1 KB" />
+            </Policies>
 
-        </File>
+        </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="ru.sfedu.market" level="debug">
-            <AppenderRef ref="Console"/>
+        <Logger name="ru.sfedu.market" level="error">
             <AppenderRef ref="File"/>
         </Logger>
-        <Root level="debug">
-
+        <Root level="error">
+            <AppenderRef ref="Console"/>
         </Root>
     </Loggers>
 </Configuration>
