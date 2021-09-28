@@ -7,7 +7,7 @@ public class Main {
 
     private static final Logger logger = LogManager.getLogger(Main.class.getName());
 
-    public static void main(String... args){
+    public static void main(String[] args){
         logger.error("Hello world(error)");
         logger.debug("Hello world(debug)");
         logger.info("Hello world(info)");

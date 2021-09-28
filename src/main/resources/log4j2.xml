@@ -12,10 +12,10 @@
     </Appenders>
     <Loggers>
         <Logger name="ru.sfedu.market" level="debug">
-            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
         </Logger>
         <Root level="debug">
-            <AppenderRef ref="File"/>
+            <AppenderRef ref="Console"/>
         </Root>
     </Loggers>
 </Configuration>
