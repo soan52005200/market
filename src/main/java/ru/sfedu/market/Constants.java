@@ -10,4 +10,6 @@ public final class Constants {
 
     public static final String FIRST_TEST_RESULT="Первый тест успешно пройдет";
 
+    public static final String PERSISTENCE_SUCCESS = "Объект %s успешно сохранен";
+    public static final String REMOVE_SUCCESS = "Объект успешно удалён";
 }
