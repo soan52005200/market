@@ -1,0 +1,37 @@
+14:18:10.154 [main] DEBUG ru.sfedu.market.Main - null
+14:18:10.160 [main] DEBUG ru.sfedu.market.Main - null
+14:18:10.165 [main] ERROR ru.sfedu.market.Main - java.io.FileNotFoundException: env_default (Не удается найти указанный файл)
+14:18:10.166 [main] ERROR ru.sfedu.market.Main - Hello world(error)
+14:18:10.167 [main] DEBUG ru.sfedu.market.Main - Hello world(debug)
+14:18:10.168 [main] INFO  ru.sfedu.market.Main - Hello world(info)
+22:34:54.393 [main] DEBUG ru.sfedu.market.Main - null
+22:34:54.393 [main] DEBUG ru.sfedu.market.Main - null
+22:34:54.393 [main] ERROR ru.sfedu.market.Main - java.io.FileNotFoundException: env_default (Не удается найти указанный файл)
+22:34:54.393 [main] ERROR ru.sfedu.market.Main - Hello world(error)
+22:34:54.393 [main] DEBUG ru.sfedu.market.Main - Hello world(debug)
+22:34:54.393 [main] INFO  ru.sfedu.market.Main - Hello world(info)
+22:36:01.361 [main] DEBUG ru.sfedu.market.Main - null
+22:36:01.372 [main] DEBUG ru.sfedu.market.Main - null
+22:36:01.372 [main] ERROR ru.sfedu.market.Main - java.io.FileNotFoundException: env_default (Не удается найти указанный файл)
+22:36:01.380 [main] ERROR ru.sfedu.market.Main - Hello world(error)
+22:36:01.380 [main] DEBUG ru.sfedu.market.Main - Hello world(debug)
+22:36:01.380 [main] INFO  ru.sfedu.market.Main - Hello world(info)
+22:41:32.161 [main] ERROR ru.sfedu.market.Main - java.io.FileNotFoundException: env_default (Не удается найти указанный файл)
+22:41:32.172 [main] ERROR ru.sfedu.market.Main - Hello world(error)
+22:41:32.172 [main] DEBUG ru.sfedu.market.Main - Hello world(debug)
+22:41:32.172 [main] INFO  ru.sfedu.market.Main - Hello world(info)
+22:47:19.483 [main] ERROR ru.sfedu.market.Main - Hello world(error)
+22:47:19.483 [main] DEBUG ru.sfedu.market.Main - Hello world(debug)
+22:47:19.483 [main] INFO  ru.sfedu.market.Main - Hello world(info)
+22:48:25.886 [main] ERROR ru.sfedu.market.Main - Hello world(error)
+22:48:25.886 [main] DEBUG ru.sfedu.market.Main - Hello world(debug)
+22:48:25.886 [main] INFO  ru.sfedu.market.Main - Hello world(info)
+22:49:09.892 [main] DEBUG ru.sfedu.market.Main - null
+22:49:09.904 [main] DEBUG ru.sfedu.market.Main - null
+22:49:09.904 [main] ERROR ru.sfedu.market.Main - Hello world(error)
+22:49:09.904 [main] DEBUG ru.sfedu.market.Main - Hello world(debug)
+22:49:09.904 [main] INFO  ru.sfedu.market.Main - Hello world(info)
+22:50:56.271 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+23:13:16.574 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+23:14:32.876 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+23:20:11.615 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
