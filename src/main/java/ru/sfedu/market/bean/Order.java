@@ -4,10 +4,13 @@ import com.opencsv.bean.CsvBindByPosition;
 
 public class Order {
 
+    @CsvBindByPosition(position = 0)
     private Long id;
 
+    @CsvBindByPosition(position = 1)
     private Product product;
 
+    @CsvBindByPosition(position = 2)
     private Customer customer;
 
     public Order(Long id, Product product, Customer customer) {
@@ -38,5 +41,14 @@ public class Order {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", product=" + product +
+                ", customer=" + customer +
+                '}';
     }
 }

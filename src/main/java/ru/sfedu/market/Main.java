@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 import static ru.sfedu.market.Constants.*;
+import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
 
 public class Main {
 
@@ -14,6 +15,8 @@ public class Main {
 
             log.debug(System.getProperty(ENV_PROPERTIES));
             log.debug(System.getProperty(LOG4J2_PROPERTIES));
+
+            System.out.println(getConfigurationEntry("env_default"));
             
 
         } catch (Exception exception) {

@@ -1,9 +1,16 @@
 package ru.sfedu.market.bean;
 
+import com.opencsv.bean.CsvBindByPosition;
+
 public class Customer {
 
+    @CsvBindByPosition(position = 0)
     private Long id;
+
+    @CsvBindByPosition(position = 1)
     private String fio;
+
+    @CsvBindByPosition(position = 2)
     private Integer age;
 
     public Customer(Long id, String fio, Integer age) {
