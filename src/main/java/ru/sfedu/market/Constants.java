@@ -12,4 +12,7 @@ public final class Constants {
 
     public static final String PERSISTENCE_SUCCESS = "Объект %s успешно сохранен";
     public static final String REMOVE_SUCCESS = "Объект успешно удалён";
+
+    public static final String CSV_CUSTOMER_KEY = "csvCustomer";
+    public static final String PRESENT_BEAN = "Клиент с ID=%d уже существует";
 }

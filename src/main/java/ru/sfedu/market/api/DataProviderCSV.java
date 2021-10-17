@@ -6,6 +6,7 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvBeanIntrospectionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.sfedu.market.Main;
@@ -20,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static ru.sfedu.market.Constants.PERSISTENCE_SUCCESS;
-import static ru.sfedu.market.Constants.REMOVE_SUCCESS;
+import static ru.sfedu.market.Constants.*;
+import static ru.sfedu.market.Constants.PRESENT_BEAN;
 import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
 import static ru.sfedu.market.utils.Status.*;
 
@@ -30,14 +31,18 @@ public class DataProviderCSV implements IDataProvider {
 
 
     @Override
-    public Result<Customer> register(Customer customer) {
+    public Result<Customer> createCustomer(Customer customer) {
+        if (getCustomerById(customer.getId()).isEmpty()) {
+            return append(customer, CSV_CUSTOMER_KEY);
+        }
+        return new Result<>(UNSUCCESSFUL, customer, String.format(PRESENT_BEAN, customer.getId()));
 
-        return null;
     }
 
     @Override
     public Optional<Customer> getCustomerById(Long id) {
-        return Optional.empty();
+        return getAll(Customer.class, CSV_CUSTOMER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
+
     }
 
     @Override
@@ -71,7 +76,7 @@ public class DataProviderCSV implements IDataProvider {
     }
 
     @Override
-    public Result<Product> register(Product product) {
+    public Result<Product> createProduct(Product product) {
         return null;
     }
 
@@ -90,31 +95,41 @@ public class DataProviderCSV implements IDataProvider {
         return null;
     }
 
-    private static final Logger logs = LogManager.getLogger(Main.class.getName());
+
+    public <T> Result append(T bean,String key){
+        Result<T> result;
+        try {
+            CSVWriter csvWriter = new CSVWriter(new FileWriter(getConfigurationEntry(key), true));
+                                                                                        /**В конце файла*/
+            StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(csvWriter).build();
+            beanToCsv.write(bean);
+            csvWriter.close();
+
+            result = new Result<T>(SUCCESS, bean, String.format(PERSISTENCE_SUCCESS, bean.toString()));
+        } catch (Exception e) {
+            log.error(e);
+            result = new Result<T>(ERROR, null, e.getMessage());
+        }
+        return result;
+
+
+    }
+
+
 
     public <T> List<T> getAll(Class<T> clazz, String key){
         List<T> result;
         try {
             log.info(getConfigurationEntry(key));
-            CSVReader csvReader = new CSVReader(new FileReader(getConfigurationEntry(key)));
+            FileReader file = new FileReader(getConfigurationEntry(key));
             /**
-
               Разобраться!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
             */
+            List<T> csvToBean = new CsvToBeanBuilder(file).withType(clazz).build().parse();
 
+            file.close();
 
-            CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(csvReader).withType(clazz).build();
-
-            logs.debug(csvToBean);
-
-
-
-
-            List<T> collection = csvToBean.parse();
-            csvReader.close();
-
-            result = collection;
+            result = csvToBean;
         } catch (Exception e) {
             log.error(e);
             result = new ArrayList<T>();

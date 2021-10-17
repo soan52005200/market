@@ -18,7 +18,7 @@ public interface IDataProvider {
      * @return
      */
 
-    Result<Customer> register(Customer customer);
+    Result<Customer> createCustomer(Customer customer);
 
     /**
      * Получить информацию о клиенте по его id
@@ -82,7 +82,7 @@ public interface IDataProvider {
      * @return
      */
 
-    Result<Product> register(Product product);
+    Result<Product> createProduct(Product product);
 
     /**
      * Получить информацию о клиенте по его id
