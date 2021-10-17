@@ -95,29 +95,32 @@ public class DataProviderCSV implements IDataProvider {
     public <T> List<T> getAll(Class<T> clazz, String key){
         List<T> result;
         try {
+            log.info(getConfigurationEntry(key));
             CSVReader csvReader = new CSVReader(new FileReader(getConfigurationEntry(key)));
             /**
 
               Разобраться!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
             */
+
+
             CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(csvReader).withType(clazz).build();
 
             logs.debug(csvToBean);
 
-            /** CSVToBeanBuilder - парсинг csv с помощью аннотаций
+
 
 
             List<T> collection = csvToBean.parse();
             csvReader.close();
 
-            result = collection;*/
+            result = collection;
         } catch (Exception e) {
             log.error(e);
             result = new ArrayList<T>();
         }
-        return null;
-        /**return result;*/
+
+        return result;
     }
 
 }

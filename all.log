@@ -35,3 +35,15 @@
 23:13:16.574 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
 23:14:32.876 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
 23:20:11.615 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+15:03:06.058 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+15:05:50.087 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+15:07:00.303 [main] INFO  ru.sfedu.market.api.DataProviderCSV - null
+15:07:00.333 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+15:09:29.627 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
+15:09:30.155 [main] DEBUG ru.sfedu.market.Main - com.opencsv.bean.CsvToBean@58fe0499
+15:11:48.553 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
+15:11:49.203 [main] DEBUG ru.sfedu.market.Main - com.opencsv.bean.CsvToBean@10c626be
+15:11:49.280 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: com.opencsv.exceptions.CsvBeanIntrospectionException: Basic instantiation of the given bean type (and subordinate beans created through recursion, if applicable) was determined to be impossible.
+15:12:41.227 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
+15:12:41.838 [main] DEBUG ru.sfedu.market.Main - com.opencsv.bean.CsvToBean@58fe0499
+15:12:41.957 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: com.opencsv.exceptions.CsvBeanIntrospectionException: Basic instantiation of the given bean type (and subordinate beans created through recursion, if applicable) was determined to be impossible.

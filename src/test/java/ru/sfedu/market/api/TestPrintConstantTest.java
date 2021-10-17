@@ -14,7 +14,7 @@ class TestPrintConstantTest {
     @Test
     void get() throws IOException {
         DataProviderCSV dataProviderCSV = new DataProviderCSV();
-        System.out.println(dataProviderCSV.getAll(Customer.class,getConfigurationEntry("csvCustomer")));
+        System.out.println(dataProviderCSV.getAll(Customer.class,"csvCustomer"));
 
 
 
