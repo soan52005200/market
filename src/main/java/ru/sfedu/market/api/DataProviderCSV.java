@@ -120,24 +120,38 @@ public class DataProviderCSV implements IDataProvider {
     public <T> List<T> getAll(Class<T> clazz, String key){
         List<T> result;
         try {
-            log.info(getConfigurationEntry(key));
-            FileReader file = new FileReader(getConfigurationEntry(key));
+            CSVReader reader =new CSVReader(new FileReader(getConfigurationEntry(key)));
             /**
               Разобраться!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             */
-            List<T> csvToBean = new CsvToBeanBuilder<T>(file)
+            CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(reader)
                     .withType(clazz)
-                    .build()
-                    .parse();
+                    .build();
+            List<T> listUser = csvToBean.parse();
 
-            file.close();
+            reader.close();
 
-            result = csvToBean;
+            result = listUser;
         } catch (Exception e) {
             log.error(e);
             result = new ArrayList<T>();
         }
 
+        return result;
+    }
+    private <T> Result<Void> remove(List<T> beans, String key) {
+        Result<Void> result;
+        try {
+            CSVWriter csvWriter = new CSVWriter(new FileWriter(getConfigurationEntry(key), false));
+            StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(csvWriter).build();
+            beanToCsv.write(beans);
+            csvWriter.close();
+
+            result = new Result<Void>(SUCCESS, null, REMOVE_SUCCESS);
+        } catch (Exception e) {
+            log.error(e);
+            result = new Result<Void>(ERROR, null, e.getMessage());
+        }
         return result;
     }
 

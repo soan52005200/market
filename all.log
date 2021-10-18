@@ -73,3 +73,20 @@
 08:24:41.249 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: com.opencsv.exceptions.CsvBeanIntrospectionException: Basic instantiation of the given bean type (and subordinate beans created through recursion, if applicable) was determined to be impossible.
 08:58:06.412 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
 08:58:06.906 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: com.opencsv.exceptions.CsvBeanIntrospectionException: Basic instantiation of the given bean type (and subordinate beans created through recursion, if applicable) was determined to be impossible.
+22:43:59.693 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
+22:43:59.759 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV line: 5, values: null
+22:44:59.322 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
+22:44:59.430 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+22:56:11.473 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
+22:56:11.560 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+22:57:49.839 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
+22:57:49.920 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+23:02:18.215 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
+23:02:18.293 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+23:16:19.004 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
+23:16:19.082 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+23:18:32.319 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
+23:18:32.397 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+23:20:16.890 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
+23:35:37.882 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
+23:36:52.368 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv

@@ -15,6 +15,8 @@ public class Customer implements Serializable {
     @CsvBindByPosition(position = 2)
     private Integer age;
 
+    public Customer() { }
+
     public Customer(Long id, String fio, Integer age) {
         this.id = id;
         this.fio = fio;

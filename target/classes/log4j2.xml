@@ -6,9 +6,6 @@
         </Console>
         <File name="File" fileName="all.log" append="true">
 
-            <Policies>
-                <SizeBasedTriggeringPolicy size="1 KB"/>
-            </Policies>
             <PatternLayout>
                 <pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</pattern>
 

@@ -1,6 +1,0 @@
-09:00:37.723 [main] ERROR ru.sfedu.market.Main - Hello world(error)
-09:01:24.490 [main] DEBUG ru.sfedu.market.Main - null
-09:01:24.497 [main] DEBUG ru.sfedu.market.Main - C:\learning\market\src\main\resources\log4j2.xml
-09:01:24.497 [main] ERROR ru.sfedu.market.Main - Hello world(error)
-09:01:24.498 [main] DEBUG ru.sfedu.market.Main - Hello world(debug)
-09:01:24.498 [main] INFO  ru.sfedu.market.Main - Hello world(info)
