@@ -1,3 +1,11 @@
+ru\sfedu\market\bean\ProductType.class
+ru\sfedu\market\api\DataProviderCSV.class
 ru\sfedu\market\Constants.class
+ru\sfedu\market\utils\Status.class
+ru\sfedu\market\api\IDataProvider.class
+ru\sfedu\market\utils\Result.class
+ru\sfedu\market\bean\Product.class
+ru\sfedu\market\bean\Customer.class
 ru\sfedu\market\utils\ConfigurationUtil.class
+ru\sfedu\market\bean\Order.class
 ru\sfedu\market\Main.class

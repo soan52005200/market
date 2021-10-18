@@ -1,3 +1,11 @@
-C:\learning\market\src\main\java\ru\sfedu\market\utils\ConfigurationUtil.java
-C:\learning\market\src\main\java\ru\sfedu\market\Constants.java
-C:\learning\market\src\main\java\ru\sfedu\market\Main.java
+C:\market\src\main\java\ru\sfedu\market\utils\ConfigurationUtil.java
+C:\market\src\main\java\ru\sfedu\market\utils\Status.java
+C:\market\src\main\java\ru\sfedu\market\bean\Customer.java
+C:\market\src\main\java\ru\sfedu\market\Main.java
+C:\market\src\main\java\ru\sfedu\market\api\IDataProvider.java
+C:\market\src\main\java\ru\sfedu\market\utils\Result.java
+C:\market\src\main\java\ru\sfedu\market\api\DataProviderCSV.java
+C:\market\src\main\java\ru\sfedu\market\bean\Product.java
+C:\market\src\main\java\ru\sfedu\market\Constants.java
+C:\market\src\main\java\ru\sfedu\market\bean\Order.java
+C:\market\src\main\java\ru\sfedu\market\bean\ProductType.java
