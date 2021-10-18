@@ -2,7 +2,9 @@ package ru.sfedu.market.bean;
 
 import com.opencsv.bean.CsvBindByPosition;
 
-public class Customer {
+import java.io.Serializable;
+
+public class Customer implements Serializable {
 
     @CsvBindByPosition(position = 0)
     private Long id;

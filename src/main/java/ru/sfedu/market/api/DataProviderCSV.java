@@ -125,7 +125,10 @@ public class DataProviderCSV implements IDataProvider {
             /**
               Разобраться!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             */
-            List<T> csvToBean = new CsvToBeanBuilder(file).withType(clazz).build().parse();
+            List<T> csvToBean = new CsvToBeanBuilder<T>(file)
+                    .withType(clazz)
+                    .build()
+                    .parse();
 
             file.close();
 

@@ -67,3 +67,9 @@
 23:35:27.494 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: com.opencsv.exceptions.CsvBeanIntrospectionException: Basic instantiation of the given bean type (and subordinate beans created through recursion, if applicable) was determined to be impossible.
 23:36:29.100 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
 23:36:29.181 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: com.opencsv.exceptions.CsvBeanIntrospectionException: Basic instantiation of the given bean type (and subordinate beans created through recursion, if applicable) was determined to be impossible.
+08:22:37.095 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
+08:22:37.418 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: com.opencsv.exceptions.CsvBeanIntrospectionException: Basic instantiation of the given bean type (and subordinate beans created through recursion, if applicable) was determined to be impossible.
+08:24:40.705 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
+08:24:41.249 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: com.opencsv.exceptions.CsvBeanIntrospectionException: Basic instantiation of the given bean type (and subordinate beans created through recursion, if applicable) was determined to be impossible.
+08:58:06.412 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
+08:58:06.906 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: com.opencsv.exceptions.CsvBeanIntrospectionException: Basic instantiation of the given bean type (and subordinate beans created through recursion, if applicable) was determined to be impossible.
