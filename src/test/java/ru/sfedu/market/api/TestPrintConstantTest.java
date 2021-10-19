@@ -11,8 +11,11 @@ import ru.sfedu.market.utils.Result;
 
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static ru.sfedu.market.Constants.FIRST_TEST_RESULT;
 import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
+import static ru.sfedu.market.utils.Status.SUCCESS;
 
 class TestPrintConstantTest extends BeanTest{
 
@@ -22,7 +25,7 @@ class TestPrintConstantTest extends BeanTest{
     @Test
     void createCsvCustomer() throws IOException{
 
-        System.out.println(csv.createCustomer(readyCustomer()));
+        assertEquals(csv.createCustomer(readyCustomer()).getStatus(),SUCCESS);
 
     }
 
@@ -31,7 +34,7 @@ class TestPrintConstantTest extends BeanTest{
     @Test
     void readCsvCustomer() throws IOException {
 
-        System.out.println(csv.getCustomerById(readyCustomer().getId()));
+        assertFalse(csv.getCustomerById(readyCustomer().getId()).isPresent());
 
 
     }
