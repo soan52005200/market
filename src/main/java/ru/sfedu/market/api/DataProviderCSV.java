@@ -47,9 +47,18 @@ public class DataProviderCSV implements IDataProvider {
 
     @Override
     public Result<Customer> updateCustomer(Customer customer) {
-
-
-        return null;
+        List<Customer> customers = getAll(Customer.class, CSV_CUSTOMER_KEY);
+        if (customers.stream().noneMatch(o -> o.getId().equals(customer.getId()))) {
+            return new Result<>(UNSUCCESSFUL, null, String.format(EMPTY_BEAN, customer.getId()));
+        }
+        customers.removeIf(o -> o.getId().equals(customer.getId()));
+        customers.add(customer);
+        Result<Void> refresh = remove(customers, CSV_CUSTOMER_KEY);
+        if (refresh.getStatus() == SUCCESS) {
+            return new Result<>(SUCCESS, customer, String.format(UPDATE_SUCCESS, customer.toString()));
+        } else {
+            return new Result<>(ERROR, customer, refresh.getLog());
+        }
     }
 
     @Override

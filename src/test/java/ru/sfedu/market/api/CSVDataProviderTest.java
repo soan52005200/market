@@ -26,8 +26,8 @@ class CSVDataProviderTest extends BeanTest{
 
         assertEquals(csv.createCustomer(readyCustomer1()).getStatus(),SUCCESS);/** Crud  */
         assertTrue(csv.getCustomerById(readyCustomer1().getId()).isPresent());/** cRud  */
-        /**assertTrue(csv.getCustomerById(readyCustomer2().getId()).isPresent());/** crUd  */
-        assertEquals(csv.removeCustomerById(readyCustomer1().getId()).getStatus(),SUCCESS); /** cruD*/
+        assertEquals(csv.updateCustomer(readyCustomer2()),SUCCESS);/** crUd  */
+        assertEquals(csv.removeCustomerById(readyCustomer2().getId()).getStatus(),SUCCESS); /** cruD*/
     }
 
 
