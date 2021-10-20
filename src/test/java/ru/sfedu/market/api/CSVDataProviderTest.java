@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static ru.sfedu.market.Constants.FIRST_TEST_RESULT;
 import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
 import static ru.sfedu.market.utils.Status.SUCCESS;
+import static ru.sfedu.market.utils.Status.UNSUCCESSFUL;
 
 class CSVDataProviderTest extends BeanTest{
 
@@ -26,7 +27,7 @@ class CSVDataProviderTest extends BeanTest{
 
         assertEquals(csv.createCustomer(readyCustomer1()).getStatus(),SUCCESS);/** Crud  */
         assertTrue(csv.getCustomerById(readyCustomer1().getId()).isPresent());/** cRud  */
-        assertEquals(csv.updateCustomer(readyCustomer2()),SUCCESS);/** crUd  */
+        assertEquals(csv.updateCustomer(readyCustomer2()).getStatus(),SUCCESS);/** crUd  */
         assertEquals(csv.removeCustomerById(readyCustomer2().getId()).getStatus(),SUCCESS); /** cruD*/
     }
 
@@ -34,7 +35,12 @@ class CSVDataProviderTest extends BeanTest{
 
     @Test
     void crudCsvCustomerUnsuccessful() throws IOException {
+        csv.createCustomer(readyCustomer3());
 
+        assertEquals(csv.createCustomer(readyCustomer1()).getStatus(),UNSUCCESSFUL);/** Crud  */
+        assertFalse(csv.getCustomerById(readyCustomer1().getId()).isPresent());/** cRud  */
+        assertEquals(csv.updateCustomer(readyCustomer2()).getStatus(),UNSUCCESSFUL);/** crUd  */
+        assertEquals(csv.removeCustomerById(readyCustomer2().getId()).getStatus(),UNSUCCESSFUL); /** cruD*/
 
 
 

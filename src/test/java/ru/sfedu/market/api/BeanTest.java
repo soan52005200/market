@@ -11,6 +11,10 @@ public class BeanTest {
         return new Customer(1L, "Yasha", 20);
 
     }
+    public Customer readyCustomer3(){
+        return new Customer(2L, "Dima", 45);
+
+    }
     public Customer readyOrder(){
         return new Customer(1L, "Ivan", 18);
 
