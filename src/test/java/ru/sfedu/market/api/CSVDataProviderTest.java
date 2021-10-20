@@ -11,30 +11,36 @@ import ru.sfedu.market.utils.Result;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 import static ru.sfedu.market.Constants.FIRST_TEST_RESULT;
 import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
 import static ru.sfedu.market.utils.Status.SUCCESS;
 
-class TestPrintConstantTest extends BeanTest{
+class CSVDataProviderTest extends BeanTest{
 
 
     private final IDataProvider csv = new DataProviderCSV();
 
     @Test
-    void createCsvCustomer() throws IOException{
+    void crudCsvCustomerSeccess() throws IOException{
 
-        assertEquals(csv.createCustomer(readyCustomer()).getStatus(),SUCCESS);
-
+        assertEquals(csv.createCustomer(readyCustomer1()).getStatus(),SUCCESS);/** Crud  */
+        assertTrue(csv.getCustomerById(readyCustomer1().getId()).isPresent());/** cRud  */
+        /**assertTrue(csv.getCustomerById(readyCustomer2().getId()).isPresent());/** crUd  */
+        assertEquals(csv.removeCustomerById(readyCustomer1().getId()).getStatus(),SUCCESS); /** cruD*/
     }
 
 
 
     @Test
-    void readCsvCustomer() throws IOException {
+    void crudCsvCustomerUnsuccessful() throws IOException {
 
-        assertFalse(csv.getCustomerById(readyCustomer().getId()).isPresent());
+
+
+
+    }
+    @Test
+    void updateCsvCustomer() throws IOException{
 
 
     }

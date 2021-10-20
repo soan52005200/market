@@ -34,7 +34,7 @@ public interface IDataProvider {
      * @return
      */
 
-    Result<Customer> editCustomer(Customer customer);
+    Result<Customer> updateCustomer(Customer customer);
 
     /**
      * Удаление клиента из сервиса

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static ru.sfedu.market.Constants.*;
-import static ru.sfedu.market.Constants.PRESENT_BEAN;
+import static ru.sfedu.market.Constants.CSV_ORDER_KEY;
 import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
 import static ru.sfedu.market.utils.Status.*;
 
@@ -33,7 +33,7 @@ public class DataProviderCSV implements IDataProvider {
     @Override
     public Result<Customer> createCustomer(Customer customer) {
         if (getCustomerById(customer.getId()).isEmpty()) {
-            return append(customer, CSV_CUSTOMER_KEY);
+            return create(customer, CSV_CUSTOMER_KEY);
         }
         return new Result<>(UNSUCCESSFUL, customer, String.format(PRESENT_BEAN, customer.getId()));
 
@@ -46,13 +46,21 @@ public class DataProviderCSV implements IDataProvider {
     }
 
     @Override
-    public Result<Customer> editCustomer(Customer customer) {
+    public Result<Customer> updateCustomer(Customer customer) {
+
+
         return null;
     }
 
     @Override
     public Result<Void> removeCustomerById(Long id) {
-        return null;
+        List<Customer> customers = getAll(Customer.class, CSV_CUSTOMER_KEY);
+        if (customers.stream().noneMatch(o -> o.getId().equals(id))) {
+            return new Result<>(UNSUCCESSFUL, null, String.format(EMPTY_BEAN, id));
+        }
+        /**removeOrderByCustomerCascade(id);   Удаление заказа(include)*/
+        customers.removeIf(o -> o.getId().equals(id));
+        return remove(customers, CSV_CUSTOMER_KEY);
     }
 
     @Override
@@ -96,7 +104,8 @@ public class DataProviderCSV implements IDataProvider {
     }
 
 
-    public <T> Result append(T bean,String key){
+
+    public <T> Result create(T bean,String key){
         Result<T> result;
         try {
             CSVWriter csvWriter = new CSVWriter(new FileWriter(getConfigurationEntry(key), true));
