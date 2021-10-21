@@ -37,13 +37,13 @@ class CSVDataProviderTest extends BeanTest{
     void crudCsvCustomerUnsuccessful() throws IOException {
         csv.createCustomer(readyCustomer3());
 
-        assertEquals(csv.createCustomer(readyCustomer1()).getStatus(),UNSUCCESSFUL);/** Crud  */
+        assertEquals(csv.createCustomer(readyCustomer3()).getStatus(),UNSUCCESSFUL);/** Crud  */
         assertFalse(csv.getCustomerById(readyCustomer1().getId()).isPresent());/** cRud  */
         assertEquals(csv.updateCustomer(readyCustomer2()).getStatus(),UNSUCCESSFUL);/** crUd  */
         assertEquals(csv.removeCustomerById(readyCustomer2().getId()).getStatus(),UNSUCCESSFUL); /** cruD*/
 
 
-
+        csv.removeCustomerById(readyCustomer3().getId());
     }
     @Test
     void updateCsvCustomer() throws IOException{
