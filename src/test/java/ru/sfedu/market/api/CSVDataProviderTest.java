@@ -66,7 +66,7 @@ class CSVDataProviderTest extends BeanTest{
         assertEquals(csv.removeProductById(readyProduct2().getId()).getStatus(),UNSUCCESSFUL); /** cruD*/
 
 
-        csv.removeCustomerById(readyProduct3().getId());
+        csv.removeProductById(readyProduct3().getId());
     }
 
 }

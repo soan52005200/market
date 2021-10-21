@@ -73,8 +73,8 @@ public class DataProviderCSV implements IDataProvider {
     }
     @Override
     public Result<Product> createProduct(Product product) {
-        if (getCustomerById(product.getId()).isEmpty()) {
-            return create(product, CSV_CUSTOMER_KEY);
+        if (getProductById(product.getId()).isEmpty()) {
+            return create(product, CSV_PRODUCT_KEY);
         }
         return new Result<>(UNSUCCESSFUL, product, String.format(PRESENT_BEAN, product.getId()));
 
@@ -111,7 +111,7 @@ public class DataProviderCSV implements IDataProvider {
         }
         /**Можно реализовать удаление заказов с этими товарами.*/
         products.removeIf(o -> o.getId().equals(id));
-        return remove(products, CSV_CUSTOMER_KEY);
+        return remove(products, CSV_PRODUCT_KEY);
     }
 
     @Override

@@ -13,6 +13,8 @@ public class Order {
     @CsvBindByPosition(position = 2)
     private Customer customer;
 
+    public Order() { }
+
     public Order(Long id, Product product, Customer customer) {
         this.id = id;
         this.product = product;

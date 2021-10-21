@@ -90,3 +90,20 @@
 23:20:16.890 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
 23:35:37.882 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
 23:36:52.368 [main] INFO  ru.sfedu.market.api.DataProviderCSV - ./data/csv/customer.csv
+17:29:14.073 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV line: 1. [2,Stolichnaya,ALCOHOL]
+17:30:14.866 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV line: 1. [2,Stolichnaya,ALCOHOL]
+17:30:15.007 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV line: 1. [2,Stolichnaya,ALCOHOL]
+17:34:11.582 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+17:34:11.641 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+17:36:11.442 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+17:36:11.479 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+17:36:47.449 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+17:36:47.472 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+17:39:44.922 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+17:39:44.938 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+17:39:44.943 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+17:39:44.944 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+17:42:51.999 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+17:42:52.011 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+17:42:52.020 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+17:42:52.021 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException

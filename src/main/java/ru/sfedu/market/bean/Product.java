@@ -14,6 +14,8 @@ public class Product {
     @CsvBindByPosition(position = 2)
     private ProductType type;
 
+    public Product() { }
+
     public Product(Long id, String name, ProductType type) {
         this.id = id;
         this.name = name;
@@ -46,7 +48,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Customer{" +
+        return "{Product}{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", type=" + type +
