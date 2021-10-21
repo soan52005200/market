@@ -107,3 +107,37 @@
 17:42:52.011 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
 17:42:52.020 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
 17:42:52.021 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+19:57:54.985 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+19:57:54.989 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+19:57:54.991 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+19:57:54.991 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+19:59:17.032 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+19:59:17.036 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+20:00:53.293 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+20:00:53.296 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+20:03:14.796 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+20:03:14.799 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+20:03:14.801 [main] DEBUG ru.sfedu.market.api.CSVDataProviderTest - ERROR
+20:03:58.489 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+20:03:58.493 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.NullPointerException
+20:03:58.502 [main] DEBUG ru.sfedu.market.api.CSVDataProviderTest - Result{status=ERROR, bean=null, log='null'}
+20:04:15.018 [main] DEBUG ru.sfedu.market.api.CSVDataProviderTest - Product{id=1, name='Moloko Vkusnoteevo', type=MILK}
+20:06:36.992 [main] DEBUG ru.sfedu.market.api.CSVDataProviderTest - Result{status=SUCCESS, bean=Product{id=1, name='Moloko Vkusnoteevo', type=MILK}, log='Объект Product{id=1, name='Moloko Vkusnoteevo', type=MILK} успешно сохранен'}
+20:07:17.551 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV line: 1. [1,Moloko Vkusnoteevo,MILK]
+20:07:51.929 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV line: 1. [1,Moloko Vkusnoteevo,MILK]
+20:07:51.967 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV line: 2. [1,Moloko Vkusnoteevo,MILK]
+20:08:03.598 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV line: 1. [1,Moloko Vkusnoteevo,MILK]
+20:10:40.607 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV line: 1. [1,Moloko Vkusnoteevo,MILK]
+20:22:43.060 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV line: 1. [2,Stolichnaya,ALCOHOL]
+20:22:59.217 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV line: 1. [1,Moloko_Vkusnoteevo,MILK]
+20:25:38.882 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV line: 1. [1,Moloko_Vkusnoteevo,MILK]
+20:25:38.886 [main] DEBUG ru.sfedu.market.api.CSVDataProviderTest - false
+20:26:02.323 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV line: 1. [1,Moloko_Vkusnoteevo,MILK]
+20:26:02.325 [main] DEBUG ru.sfedu.market.api.CSVDataProviderTest - Optional.empty
+20:26:25.322 [main] DEBUG ru.sfedu.market.api.CSVDataProviderTest - Product{id=1, name='Moloko_Vkusnoteevo', type=MILK}
+20:26:38.743 [main] DEBUG ru.sfedu.market.api.CSVDataProviderTest - 1
+20:27:17.436 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV line: 1. [1,Moloko_Vkusnoteevo,MILK]
+20:27:17.440 [main] DEBUG ru.sfedu.market.api.CSVDataProviderTest - Optional.empty
+20:29:17.641 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV line: 1. [1,Moloko_Vkusnoteevo,MILK]
+20:29:17.643 [main] DEBUG ru.sfedu.market.api.CSVDataProviderTest - Optional.empty
+21:47:27.849 [main] DEBUG ru.sfedu.market.api.CSVDataProviderTest - Optional[Product{id=1, name='Moloko_Vkusnoteevo', type=MILK}]

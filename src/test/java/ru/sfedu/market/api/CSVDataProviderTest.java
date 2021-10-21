@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.sfedu.market.Constants.*;
 import org.junit.jupiter.api.Test;
+import ru.sfedu.market.Main;
 import ru.sfedu.market.bean.Customer;
 import ru.sfedu.market.utils.ConfigurationUtil;
 import ru.sfedu.market.api.DataProviderCSV.*;
@@ -19,6 +20,8 @@ import static ru.sfedu.market.utils.Status.UNSUCCESSFUL;
 
 class CSVDataProviderTest extends BeanTest{
 
+
+    private static final Logger log = LogManager.getLogger(CSVDataProviderTest.class.getName());
 
     private final IDataProvider csv = new DataProviderCSV();
 
@@ -47,11 +50,10 @@ class CSVDataProviderTest extends BeanTest{
     }
     @Test
     void crudCsvProductSuccess() throws IOException{
-
-        assertEquals(csv.createCustomer(readyCustomer1()).getStatus(),SUCCESS);/** Crud  */
-        assertTrue(csv.getCustomerById(readyCustomer1().getId()).isPresent());/** cRud  */
-        assertEquals(csv.updateCustomer(readyCustomer2()).getStatus(),SUCCESS);/** crUd  */
-        assertEquals(csv.removeCustomerById(readyCustomer2().getId()).getStatus(),SUCCESS); /** cruD*/
+        assertEquals(csv.createProduct(readyProduct1()).getStatus(),SUCCESS);/** Crud  */
+        assertTrue(csv.getProductById(readyProduct1().getId()).isPresent());/** cRud  */
+        assertEquals(csv.updateProduct(readyProduct2()).getStatus(),SUCCESS);/** crUd  */
+        assertEquals(csv.removeProductById(readyProduct2().getId()).getStatus(),SUCCESS); /** cruD*/
     }
 
 

@@ -1,6 +1,7 @@
 package ru.sfedu.market.bean;
 
 import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.CsvCustomBindByPosition;
 
 
 public class Product {
@@ -11,7 +12,7 @@ public class Product {
     @CsvBindByPosition(position = 1)
     private String name;
 
-    @CsvBindByPosition(position = 2)
+    @CsvCustomBindByPosition(position = 2, converter = ProductTypeConverter.class)
     private ProductType type;
 
     public Product() { }
@@ -25,7 +26,6 @@ public class Product {
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -33,7 +33,6 @@ public class Product {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -41,14 +40,13 @@ public class Product {
     public ProductType getType() {
         return type;
     }
-
     public void setType(ProductType type) {
         this.type = type;
     }
 
     @Override
     public String toString() {
-        return "{Product}{" +
+        return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", type=" + type +
