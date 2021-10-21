@@ -26,7 +26,7 @@ class CSVDataProviderTest extends BeanTest{
     private final IDataProvider csv = new DataProviderCSV();
 
     @Test
-    void crudCsvCustomerSeccess() throws IOException{
+    void crudCsvCustomerSuccess() throws IOException{
 
         assertEquals(csv.createCustomer(readyCustomer1()).getStatus(),SUCCESS);/** Crud  */
         assertTrue(csv.getCustomerById(readyCustomer1().getId()).isPresent());/** cRud  */
