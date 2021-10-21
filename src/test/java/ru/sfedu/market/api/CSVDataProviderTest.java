@@ -46,7 +46,7 @@ class CSVDataProviderTest extends BeanTest{
         csv.removeCustomerById(readyCustomer3().getId());
     }
     @Test
-    void crudCsvProductSeccess() throws IOException{
+    void crudCsvProductSuccess() throws IOException{
 
         assertEquals(csv.createCustomer(readyCustomer1()).getStatus(),SUCCESS);/** Crud  */
         assertTrue(csv.getCustomerById(readyCustomer1().getId()).isPresent());/** cRud  */
