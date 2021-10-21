@@ -44,6 +44,38 @@ public interface IDataProvider {
 
     Result<Void> removeCustomerById(Long id);
 
+    /**
+     * Регистрация продукта в сервисе
+     * @param product
+     * @return
+     */
+
+    Result<Product> createProduct(Product product);
+
+    /**
+     * Получить информацию о продукте по его id
+     * @param id
+     * @return
+     */
+
+    Optional<Product> getProductById(Long id);
+
+    /**
+     * Изменение информации о продукте
+     * @param product
+     * @return
+     */
+
+    Result<Product> updateProduct(Product product);
+
+    /**
+     * Удаление продукта из сервиса
+     * @param id
+     * @return
+     */
+
+    Result<Void> removeProductById(Long id);
+
 
     /**
      * Создать заказ
@@ -76,36 +108,6 @@ public interface IDataProvider {
 
     Result<Void> closeOrderById(Long id);
 
-    /**
-     * Регистрация клиента в сервисе
-     * @param product
-     * @return
-     */
 
-    Result<Product> createProduct(Product product);
-
-    /**
-     * Получить информацию о клиенте по его id
-     * @param id
-     * @return
-     */
-
-    Optional<Product> getProductById(Long id);
-
-    /**
-     * Изменение информации о клиенте
-     * @param product
-     * @return
-     */
-
-    Result<Product> editProduct(Product product);
-
-    /**
-     * Удаление клиента из сервиса
-     * @param id
-     * @return
-     */
-
-    Result<Void> removeProductById(Long id);
 
 }

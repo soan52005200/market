@@ -1,6 +1,9 @@
 package ru.sfedu.market.api;
 
 import ru.sfedu.market.bean.Customer;
+import ru.sfedu.market.bean.Product;
+
+import static ru.sfedu.market.bean.ProductType.*;
 
 public class BeanTest {
     public Customer readyCustomer1(){
@@ -15,12 +18,16 @@ public class BeanTest {
         return new Customer(2L, "Dima", 45);
 
     }
-    public Customer readyOrder(){
-        return new Customer(1L, "Ivan", 18);
+    public Product readyProduct1(){
+        return new Product(1L, "Moloko Vkusnoteevo", MILK);
 
     }
-    public Customer readyPruduct(){
-        return new Customer(1L, "Ivan", 18);
+    public Product readyProduct2(){
+        return new Product(1L, "Borodinskiy", BREAD);
+
+    }
+    public Product readyProduct3(){
+        return new Product(2L, "Stolichnaya", ALCOHOL);
 
     }
 

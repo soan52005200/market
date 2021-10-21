@@ -71,9 +71,52 @@ public class DataProviderCSV implements IDataProvider {
         customers.removeIf(o -> o.getId().equals(id));
         return remove(customers, CSV_CUSTOMER_KEY);
     }
+    @Override
+    public Result<Product> createProduct(Product product) {
+        if (getCustomerById(product.getId()).isEmpty()) {
+            return create(product, CSV_CUSTOMER_KEY);
+        }
+        return new Result<>(UNSUCCESSFUL, product, String.format(PRESENT_BEAN, product.getId()));
+
+
+    }
+
+    @Override
+    public Optional<Product> getProductById(Long id) {
+        return getAll(Product.class, CSV_PRODUCT_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
+    }
+
+    @Override
+    public Result<Product> updateProduct(Product product) {
+        List<Product> products = getAll(Product.class, CSV_PRODUCT_KEY);
+        if (products.stream().noneMatch(o -> o.getId().equals(product.getId()))) {
+            return new Result<>(UNSUCCESSFUL, null, String.format(EMPTY_BEAN, product.getId()));
+        }
+        products.removeIf(o -> o.getId().equals(product.getId()));
+        products.add(product);
+        Result<Void> refresh = remove(products, CSV_PRODUCT_KEY);
+        if (refresh.getStatus() == SUCCESS) {
+            return new Result<>(SUCCESS, product, String.format(UPDATE_SUCCESS, product.toString()));
+        } else {
+            return new Result<>(ERROR, product, refresh.getLog());
+        }
+    }
+
+    @Override
+    public Result<Void> removeProductById(Long id) {
+
+        List<Product> products = getAll(Product.class, CSV_PRODUCT_KEY);
+        if (products.stream().noneMatch(o -> o.getId().equals(id))) {
+            return new Result<>(UNSUCCESSFUL, null, String.format(EMPTY_BEAN, id));
+        }
+        /**Можно реализовать удаление заказов с этими товарами.*/
+        products.removeIf(o -> o.getId().equals(id));
+        return remove(products, CSV_CUSTOMER_KEY);
+    }
 
     @Override
     public Result<Order> createOrder(Order order) {
+
         return null;
     }
 
@@ -92,25 +135,7 @@ public class DataProviderCSV implements IDataProvider {
         return null;
     }
 
-    @Override
-    public Result<Product> createProduct(Product product) {
-        return null;
-    }
 
-    @Override
-    public Optional<Product> getProductById(Long id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Result<Product> editProduct(Product product) {
-        return null;
-    }
-
-    @Override
-    public Result<Void> removeProductById(Long id) {
-        return null;
-    }
 
 
 
@@ -157,6 +182,8 @@ public class DataProviderCSV implements IDataProvider {
 
         return result;
     }
+
+
     private <T> Result<Void> remove(List<T> beans, String key) {
         Result<Void> result;
         try {
