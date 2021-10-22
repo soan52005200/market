@@ -1,16 +1,17 @@
 package ru.sfedu.market.bean;
 
 import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.CsvCustomBindByPosition;
 
 public class Order {
 
     @CsvBindByPosition(position = 0)
     private Long id;
 
-    @CsvBindByPosition(position = 1)
+    @CsvCustomBindByPosition(position = 1,converter = ProductConverter.class)
     private Product product;
 
-    @CsvBindByPosition(position = 2)
+    @CsvCustomBindByPosition(position = 2, converter = CustomerConverter.class)
     private Customer customer;
 
     public Order() { }

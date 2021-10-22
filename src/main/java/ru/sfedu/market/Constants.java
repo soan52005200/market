@@ -18,4 +18,7 @@ public final class Constants {
     public static final String CSV_CUSTOMER_KEY = "csvCustomer";
     public static final String CSV_PRODUCT_KEY = "csvProduct";
     public static final String PRESENT_BEAN = "Клиент с ID=%d уже существует";
+
+    public static final String NPE_CUSTOMER = "Такого клиента не существует";
+    public static final String NPE_PRODUCT = "Такого продукта не существует";
 }
