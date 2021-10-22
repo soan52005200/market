@@ -42,7 +42,7 @@ public interface IDataProvider {
      * @return
      */
 
-    Result<Void> removeCustomerById(Long id);
+    Result<Void> deleteCustomerById(Long id);
 
     /**
      * Регистрация продукта в сервисе
@@ -74,7 +74,7 @@ public interface IDataProvider {
      * @return
      */
 
-    Result<Void> removeProductById(Long id);
+    Result<Void> deleteProductById(Long id);
 
 
     /**
@@ -98,7 +98,7 @@ public interface IDataProvider {
      * @param order
      * @return
      */
-    Result<Order> editOrder(Order order);
+    Result<Order> updateOrder(Order order);
 
     /**
      * Закрыть заказ
@@ -106,7 +106,7 @@ public interface IDataProvider {
      * @return
      */
 
-    Result<Void> closeOrderById(Long id);
+    Result<Void> deleteOrderById(Long id);
 
 
 

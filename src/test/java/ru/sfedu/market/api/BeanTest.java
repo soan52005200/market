@@ -1,6 +1,7 @@
 package ru.sfedu.market.api;
 
 import ru.sfedu.market.bean.Customer;
+import ru.sfedu.market.bean.Order;
 import ru.sfedu.market.bean.Product;
 
 import static ru.sfedu.market.bean.ProductType.*;
@@ -28,6 +29,18 @@ public class BeanTest {
     }
     public Product readyProduct3(){
         return new Product(2L, "Stolichnaya", ALCOHOL);
+
+    }
+    public Order readyOrder1(){
+        return new Order(1L, readyProduct1(), readyCustomer1());
+
+    }
+    public Order readyOrder2(){
+        return new Order(1L, readyProduct2(), readyCustomer2());
+
+    }
+    public Order readyOrder3(){
+        return new Order(2L, readyProduct3(), readyCustomer3());
 
     }
 

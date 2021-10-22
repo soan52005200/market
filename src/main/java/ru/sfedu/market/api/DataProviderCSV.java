@@ -63,7 +63,7 @@ public class DataProviderCSV implements IDataProvider {
     }
 
     @Override
-    public Result<Void> removeCustomerById(Long id) {
+    public Result<Void> deleteCustomerById(Long id) {
         List<Customer> customers = getAll(Customer.class, CSV_CUSTOMER_KEY);
         if (customers.stream().noneMatch(o -> o.getId().equals(id))) {
             return new Result<>(UNSUCCESSFUL, null, String.format(EMPTY_BEAN, id));
@@ -104,42 +104,65 @@ public class DataProviderCSV implements IDataProvider {
     }
 
     @Override
-    public Result<Void> removeProductById(Long id) {
+    public Result<Void> deleteProductById(Long id) {
 
         List<Product> products = getAll(Product.class, CSV_PRODUCT_KEY);
         if (products.stream().noneMatch(o -> o.getId().equals(id))) {
             return new Result<>(UNSUCCESSFUL, null, String.format(EMPTY_BEAN, id));
         }
-        /**Можно реализовать удаление заказов с этими товарами.*/
+        /**Надо реализовать автоматическое удаление заказов с этим покупателем
+         *
+         * реализовать удаление заказов с этими товарами.*/
+
         products.removeIf(o -> o.getId().equals(id));
         return remove(products, CSV_PRODUCT_KEY);
     }
 
     @Override
     public Result<Order> createOrder(Order order) {
-
-        return null;
+        if (getOrderById(order.getId()).isEmpty()) {
+            return create(order, CSV_ORDER_KEY);
+        }
+        return new Result<>(UNSUCCESSFUL, order, String.format(PRESENT_BEAN, order.getId()));
     }
 
     @Override
     public Optional<Order> getOrderById(Long id) {
-        return Optional.empty();
+        return getAll(Order.class, CSV_ORDER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
     }
 
     @Override
-    public Result<Order> editOrder(Order order) {
-        return null;
+    public Result<Order> updateOrder(Order order) {
+        List<Order> orders = getAll(Order.class, CSV_ORDER_KEY);
+        if (orders.stream().noneMatch(o -> o.getId().equals(order.getId()))) {
+            return new Result<>(UNSUCCESSFUL, null, String.format(EMPTY_BEAN, order.getId()));
+        }
+        orders.removeIf(o -> o.getId().equals(order.getId()));
+        orders.add(order);
+        Result<Void> refresh = remove(orders, CSV_ORDER_KEY);
+        if (refresh.getStatus() == SUCCESS) {
+            return new Result<>(SUCCESS, order, String.format(UPDATE_SUCCESS, order.toString()));
+        } else {
+            return new Result<>(ERROR, order, refresh.getLog());
+        }
     }
 
     @Override
-    public Result<Void> closeOrderById(Long id) {
-        return null;
+    public Result<Void> deleteOrderById(Long id) {
+        List<Order> orders = getAll(Order.class, CSV_ORDER_KEY);
+        if (orders.stream().noneMatch(o -> o.getId().equals(id))) {
+            return new Result<>(UNSUCCESSFUL, null, String.format(EMPTY_BEAN, id));
+        }
+        /**Надо реализовать проверку на возраст покупателя если в заказе алкоголь.*/
+
+        orders.removeIf(o -> o.getId().equals(id));
+        return remove(orders, CSV_ORDER_KEY);
     }
 
 
-
-
-
+    /** ПОШЛИ СИСТЕМНЫЕ МЕТОДЫ */
+    /** ПОШЛИ СИСТЕМНЫЕ МЕТОДЫ */
+    /** ПОШЛИ СИСТЕМНЫЕ МЕТОДЫ */
 
 
     public <T> Result create(T bean,String key){
@@ -167,9 +190,7 @@ public class DataProviderCSV implements IDataProvider {
         List<T> result;
         try {
             CSVReader reader =new CSVReader(new FileReader(getConfigurationEntry(key)));
-            /**
-              Разобраться!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            */
+
             CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(reader)
                     .withType(clazz)
                     .build();
@@ -188,7 +209,9 @@ public class DataProviderCSV implements IDataProvider {
 
 
     private <T> Result<Void> remove(List<T> beans, String key) {
+
         Result<Void> result;
+
         try {
             CSVWriter csvWriter = new CSVWriter(new FileWriter(getConfigurationEntry(key), false));
             StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(csvWriter).build();
@@ -196,6 +219,7 @@ public class DataProviderCSV implements IDataProvider {
             csvWriter.close();
 
             result = new Result<Void>(SUCCESS, null, REMOVE_SUCCESS);
+
         } catch (Exception e) {
             log.error(e);
             result = new Result<Void>(ERROR, null, e.getMessage());
