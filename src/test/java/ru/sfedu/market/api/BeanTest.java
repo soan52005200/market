@@ -23,7 +23,7 @@ public class BeanTest {
 
     }
     public Product readyProduct2(){
-        return new Product(1L, "Borodinskiy", BREAD);
+        return new Product(1L, "Borodinskiy", BAKERY);
 
     }
     public Product readyProduct3(){
