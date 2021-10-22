@@ -92,22 +92,24 @@ class CSVDataProviderTest extends BeanTest{
     void crudCsvOrderUnsuccessful() throws IOException {
         csv.createCustomer(readyCustomer1());
         csv.createProduct(readyProduct1());
-        csv.createCustomer(readyCustomer2());
-        csv.createProduct(readyProduct2());
         csv.createCustomer(readyCustomer3());
         csv.createProduct(readyProduct3());
         csv.createOrder(readyOrder3());
 
+
+
         assertEquals(csv.createOrder(readyOrder3()).getStatus(),UNSUCCESSFUL);/** Crud  */
         assertFalse(csv.getOrderById(readyOrder1().getId()).isPresent());/** cRud  */
-        assertEquals(csv.updateOrder(readyOrder2()).getStatus(),UNSUCCESSFUL);/** crUd  */
-        assertEquals(csv.deleteOrderById(readyOrder2().getId()).getStatus(),UNSUCCESSFUL); /** cruD*/
+        assertEquals(csv.updateOrder(readyOrder1()).getStatus(),UNSUCCESSFUL);/** crUd  */
+        assertEquals(csv.deleteOrderById(readyOrder1().getId()).getStatus(),UNSUCCESSFUL); /** cruD*/
 
+
+
+        csv.deleteOrderById((readyOrder3().getId()));
         csv.deleteCustomerById(readyCustomer1().getId());
         csv.deleteProductById(readyProduct1().getId());
         csv.deleteCustomerById(readyCustomer3().getId());
         csv.deleteProductById(readyProduct3().getId());
-        csv.deleteOrderById(readyOrder3().getId());
 
     }
 

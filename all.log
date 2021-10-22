@@ -149,3 +149,6 @@
 16:08:13.402 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
 16:10:57.495 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
 16:14:50.923 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+21:45:06.267 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+21:57:56.784 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+22:08:06.411 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
