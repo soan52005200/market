@@ -2,15 +2,18 @@ package ru.sfedu.market.bean;
 
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvCustomBindByPosition;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 
+@Root(name = "Order")
 public class Order {
-
+    @Element
     @CsvBindByPosition(position = 0)
     private Long id;
-
+    @Element
     @CsvCustomBindByPosition(position = 1,converter = ProductConverter.class)
     private Product product;
-
+    @Element
     @CsvCustomBindByPosition(position = 2, converter = CustomerConverter.class)
     private Customer customer;
 

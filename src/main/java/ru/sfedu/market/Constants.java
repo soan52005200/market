@@ -15,10 +15,16 @@ public final class Constants {
     public static final String PERSISTENCE_SUCCESS = "Объект %s успешно сохранен";
     public static final String REMOVE_SUCCESS = "Объект успешно удалён";
 
+
     public static final String CSV_CUSTOMER_KEY = "csvCustomer";
     public static final String CSV_PRODUCT_KEY = "csvProduct";
     public static final String CSV_ORDER_KEY = "csvOrder";
 
+    public static final String XML_CUSTOMER_KEY = "xmlCustomer";
+    public static final String XML_PRODUCT_KEY = "xmlProduct";
+    public static final String XML_ORDER_KEY = "xmlOrder";
+
+    public static final String ORDER_CLOSE = "Заказ успешно закрыт";
     public static final String PRESENT_BEAN = "Клиент с ID=%d уже существует";
 
     public static final String NPE_CUSTOMER = "Такого клиента не существует";
