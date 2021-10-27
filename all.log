@@ -156,3 +156,17 @@
 Message: XML document structures must start and end within the same entity.
 15:47:04.478 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[2,1]
 Message: XML document structures must start and end within the same entity.
+16:37:14.047 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+16:39:18.631 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+16:41:16.306 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+16:42:41.851 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+17:08:00.734 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+17:08:32.552 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+17:55:09.335 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.

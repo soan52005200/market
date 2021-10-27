@@ -1,1 +1,7 @@
-<Container/>
+<Container>
+   <object class="ru.sfedu.market.bean.Product">
+      <id>1</id>
+      <name>Moloko_Vkusnoteevo</name>
+      <type>MILK</type>
+   </object>
+</Container>

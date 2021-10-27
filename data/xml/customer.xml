@@ -1,1 +1,7 @@
-<Container/>
+<Container>
+   <object class="ru.sfedu.market.bean.Customer">
+      <id>1</id>
+      <fio>Ivan</fio>
+      <age>18</age>
+   </object>
+</Container>
