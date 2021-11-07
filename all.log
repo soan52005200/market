@@ -170,3 +170,23 @@ Message: Premature end of file.
 Message: Premature end of file.
 17:55:09.335 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
 Message: Premature end of file.
+23:40:23.859 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+23:40:23.861 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+23:40:23.917 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+23:40:23.918 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+23:40:23.923 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+23:40:23.933 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+23:40:23.945 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+23:41:37.727 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+23:42:29.925 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+23:43:50.140 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.

@@ -143,13 +143,13 @@ public class DataProviderXML implements IDataProvider{
 
     @Override
     public Result<Order> updateOrder(Order order) {
-        List<Order> orders = getAll(Order.class, CSV_ORDER_KEY);
+        List<Order> orders = getAll(Order.class, XML_ORDER_KEY);
         if (orders.stream().noneMatch(o -> o.getId().equals(order.getId()))) {
             return new Result<>(UNSUCCESSFUL, null, String.format(EMPTY_BEAN, order.getId()));
         }
         orders.removeIf(o -> o.getId().equals(order.getId()));
         orders.add(order);
-        Result<Void> refresh = deleteOrderById(order.getId());
+        Result<Order> refresh = refresh(orders,XML_ORDER_KEY);
         if (refresh.getStatus() == SUCCESS) {
             return new Result<>(SUCCESS, order, String.format(UPDATE_SUCCESS, order.toString()));
         } else {

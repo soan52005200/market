@@ -1,15 +1,1 @@
-<Container>
-   <object class="ru.sfedu.market.bean.Order">
-      <id>1</id>
-      <product>
-         <id>1</id>
-         <name>Moloko_Vkusnoteevo</name>
-         <type>MILK</type>
-      </product>
-      <customer>
-         <id>1</id>
-         <fio>Ivan</fio>
-         <age>18</age>
-      </customer>
-   </object>
-</Container>
+<Container/>
