@@ -28,7 +28,7 @@ public class DataProviderXML implements IDataProvider{
 
     @Override
     public Result<Customer> createCustomer(Customer customer) {
-        if (getCustomerById(customer.getId()).isEmpty()) {
+        if (readCustomerById(customer.getId()).isEmpty()) {
             List<Customer> list = getAll(Customer.class, XML_CUSTOMER_KEY);
             list.add(customer);
             return refresh(list, XML_CUSTOMER_KEY);
@@ -37,7 +37,7 @@ public class DataProviderXML implements IDataProvider{
     }
 
     @Override
-    public Optional<Customer> getCustomerById(Long id) {
+    public Optional<Customer> readCustomerById(Long id) {
         return getAll(Customer.class, XML_CUSTOMER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
     }
 
@@ -72,7 +72,7 @@ public class DataProviderXML implements IDataProvider{
 
     @Override
     public Result<Product> createProduct(Product product) {
-        if (getProductById(product.getId()).isEmpty()) {
+        if (readProductById(product.getId()).isEmpty()) {
             List<Product> list = getAll(Product.class, XML_PRODUCT_KEY);
             list.add(product);
             return refresh(list, XML_PRODUCT_KEY);
@@ -81,7 +81,7 @@ public class DataProviderXML implements IDataProvider{
     }
 
     @Override
-    public Optional<Product> getProductById(Long id) {
+    public Optional<Product> readProductById(Long id) {
         return getAll(Product.class, XML_PRODUCT_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
     }
 
@@ -115,9 +115,9 @@ public class DataProviderXML implements IDataProvider{
 
     @Override
     public Result<Order> createOrder(Order order) {
-        if (getOrderById(order.getId()).isEmpty()) {
-            Optional<Customer> customer = getCustomerById(order.getCustomer().getId());
-            Optional<? extends Product> product = getProductById(order.getProduct().getId());
+        if (readOrderById(order.getId()).isEmpty()) {
+            Optional<Customer> customer = readCustomerById(order.getCustomer().getId());
+            Optional<? extends Product> product = readProductById(order.getProduct().getId());
             if (customer.isEmpty()) {
                 return new Result<Order>(UNSUCCESSFUL, null, String.format(EMPTY_BEAN, order.getCustomer().getId()));
             }
@@ -137,7 +137,7 @@ public class DataProviderXML implements IDataProvider{
     }
 
     @Override
-    public Optional<Order> getOrderById(Long id) {
+    public Optional<Order> readOrderById(Long id) {
         return getAll(Order.class, XML_ORDER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
     }
 

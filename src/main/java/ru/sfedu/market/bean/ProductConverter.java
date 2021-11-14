@@ -19,7 +19,7 @@ public class ProductConverter extends AbstractBeanField<Product> {
 
     @Override
     protected Object convert(String s) throws CsvDataTypeMismatchException, CsvConstraintViolationException {
-        Optional<Product> optional = csv.getProductById(Long.parseLong(s));
+        Optional<Product> optional = csv.readProductById(Long.parseLong(s));
         if (optional.isEmpty()) {
             throw new NullPointerException(NPE_PRODUCT);
         }
@@ -27,7 +27,7 @@ public class ProductConverter extends AbstractBeanField<Product> {
     }
     @Override
     protected String convertToWrite(Object value) throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
-        Optional<Product> optional = csv.getProductById(((Product) value).getId());
+        Optional<Product> optional = csv.readProductById(((Product) value).getId());
         if (optional.isEmpty()) {
             throw new NullPointerException(NPE_PRODUCT);
         }

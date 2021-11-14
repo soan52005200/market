@@ -33,7 +33,7 @@ public class DataProviderCSV implements IDataProvider {
 
     @Override
     public Result<Customer> createCustomer(Customer customer) {
-        if (getCustomerById(customer.getId()).isEmpty()) {
+        if (readCustomerById(customer.getId()).isEmpty()) {
             return create(customer, CSV_CUSTOMER_KEY);
         }
         return new Result<>(UNSUCCESSFUL, customer, String.format(PRESENT_BEAN, customer.getId()));
@@ -41,7 +41,7 @@ public class DataProviderCSV implements IDataProvider {
     }
 
     @Override
-    public Optional<Customer> getCustomerById(Long id) {
+    public Optional<Customer> readCustomerById(Long id) {
         return getAll(Customer.class, CSV_CUSTOMER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
 
     }
@@ -74,7 +74,7 @@ public class DataProviderCSV implements IDataProvider {
     }
     @Override
     public Result<Product> createProduct(Product product) {
-        if (getProductById(product.getId()).isEmpty()) {
+        if (readProductById(product.getId()).isEmpty()) {
             return create(product, CSV_PRODUCT_KEY);
         }
         return new Result<>(UNSUCCESSFUL, product, String.format(PRESENT_BEAN, product.getId()));
@@ -83,7 +83,7 @@ public class DataProviderCSV implements IDataProvider {
     }
 
     @Override
-    public Optional<Product> getProductById(Long id) {
+    public Optional<Product> readProductById(Long id) {
         return getAll(Product.class, CSV_PRODUCT_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
     }
 
@@ -120,14 +120,14 @@ public class DataProviderCSV implements IDataProvider {
 
     @Override
     public Result<Order> createOrder(Order order) {
-        if (getOrderById(order.getId()).isEmpty()) {
+        if (readOrderById(order.getId()).isEmpty()) {
             return create(order, CSV_ORDER_KEY);
         }
         return new Result<>(UNSUCCESSFUL, order, String.format(PRESENT_BEAN, order.getId()));
     }
 
     @Override
-    public Optional<Order> getOrderById(Long id) {
+    public Optional<Order> readOrderById(Long id) {
         return getAll(Order.class, CSV_ORDER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
     }
 

@@ -170,6 +170,41 @@ Message: Premature end of file.
 Message: Premature end of file.
 17:55:09.335 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
 Message: Premature end of file.
+21:57:19.376 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+21:58:45.266 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+22:00:40.004 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+22:09:15.240 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+22:09:56.051 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+22:09:56.059 [main] DEBUG ru.sfedu.market.api.DataProviderXML - []
+00:16:40.094 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+00:16:40.109 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+00:16:40.532 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+00:16:40.540 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+00:16:40.625 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+00:16:40.683 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+00:17:55.378 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+00:17:55.399 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+00:17:55.746 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+00:17:55.749 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+00:17:55.834 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
+00:17:55.869 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
+Message: Premature end of file.
 23:40:23.859 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
 Message: Premature end of file.
 23:40:23.861 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
@@ -190,3 +225,35 @@ Message: Premature end of file.
 Message: Premature end of file.
 23:43:50.140 [main] ERROR ru.sfedu.market.api.DataProviderXML - javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]
 Message: Premature end of file.
+17:16:33.724 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "CUSTOMER" не найдена
+Table "CUSTOMER" not found; SQL statement:
+INSERT INTO customer VALUES(1, 'Ivan', 18); [42102-200]
+17:19:17.284 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "CUSTOMER" не найдена
+Table "CUSTOMER" not found; SQL statement:
+INSERT INTO CUSTOMER VALUES(1, 'Ivan', 18); [42102-200]
+17:24:22.898 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "CUSTOMER" не найдена
+Table "CUSTOMER" not found; SQL statement:
+INSERT INTO CUSTOMER VALUES(1, 'Ivan', 18); [42102-200]
+17:29:46.676 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLInvalidAuthorizationSpecException: Неверное имя пользователя или пароль
+Wrong user name or password [28000-200]
+17:30:12.644 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "CUSTOMER" не найдена
+Table "CUSTOMER" not found; SQL statement:
+INSERT INTO CUSTOMER VALUES(1, 'Ivan', 18); [42102-200]
+10:20:18.812 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "CUSTOMER" не найдена
+Table "CUSTOMER" not found; SQL statement:
+INSERT INTO customer VALUES(1, 'Ivan', 18); [42102-200]
+10:21:06.256 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "INSERT INTO 'customer'[*] VALUES(1, 'Ivan', 18);"; ожидалось "identifier"
+Syntax error in SQL statement "INSERT INTO 'customer'[*] VALUES(1, 'Ivan', 18);"; expected "identifier"; SQL statement:
+INSERT INTO 'customer' VALUES(1, 'Ivan', 18); [42001-200]
+10:21:58.757 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "CUSTOMER" не найдена
+Table "CUSTOMER" not found; SQL statement:
+INSERT INTO CUSTOMER VALUES(1, 'Ivan', 18); [42102-200]
+10:23:02.589 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "TABLE_NAME" не найдена
+Table "TABLE_NAME" not found; SQL statement:
+INSERT INTO TABLE_NAME VALUES(1, 'Ivan', 18); [42102-200]
+10:31:50.894 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"; SQL statement:
+INSERT INTO customer VALUES(1, 'Ivan', 18); [23505-200]
+10:34:51.023 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"; SQL statement:
+INSERT INTO customer VALUES(1, 'Ivan', 18); [23505-200]

@@ -26,7 +26,7 @@ public interface IDataProvider {
      * @return
      */
 
-    Optional<Customer> getCustomerById(Long id);
+    Optional<Customer> readCustomerById(Long id);
 
     /**
      * Изменение информации о клиенте
@@ -58,7 +58,7 @@ public interface IDataProvider {
      * @return
      */
 
-    Optional<Product> getProductById(Long id);
+    Optional<Product> readProductById(Long id);
 
     /**
      * Изменение информации о продукте
@@ -91,7 +91,7 @@ public interface IDataProvider {
      * @return
      */
 
-    Optional<Order> getOrderById(Long id);
+    Optional<Order> readOrderById(Long id);
 
     /**
      * Изменить заказ
