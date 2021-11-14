@@ -5,15 +5,19 @@ import org.apache.logging.log4j.Logger;
 import ru.sfedu.market.bean.Customer;
 import ru.sfedu.market.bean.Order;
 import ru.sfedu.market.bean.Product;
+import ru.sfedu.market.bean.ProductType;
 import ru.sfedu.market.utils.Result;
 import ru.sfedu.market.utils.Status;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.Date;
 import java.util.Optional;
 
 import static ru.sfedu.market.Constants.*;
 import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
+import static ru.sfedu.market.utils.Status.SUCCESS;
+import static ru.sfedu.market.utils.Status.UNSUCCESSFUL;
 
 public class DataProviderJDBC implements IDataProvider{
 
@@ -55,33 +59,89 @@ public class DataProviderJDBC implements IDataProvider{
 
 
     @Override
-    public Result<Product> createProduct(Product product) {
-        return null;
-    }
+    public Result<Product> createProduct(Product product){return execute(String.format(PRODUCT_INSERT, product.getId(), product.getName(), product.getType()));}
 
     @Override
     public Optional<Product> readProductById(Long id) {
-        return Optional.empty();
+        Product obj = null;
+        ResultSet set = select(String.format(PRODUCT_SELECT, id));
+        try {
+            if (set != null && set.next()) {
+                obj = new Product(
+                        set.getLong(1),
+                        set.getString(2),
+                        ProductType.valueOf(set.getString(3))
+                );
+            }
+        } catch (Exception exception) {
+            log.error(exception);
+        }
+        return Optional.ofNullable(obj);
     }
+
 
     @Override
     public Result<Product> updateProduct(Product product) {
-        return null;
+        return execute(String.format(PRODUCT_UPDATE, product.getName(), product.getType(), product.getId()));
+
     }
 
     @Override
     public Result<Void> deleteProductById(Long id) {
-        return null;
+        return execute(String.format(PRODUCT_DELETE, id));
     }
 
     @Override
     public Result<Order> createOrder(Order order) {
-        return null;
+        if (readOrderById(order.getId()).isEmpty()) {
+            Optional<Customer> customer = readCustomerById(order.getCustomer().getId());
+            Optional<? extends Product> product = readProductById(order.getProduct().getId());
+            if (customer.isEmpty()) {
+                return new Result<Order>(UNSUCCESSFUL, null, String.format(EMPTY_BEAN, order.getCustomer().getId()));
+            }
+            if (product.isEmpty()) {
+                return new Result<Order>(UNSUCCESSFUL, null, String.format(EMPTY_BEAN, order.getProduct().getId()));
+            }
+            /**
+             *
+             * Проверка на восраст
+             *
+
+            if (customer.get().getAge() < product.get().getAgeLimit()) {
+                return new Result<>(UNSUCCESSFUL, null, EXCEPTION_AGE_LIMIT);
+            }*/
+            return execute(String.format(ORDER_INSERT, order.getId(), order.getProduct().getId(), order.getCustomer().getId()));
+        }
+        return new Result<>(UNSUCCESSFUL, order, String.format(PRESENT_BEAN, order.getId()));
     }
 
     @Override
     public Optional<Order> readOrderById(Long id) {
-        return Optional.empty();
+            Order obj = null;
+            ResultSet set = select(String.format(ORDER_SELECT, id));
+            try {
+                if (set != null && set.next()) {
+                    obj = new Order();
+                    obj.setId(set.getLong(1));
+
+                    ProductType type = ProductType.valueOf(set.getString(4).toUpperCase());
+                    Optional<? extends Product> product = readProductById(set.getLong(2));
+                    Optional<Customer> customer = readCustomerById(set.getLong(3));
+
+                    if (product.isEmpty()) {
+                        throw new NullPointerException(NPE_PRODUCT);
+                    } else if (customer.isEmpty()) {
+                        throw new NullPointerException(NPE_CUSTOMER);
+                    }
+
+                    obj.setProduct(product.get());
+                    obj.setCustomer(customer.get());
+                }
+            } catch (Exception exception) {
+                log.error(exception);
+            }
+            return Optional.ofNullable(obj);
+
     }
 
     @Override
@@ -90,8 +150,7 @@ public class DataProviderJDBC implements IDataProvider{
     }
 
     @Override
-    public Result<Void> deleteOrderById(Long id) {
-        return null;
+    public Result<Void> deleteOrderById(Long id) {return null;
     }
 
     private <T> Result<T> execute(String sql) {
