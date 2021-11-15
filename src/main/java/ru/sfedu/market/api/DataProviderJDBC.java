@@ -94,7 +94,7 @@ public class DataProviderJDBC implements IDataProvider{
 
     @Override
     public Result<Product> updateProduct(Product product) {
-        if (readCustomerById(product.getId()).isPresent()) {
+        if (readProductById(product.getId()).isPresent()) {
             execute(String.format(PRODUCT_UPDATE, product.getName(), product.getType(), product.getId()));
             return new Result<>(SUCCESS,product,UPDATE_SUCCESS);
         }
@@ -105,7 +105,13 @@ public class DataProviderJDBC implements IDataProvider{
 
     @Override
     public Result<Void> deleteProductById(Long id) {
-        return execute(String.format(PRODUCT_DELETE, id));
+        if (readProductById(id).isPresent()) {
+            execute(String.format(PRODUCT_DELETE, id));
+            return new Result<>(SUCCESS,null,REMOVE_SUCCESS);
+        }
+        else{
+            return new Result<>(UNSUCCESSFUL,null,NPE_CUSTOMER);
+        }
     }
 
     @Override
@@ -140,8 +146,6 @@ public class DataProviderJDBC implements IDataProvider{
                 if (set != null && set.next()) {
                     obj = new Order();
                     obj.setId(set.getLong(1));
-
-                    ProductType type = ProductType.valueOf(set.getString(4).toUpperCase());
                     Optional<? extends Product> product = readProductById(set.getLong(2));
                     Optional<Customer> customer = readCustomerById(set.getLong(3));
 
