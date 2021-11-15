@@ -257,3 +257,42 @@ INSERT INTO customer VALUES(1, 'Ivan', 18); [23505-200]
 10:34:51.023 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"
 Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"; SQL statement:
 INSERT INTO customer VALUES(1, 'Ivan', 18); [23505-200]
+00:37:50.269 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"; SQL statement:
+INSERT INTO customer VALUES(1, 'Ivan', 18); [23505-200]
+00:39:03.567 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"; SQL statement:
+INSERT INTO customer VALUES(2, 'Dima', 45); [23505-200]
+00:41:13.109 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"; SQL statement:
+INSERT INTO customer VALUES(2, 'Dima', 45); [23505-200]
+00:41:13.121 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"; SQL statement:
+INSERT INTO customer VALUES(2, 'Dima', 45); [23505-200]
+00:44:44.062 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"; SQL statement:
+INSERT INTO customer VALUES(2, 'Dima', 45); [23505-200]
+00:45:52.541 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"; SQL statement:
+INSERT INTO customer VALUES(2, 'Dima', 45); [23505-200]
+08:33:52.582 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "EATABLE" не найдена
+Table "EATABLE" not found; SQL statement:
+SELECT id , name , type FROM eatable WHERE id = 1; [42102-200]
+08:36:49.408 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"; SQL statement:
+INSERT INTO customer VALUES(2, 'Dima', 45); [23505-200]
+08:36:49.483 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "EATABLE" не найдена
+Table "EATABLE" not found; SQL statement:
+SELECT id , name , type FROM eatable WHERE id = 1; [42102-200]
+08:38:50.949 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "EATABLE" не найдена
+Table "EATABLE" not found; SQL statement:
+SELECT id , name , type FROM eatable WHERE id = 1; [42102-200]
+08:39:30.208 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"; SQL statement:
+INSERT INTO customer VALUES(2, 'Dima', 45); [23505-200]
+08:57:12.945 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"; SQL statement:
+INSERT INTO customer VALUES(2, 'Dima', 45); [23505-200]
+09:05:10.507 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"; SQL statement:
+INSERT INTO customer VALUES(2, 'Dima', 45); [23505-200]

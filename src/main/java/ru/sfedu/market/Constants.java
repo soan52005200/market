@@ -55,7 +55,9 @@ public final class Constants {
     public static final String UNEATABLE_DELETE = "DELETE FROM uneatable WHERE id = %d;";
     public static final String UNEATABLE_DELETE_CASCADE = "DELETE FROM \"order\" WHERE product_id = %d and type_='UNEATABLE';";
 
-    public static final String ORDER_INSERT = "INSERT INTO \"order\" VALUES (%d, %d, %d, '%s');";
+    public static final String ORDER_INSERT = "INSERT INTO \"order\" VALUES (%d, %d, %d);";
+    public static final String ORDER_UPDATE = "UPDATE order SET product_id=%d, customer_id=%d WHERE id = %d";
     public static final String ORDER_SELECT = "SELECT id, product_id, customer_id FROM \"order\" WHERE id = %d;";
+    public static final String ORDER_DELETE = "DELETE FROM order WHERE id = %d;";
     public static final String ORDER_SELECT_CUSTOMER = "SELECT id, product_id, customer_id, type_ FROM \"order\" WHERE customer_id = %d;";
 }

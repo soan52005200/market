@@ -49,12 +49,24 @@ public class DataProviderJDBC implements IDataProvider{
 
     @Override
     public Result<Customer> updateCustomer(Customer customer) {
-        return execute(String.format(CUSTOMER_UPDATE, customer.getFio(), customer.getAge(), customer.getId()));
+        if (readCustomerById(customer.getId()).isPresent()) {
+            execute(String.format(CUSTOMER_UPDATE, customer.getFio(), customer.getAge(), customer.getId()));
+            return new Result<>(SUCCESS,customer,UPDATE_SUCCESS);
+        }
+        else{
+            return new Result<>(UNSUCCESSFUL,null,NPE_CUSTOMER);
+        }
     }
 
     @Override
     public Result<Void> deleteCustomerById(Long id) {
-        return execute(String.format(CUSTOMER_DELETE, id));
+        if (readCustomerById(id).isPresent()) {
+            execute(String.format(CUSTOMER_DELETE, id));
+            return new Result<>(SUCCESS,null,REMOVE_SUCCESS);
+        }
+        else{
+            return new Result<>(UNSUCCESSFUL,null,NPE_CUSTOMER);
+        }
     }
 
 
@@ -82,8 +94,13 @@ public class DataProviderJDBC implements IDataProvider{
 
     @Override
     public Result<Product> updateProduct(Product product) {
-        return execute(String.format(PRODUCT_UPDATE, product.getName(), product.getType(), product.getId()));
-
+        if (readCustomerById(product.getId()).isPresent()) {
+            execute(String.format(PRODUCT_UPDATE, product.getName(), product.getType(), product.getId()));
+            return new Result<>(SUCCESS,product,UPDATE_SUCCESS);
+        }
+        else{
+            return new Result<>(UNSUCCESSFUL,null,NPE_PRODUCT);
+        }
     }
 
     @Override
@@ -146,11 +163,19 @@ public class DataProviderJDBC implements IDataProvider{
 
     @Override
     public Result<Order> updateOrder(Order order) {
-        return null;
+
+        return execute(String.format(ORDER_UPDATE,order.getProduct().getId(),order.getCustomer().getId(), order.getId()));
     }
 
     @Override
-    public Result<Void> deleteOrderById(Long id) {return null;
+    public Result<Void> deleteOrderById(Long id) {
+        Optional<Order> optional = readOrderById(id);
+        if (optional.isEmpty()) {
+
+            return new Result<>(UNSUCCESSFUL, null, String.format(EMPTY_BEAN, id));
+        }
+        execute(String.format(ORDER_DELETE, id));
+        return new Result<Void>(SUCCESS, null, REMOVE_SUCCESS);
     }
 
     private <T> Result<T> execute(String sql) {
