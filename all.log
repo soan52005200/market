@@ -347,3 +347,24 @@ INSERT INTO product VALUES (2, 'Stolichnaya', 'ALCOHOL'); [23505-200]
 17:32:07.839 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.PRODUCT(ID)"
 Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.PRODUCT(ID)"; SQL statement:
 INSERT INTO product VALUES (2, 'Stolichnaya', 'ALCOHOL'); [23505-200]
+17:38:28.157 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "UPDATE ORDER[*] SET PRODUCT_ID=1, CUSTOMER_ID=1 WHERE ID = 1;"; ожидалось "identifier"
+Syntax error in SQL statement "UPDATE ORDER[*] SET PRODUCT_ID=1, CUSTOMER_ID=1 WHERE ID = 1;"; expected "identifier"; SQL statement:
+UPDATE order SET product_id=1, customer_id=1 WHERE id = 1; [42001-200]
+17:41:41.906 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"; SQL statement:
+INSERT INTO customer VALUES(1, 'Ivan', 18); [23505-200]
+17:41:41.920 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.PRODUCT(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.PRODUCT(ID)"; SQL statement:
+INSERT INTO product VALUES (1, 'Moloko_Vkusnoteevo', 'MILK'); [23505-200]
+17:43:03.468 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "DELETE FROM ORDER[*] WHERE ID = 1;"; ожидалось "identifier"
+Syntax error in SQL statement "DELETE FROM ORDER[*] WHERE ID = 1;"; expected "identifier"; SQL statement:
+DELETE FROM order WHERE id = 1; [42001-200]
+20:53:30.983 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - java.lang.NullPointerException: Такого продукта не существует
+20:59:35.050 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"; SQL statement:
+INSERT INTO customer VALUES(1, 'Ivan', 18); [23505-200]
+21:02:06.565 [main] INFO  ru.sfedu.market.api.DataProviderJDBC - Optional[Product{id=1, name='Moloko_Vkusnoteevo', type=MILK}]
+21:11:02.451 [main] INFO  ru.sfedu.market.api.DataProviderJDBC - Optional[Product{id=1, name='Moloko_Vkusnoteevo', type=MILK}]
+21:21:13.185 [main] INFO  ru.sfedu.market.api.DataProviderJDBC - Optional[Product{id=1, name='Moloko_Vkusnoteevo', type=MILK}]
+21:23:05.127 [main] INFO  ru.sfedu.market.api.DataProviderJDBC - Optional[Product{id=1, name='Moloko_Vkusnoteevo', type=MILK}]
+21:23:43.907 [main] INFO  ru.sfedu.market.api.DataProviderJDBC - Optional[Product{id=1, name='Moloko_Vkusnoteevo', type=MILK}]

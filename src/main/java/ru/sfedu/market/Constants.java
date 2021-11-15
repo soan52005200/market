@@ -25,7 +25,7 @@ public final class Constants {
     public static final String XML_ORDER_KEY = "xmlOrder";
 
     public static final String ORDER_CLOSE = "Заказ успешно закрыт";
-    public static final String PRESENT_BEAN = "Клиент с ID=%d уже существует";
+    public static final String PRESENT_BEAN = "Объект с ID=%d уже существует";
 
     public static final String NPE_CUSTOMER = "Такого клиента не существует";
     public static final String NPE_PRODUCT = "Такого продукта не существует";
@@ -50,9 +50,9 @@ public final class Constants {
 
 
     public static final String ORDER_INSERT = "INSERT INTO \"order\" VALUES (%d, %d, %d);";
-    public static final String ORDER_UPDATE = "UPDATE order SET product_id=%d, customer_id=%d WHERE id = %d;";
+    public static final String ORDER_UPDATE = "UPDATE \"order\" SET product_id=%d, customer_id=%d WHERE id = %d;";
     public static final String ORDER_SELECT = "SELECT id, product_id, customer_id FROM \"order\" WHERE id = %d;";
-    public static final String ORDER_DELETE = "DELETE FROM order WHERE id = %d;";
+    public static final String ORDER_DELETE = "DELETE FROM \"order\" WHERE id = %d;";
     public static final String ORDER_SELECT_CUSTOMER = "SELECT id, product_id, customer_id FROM \"order\" WHERE customer_id = %d;";
 
     /**
