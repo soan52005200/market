@@ -84,10 +84,10 @@ public class JDBCDataProviderTest extends BeanTest{
 
 
 
-        assertEquals(jdbc.createOrder(readyOrder3()).getStatus(),UNSUCCESSFUL);/** Crud  */
+        assertEquals(jdbc.createOrder(readyOrder3()).getStatus(),ERROR);/** Crud  */
         assertFalse(jdbc.readOrderById(readyOrder1().getId()).isPresent());/** cRud  */
-        assertEquals(jdbc.updateOrder(readyOrder1()).getStatus(),UNSUCCESSFUL);/** crUd  */
-        assertEquals(jdbc.deleteOrderById(readyOrder1().getId()).getStatus(),UNSUCCESSFUL); /** cruD*/
+        assertEquals(jdbc.updateOrder(readyOrder1()).getStatus(),ERROR);/** crUd  */
+        assertEquals(jdbc.deleteOrderById(readyOrder1().getId()).getStatus(),ERROR); /** cruD*/
 
 
 

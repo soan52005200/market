@@ -29,6 +29,7 @@ public final class Constants {
 
     public static final String NPE_CUSTOMER = "Такого клиента не существует";
     public static final String NPE_PRODUCT = "Такого продукта не существует";
+    public static final String NPE_ORDER = "Такоего заказа не существует";
 
     public static final String JDBC_DRIVER = "jdbcDriver";
     public static final String JDBC_URL = "jdbcUrl";

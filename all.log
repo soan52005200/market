@@ -368,3 +368,9 @@ INSERT INTO customer VALUES(1, 'Ivan', 18); [23505-200]
 21:21:13.185 [main] INFO  ru.sfedu.market.api.DataProviderJDBC - Optional[Product{id=1, name='Moloko_Vkusnoteevo', type=MILK}]
 21:23:05.127 [main] INFO  ru.sfedu.market.api.DataProviderJDBC - Optional[Product{id=1, name='Moloko_Vkusnoteevo', type=MILK}]
 21:23:43.907 [main] INFO  ru.sfedu.market.api.DataProviderJDBC - Optional[Product{id=1, name='Moloko_Vkusnoteevo', type=MILK}]
+22:26:37.804 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.CUSTOMER(ID)"; SQL statement:
+INSERT INTO customer VALUES(2, 'Dima', 45); [23505-200]
+22:26:37.904 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.PRODUCT(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.PRODUCT(ID)"; SQL statement:
+INSERT INTO product VALUES (2, 'Stolichnaya', 'ALCOHOL'); [23505-200]

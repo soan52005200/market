@@ -166,9 +166,15 @@ public class DataProviderJDBC implements IDataProvider{
 
     @Override
     public Result<Order> updateOrder(Order order) {
-
-        return execute(String.format(ORDER_UPDATE,order.getProduct().getId(),order.getCustomer().getId(), order.getId()));
+        if (readOrderById(order.getId()).isPresent()) {
+            execute(String.format(ORDER_UPDATE, order.getProduct().getId(), order.getCustomer().getId(), order.getId()));
+            return new Result<>(SUCCESS, order, UPDATE_SUCCESS);
+        } else {
+            return new Result<>(ERROR, null, NPE_ORDER);
+        }
     }
+
+
 
     @Override
     public Result<Void> deleteOrderById(Long id) {
