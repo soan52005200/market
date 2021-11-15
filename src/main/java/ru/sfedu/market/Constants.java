@@ -40,9 +40,9 @@ public final class Constants {
     public static final String CUSTOMER_UPDATE = "UPDATE customer SET fio='%s', age=%d WHERE id = %d";
     public static final String CUSTOMER_DELETE = "DELETE FROM customer WHERE id = %d";
 
-    public static final String PRODUCT_INSERT = "INSERT INTO eatable VALUES (%d, '%s', '%s');";
-    public static final String PRODUCT_SELECT = "SELECT id , name , type FROM eatable WHERE id = %d;";
-    public static final String PRODUCT_UPDATE = "UPDATE product SET name='%s', type=%d WHERE id = %d";
+    public static final String PRODUCT_INSERT = "INSERT INTO product VALUES (%d, '%s', '%s');";
+    public static final String PRODUCT_SELECT = "SELECT id , name , type FROM product WHERE id = %d;";
+    public static final String PRODUCT_UPDATE = "UPDATE product SET name='%s', type='%s' WHERE id = %d;";
     public static final String PRODUCT_DELETE = "DELETE FROM product WHERE id = %d;";
 
 
@@ -50,7 +50,7 @@ public final class Constants {
 
 
     public static final String ORDER_INSERT = "INSERT INTO \"order\" VALUES (%d, %d, %d);";
-    public static final String ORDER_UPDATE = "UPDATE order SET product_id=%d, customer_id=%d WHERE id = %d";
+    public static final String ORDER_UPDATE = "UPDATE order SET product_id=%d, customer_id=%d WHERE id = %d;";
     public static final String ORDER_SELECT = "SELECT id, product_id, customer_id FROM \"order\" WHERE id = %d;";
     public static final String ORDER_DELETE = "DELETE FROM order WHERE id = %d;";
     public static final String ORDER_SELECT_CUSTOMER = "SELECT id, product_id, customer_id FROM \"order\" WHERE customer_id = %d;";

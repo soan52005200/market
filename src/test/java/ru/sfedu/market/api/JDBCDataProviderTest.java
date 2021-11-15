@@ -30,15 +30,13 @@ public class JDBCDataProviderTest extends BeanTest{
 
         assertEquals(jdbc.createCustomer(readyCustomer3()).getStatus(),ERROR);/** Crud  */
         assertFalse(jdbc.readCustomerById(readyCustomer1().getId()).isPresent());/** cRud  */
-        System.out.println(jdbc.updateCustomer(readyCustomer2()));/** crUd  */
-        assertEquals(jdbc.deleteCustomerById(readyCustomer2().getId()).getStatus(),UNSUCCESSFUL); /** cruD*/
-
+        assertEquals(jdbc.updateCustomer(readyCustomer2()).getStatus(),ERROR);/** crUd  */
+        assertEquals(jdbc.deleteCustomerById(readyCustomer2().getId()).getStatus(),ERROR); /** cruD*/
 
         jdbc.deleteCustomerById(readyCustomer3().getId());
     }
     @Test
     public void crudJDBCProductSuccess() {
-
 
         assertEquals(jdbc.createProduct(readyProduct1()).getStatus(),SUCCESS);/** Crud  */
         assertTrue(jdbc.readProductById(readyProduct1().getId()).isPresent()); /** cRud  */
@@ -50,10 +48,10 @@ public class JDBCDataProviderTest extends BeanTest{
     void crudCsvProductUnsuccessful() throws IOException {
         jdbc.createProduct(readyProduct3());
 
-        assertEquals(jdbc.createProduct(readyProduct3()).getStatus(),UNSUCCESSFUL);/** Crud  */
+        assertEquals(jdbc.createProduct(readyProduct3()).getStatus(),ERROR);/** Crud  */
         assertFalse(jdbc.readProductById(readyProduct1().getId()).isPresent());/** cRud  */
-        assertEquals(jdbc.updateProduct(readyProduct1()).getStatus(),UNSUCCESSFUL);/** crUd  */
-        assertEquals(jdbc.deleteProductById(readyProduct2().getId()).getStatus(),UNSUCCESSFUL); /** cruD*/
+        assertEquals(jdbc.updateProduct(readyProduct1()).getStatus(),ERROR);/** crUd  */
+        assertEquals(jdbc.deleteProductById(readyProduct2().getId()).getStatus(),ERROR); /** cruD*/
 
 
         jdbc.deleteProductById(readyProduct3().getId());

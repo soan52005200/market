@@ -16,8 +16,7 @@ import java.util.Optional;
 
 import static ru.sfedu.market.Constants.*;
 import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
-import static ru.sfedu.market.utils.Status.SUCCESS;
-import static ru.sfedu.market.utils.Status.UNSUCCESSFUL;
+import static ru.sfedu.market.utils.Status.*;
 
 public class DataProviderJDBC implements IDataProvider{
 
@@ -54,7 +53,7 @@ public class DataProviderJDBC implements IDataProvider{
             return new Result<>(SUCCESS,customer,UPDATE_SUCCESS);
         }
         else{
-            return new Result<>(UNSUCCESSFUL,null,NPE_CUSTOMER);
+            return new Result<>(ERROR,null,NPE_CUSTOMER);
         }
     }
 
@@ -65,7 +64,7 @@ public class DataProviderJDBC implements IDataProvider{
             return new Result<>(SUCCESS,null,REMOVE_SUCCESS);
         }
         else{
-            return new Result<>(UNSUCCESSFUL,null,NPE_CUSTOMER);
+            return new Result<>(ERROR,null,NPE_CUSTOMER);
         }
     }
 
@@ -99,7 +98,7 @@ public class DataProviderJDBC implements IDataProvider{
             return new Result<>(SUCCESS,product,UPDATE_SUCCESS);
         }
         else{
-            return new Result<>(UNSUCCESSFUL,null,NPE_PRODUCT);
+            return new Result<>(ERROR,null,NPE_PRODUCT);
         }
     }
 
@@ -110,7 +109,7 @@ public class DataProviderJDBC implements IDataProvider{
             return new Result<>(SUCCESS,null,REMOVE_SUCCESS);
         }
         else{
-            return new Result<>(UNSUCCESSFUL,null,NPE_CUSTOMER);
+            return new Result<>(ERROR,null,NPE_CUSTOMER);
         }
     }
 
@@ -120,10 +119,10 @@ public class DataProviderJDBC implements IDataProvider{
             Optional<Customer> customer = readCustomerById(order.getCustomer().getId());
             Optional<? extends Product> product = readProductById(order.getProduct().getId());
             if (customer.isEmpty()) {
-                return new Result<Order>(UNSUCCESSFUL, null, String.format(EMPTY_BEAN, order.getCustomer().getId()));
+                return new Result<Order>(ERROR, null, String.format(EMPTY_BEAN, order.getCustomer().getId()));
             }
             if (product.isEmpty()) {
-                return new Result<Order>(UNSUCCESSFUL, null, String.format(EMPTY_BEAN, order.getProduct().getId()));
+                return new Result<Order>(ERROR, null, String.format(EMPTY_BEAN, order.getProduct().getId()));
             }
             /**
              *
@@ -135,7 +134,7 @@ public class DataProviderJDBC implements IDataProvider{
             }*/
             return execute(String.format(ORDER_INSERT, order.getId(), order.getProduct().getId(), order.getCustomer().getId()));
         }
-        return new Result<>(UNSUCCESSFUL, order, String.format(PRESENT_BEAN, order.getId()));
+        return new Result<>(ERROR, order, String.format(PRESENT_BEAN, order.getId()));
     }
 
     @Override
@@ -176,7 +175,7 @@ public class DataProviderJDBC implements IDataProvider{
         Optional<Order> optional = readOrderById(id);
         if (optional.isEmpty()) {
 
-            return new Result<>(UNSUCCESSFUL, null, String.format(EMPTY_BEAN, id));
+            return new Result<>(ERROR, null, String.format(EMPTY_BEAN, id));
         }
         execute(String.format(ORDER_DELETE, id));
         return new Result<Void>(SUCCESS, null, REMOVE_SUCCESS);
