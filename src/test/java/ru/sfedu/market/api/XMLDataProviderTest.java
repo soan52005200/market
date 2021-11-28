@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static ru.sfedu.market.utils.Status.SUCCESS;
 import static ru.sfedu.market.utils.Status.UNSUCCESSFUL;
 
-public class XMLDataProviderTest extends BeanTest{
+public class XMLDataProviderTest extends Mongo{
     private final IDataProvider xml = new DataProviderXML();
 
     @Test

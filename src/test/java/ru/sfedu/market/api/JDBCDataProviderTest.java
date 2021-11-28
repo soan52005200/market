@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static ru.sfedu.market.utils.Status.*;
 
 
-public class JDBCDataProviderTest extends BeanTest{
+public class JDBCDataProviderTest extends Mongo{
 
     private final IDataProvider jdbc = new DataProviderJDBC();
 

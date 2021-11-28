@@ -18,7 +18,7 @@ import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
 import static ru.sfedu.market.utils.Status.SUCCESS;
 import static ru.sfedu.market.utils.Status.UNSUCCESSFUL;
 
-class CSVDataProviderTest extends BeanTest{
+class CSVDataProviderTest extends Mongo{
 
 
     private static final Logger log = LogManager.getLogger(CSVDataProviderTest.class.getName());

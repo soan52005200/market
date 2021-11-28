@@ -207,7 +207,7 @@ public class DataProviderXML implements IDataProvider{
     }
 
 
-
+/** ПЕРЕМЕСТИТЬ В class отдельный */
 
     @Root(name = "Container")
     private static class Container<T> {
