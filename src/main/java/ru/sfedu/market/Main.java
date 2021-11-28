@@ -13,10 +13,6 @@ public class Main {
     public static void main(String[] args){
         try {
 
-            log.debug(System.getProperty(ENV_PROPERTIES));
-            log.debug(System.getProperty(LOG4J2_PROPERTIES));
-
-            System.out.println(getConfigurationEntry("env_default"));
             
 
         } catch (Exception exception) {
@@ -25,9 +21,7 @@ public class Main {
 
 
 
-        log.error("Hello world(error)");
-        log.debug("Hello world(debug)");
-        log.info("Hello world(info)");
+
     }
 
 }
