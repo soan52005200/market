@@ -6,12 +6,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bson.Document;
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.ClassModel;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import org.junit.jupiter.api.Test;
 import ru.sfedu.market.bean.Customer;
 import ru.sfedu.market.bean.Order;
@@ -44,35 +49,30 @@ public class Mongo {
 
     private Status status;
 
-    protected <T> List<T> jsonArrayToObjectList(List<Map<String, Object>> map, Class<T> tClass) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            CollectionType listType = mapper.getTypeFactory()
-                    .constructCollectionType(ArrayList.class, tClass);
-            List<T> objects = mapper.convertValue(map, listType);
-            return objects;
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-            throw new ClassCastException(ex.getMessage());
-        }
-    }
-
-    @Test
-    void mongoStart() throws IOException{
-        MongoClient mongoClient = new MongoClient();
-        MongoDatabase database = mongoClient.getDatabase("data");
-        MongoCollection<Document> collection = database.getCollection("history");
-
-        System.out.println("Success");
-        collection.insertOne(new Document("money",6));
-
-        System.out.println("Первый запрос отправлен");
 
 
+    public void Mongo(Class className,Object bean,String methodName) throws IOException{
+        CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
+                MongoClientSettings.getDefaultCodecRegistry(),
+                CodecRegistries.fromProviders(PojoCodecProvider.builder()
+                        .register(
+                                ClassModel.builder(Mongo.class).enableDiscriminator(true).build()
+                        ).automatic(true)
+                        .build()
+                )
+        );
+        MongoCollection<Mongo> collection = new MongoClient()
+                .getDatabase("data")
+                .withCodecRegistry(codecRegistry).getCollection("data", Mongo.class);
+
+        System.out.println("Connected to database!");
+
+
+    return;
     }
 
 
-
+/**Передача данных для mongo осуществляется через методы создания объектов*/
 
 
 
