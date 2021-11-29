@@ -3,11 +3,13 @@ package ru.sfedu.market.utils;
 public class Result<T> {
     private final Status status;
     private final T bean;
+    private final Crud methodName;
     private final String log;
 
-    public Result(Status status, T bean, String log) {
+    public Result(Status status, T bean, Crud methodName, String log) {
         this.status = status;
         this.bean = bean;
+        this.methodName = methodName;
         this.log = log;
     }
 
@@ -28,6 +30,7 @@ public class Result<T> {
         return "Result{" +
                 "status=" + status +
                 ", bean=" + bean +
+                ", methodName=" + methodName +
                 ", log='" + log + '\'' +
                 '}';
     }

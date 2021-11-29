@@ -11,11 +11,11 @@ import ru.sfedu.market.utils.Status;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.Date;
 import java.util.Optional;
 
 import static ru.sfedu.market.Constants.*;
 import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
+import static ru.sfedu.market.utils.Crud.*;
 import static ru.sfedu.market.utils.Status.*;
 
 public class DataProviderJDBC implements IDataProvider{
@@ -25,7 +25,12 @@ public class DataProviderJDBC implements IDataProvider{
 
     @Override
     public Result<Customer> createCustomer(Customer customer) {
-        return execute(String.format(CUSTOMER_INSERT, customer.getId(), customer.getFio(), customer.getAge()));
+        try{
+            execute(String.format(CUSTOMER_INSERT, customer.getId(), customer.getFio(), customer.getAge()));
+        }catch(Exception exception){
+            return new Result<>(ERROR,customer, CREATE,CREATE_ERROR_CUSTOMER);
+        }
+        return new Result<>(SUCCESS,customer, CREATE,CREATE_ERROR_CUSTOMER);
     }
 
     @Override
@@ -50,10 +55,10 @@ public class DataProviderJDBC implements IDataProvider{
     public Result<Customer> updateCustomer(Customer customer) {
         if (readCustomerById(customer.getId()).isPresent()) {
             execute(String.format(CUSTOMER_UPDATE, customer.getFio(), customer.getAge(), customer.getId()));
-            return new Result<>(SUCCESS,customer,UPDATE_SUCCESS);
+            return new Result<>(SUCCESS,customer, UPDATE, UPDATE_SUCCESS);
         }
         else{
-            return new Result<>(ERROR,null,NPE_CUSTOMER);
+            return new Result<>(ERROR,null, UPDATE, NPE_CUSTOMER);
         }
     }
 
@@ -61,10 +66,10 @@ public class DataProviderJDBC implements IDataProvider{
     public Result<Void> deleteCustomerById(Long id) {
         if (readCustomerById(id).isPresent()) {
             execute(String.format(CUSTOMER_DELETE, id));
-            return new Result<>(SUCCESS,null,REMOVE_SUCCESS);
+            return new Result<>(SUCCESS,null, DELETE, REMOVE_SUCCESS);
         }
         else{
-            return new Result<>(ERROR,null,NPE_CUSTOMER);
+            return new Result<>(ERROR,null, DELETE, NPE_CUSTOMER);
         }
     }
 
@@ -95,10 +100,10 @@ public class DataProviderJDBC implements IDataProvider{
     public Result<Product> updateProduct(Product product) {
         if (readProductById(product.getId()).isPresent()) {
             execute(String.format(PRODUCT_UPDATE, product.getName(), product.getType(), product.getId()));
-            return new Result<>(SUCCESS,product,UPDATE_SUCCESS);
+            return new Result<>(SUCCESS,product, UPDATE, UPDATE_SUCCESS);
         }
         else{
-            return new Result<>(ERROR,null,NPE_PRODUCT);
+            return new Result<>(ERROR,null, UPDATE, NPE_PRODUCT);
         }
     }
 
@@ -106,10 +111,10 @@ public class DataProviderJDBC implements IDataProvider{
     public Result<Void> deleteProductById(Long id) {
         if (readProductById(id).isPresent()) {
             execute(String.format(PRODUCT_DELETE, id));
-            return new Result<>(SUCCESS,null,REMOVE_SUCCESS);
+            return new Result<>(SUCCESS,null, DELETE, REMOVE_SUCCESS);
         }
         else{
-            return new Result<>(ERROR,null,NPE_CUSTOMER);
+            return new Result<>(ERROR,null, DELETE, NPE_CUSTOMER);
         }
     }
 
@@ -119,10 +124,10 @@ public class DataProviderJDBC implements IDataProvider{
             Optional<Customer> customer = readCustomerById(order.getCustomer().getId());
             Optional<? extends Product> product = readProductById(order.getProduct().getId());
             if (customer.isEmpty()) {
-                return new Result<Order>(ERROR, null, String.format(EMPTY_BEAN, order.getCustomer().getId()));
+                return new Result<Order>(ERROR, null, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId()));
             }
             if (product.isEmpty()) {
-                return new Result<Order>(ERROR, null, String.format(EMPTY_BEAN, order.getProduct().getId()));
+                return new Result<Order>(ERROR, null, CREATE, String.format(EMPTY_BEAN, order.getProduct().getId()));
             }
             /**
              *
@@ -134,7 +139,7 @@ public class DataProviderJDBC implements IDataProvider{
             }*/
             return execute(String.format(ORDER_INSERT, order.getId(), order.getProduct().getId(), order.getCustomer().getId()));
         }
-        return new Result<>(ERROR, order, String.format(PRESENT_BEAN, order.getId()));
+        return new Result<>(ERROR, order, CREATE, String.format(PRESENT_BEAN, order.getId()));
     }
 
     @Override
@@ -168,9 +173,9 @@ public class DataProviderJDBC implements IDataProvider{
     public Result<Order> updateOrder(Order order) {
         if (readOrderById(order.getId()).isPresent()) {
             execute(String.format(ORDER_UPDATE, order.getProduct().getId(), order.getCustomer().getId(), order.getId()));
-            return new Result<>(SUCCESS, order, UPDATE_SUCCESS);
+            return new Result<>(SUCCESS, order, UPDATE, UPDATE_SUCCESS);
         } else {
-            return new Result<>(ERROR, null, NPE_ORDER);
+            return new Result<>(ERROR, null, UPDATE, NPE_ORDER);
         }
     }
 
@@ -181,10 +186,10 @@ public class DataProviderJDBC implements IDataProvider{
         Optional<Order> optional = readOrderById(id);
         if (optional.isEmpty()) {
 
-            return new Result<>(ERROR, null, String.format(EMPTY_BEAN, id));
+            return new Result<>(ERROR, null, UPDATE, String.format(EMPTY_BEAN, id));
         }
         execute(String.format(ORDER_DELETE, id));
-        return new Result<Void>(SUCCESS, null, REMOVE_SUCCESS);
+        return new Result<Void>(SUCCESS, null, UPDATE, REMOVE_SUCCESS);
     }
 
     private <T> Result<T> execute(String sql) {
@@ -193,11 +198,10 @@ public class DataProviderJDBC implements IDataProvider{
             statement = initConnection().createStatement();
             statement.executeUpdate(sql);
             initConnection().close();
-            return new Result<>(Status.SUCCESS, null, null);
         } catch (Exception exception) {
             log.error(exception);
-            return new Result<>(Status.ERROR, null, null);
         }
+        return null;
     }
 
     private ResultSet select(String sql) {

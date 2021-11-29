@@ -27,6 +27,14 @@ public final class Constants {
     public static final String ORDER_CLOSE = "Заказ успешно закрыт";
     public static final String PRESENT_BEAN = "Объект с ID=%d уже существует";
 
+    public static final String CREATE_SUCCESS_CUSTOMER = "Клиент создан";
+    public static final String CREATE_SUCCESS_PRODUCT = "Продукт создан";
+    public static final String CREATE_SUCCESS_ORDER = "Заказ создан";
+
+    public static final String CREATE_ERROR_CUSTOMER = "Клиент не создан";
+    public static final String CREATE_ERROR_PRODUCT = "Продукт не создан";
+    public static final String CREATE_ERROR_ORDER = "Заказ не создан";
+
     public static final String NPE_CUSTOMER = "Такого клиента не существует";
     public static final String NPE_PRODUCT = "Такого продукта не существует";
     public static final String NPE_ORDER = "Такоего заказа не существует";
