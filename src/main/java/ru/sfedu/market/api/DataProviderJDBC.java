@@ -53,7 +53,7 @@ public class DataProviderJDBC implements IDataProvider{
 
     @Override
     public Result<Customer> updateCustomer(Customer customer) {
-        if (readCustomerById(customer.getId()).isPresent()) {
+        if (readCustomerById(customer.getId()).getStatus()) {
             execute(String.format(CUSTOMER_UPDATE, customer.getFio(), customer.getAge(), customer.getId()));
             return new Result<>(SUCCESS,customer, UPDATE, UPDATE_SUCCESS);
         }
@@ -78,7 +78,7 @@ public class DataProviderJDBC implements IDataProvider{
     public Result<Product> createProduct(Product product){return execute(String.format(PRODUCT_INSERT, product.getId(), product.getName(), product.getType()));}
 
     @Override
-    public Optional<Product> readProductById(Long id) {
+    public Result readProductById(Long id) {
         Product obj = null;
         ResultSet set = select(String.format(PRODUCT_SELECT, id));
         try {
@@ -92,7 +92,7 @@ public class DataProviderJDBC implements IDataProvider{
         } catch (Exception exception) {
             log.error(exception);
         }
-        return Optional.ofNullable(obj);
+        return new Result(SUCCESS,Optional.ofNullable(obj), DELETE, REMOVE_SUCCESS);
     }
 
 

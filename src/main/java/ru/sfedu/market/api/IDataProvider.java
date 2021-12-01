@@ -26,7 +26,7 @@ public interface IDataProvider {
      * @return
      */
 
-    Optional<Customer> readCustomerById(Long id);
+    Result<Customer> readCustomerById(Long id);
 
     /**
      * Изменение информации о клиенте
