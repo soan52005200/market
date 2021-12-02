@@ -27,10 +27,10 @@ public class DataProviderJDBC implements IDataProvider{
 
     @Override
     public Result<Customer> createCustomer(Customer customer) {
-        try{
+        if (readCustomerById(customer.getId()).equals(ERROR)){
             execute(String.format(CUSTOMER_INSERT, customer.getId(), customer.getFio(), customer.getAge()));
             return new Result(SUCCESS,customer, CREATE,CREATE_SUCCESS_CUSTOMER);
-        }catch(Exception exception){
+        }else{
             return new Result(ERROR,customer, CREATE,CREATE_ERROR_CUSTOMER);
         }
 
@@ -40,22 +40,29 @@ public class DataProviderJDBC implements IDataProvider{
     public Result<Customer> readCustomerById(Long id) {
         Customer customer = null;
         ResultSet set = select(String.format(CUSTOMER_SELECT, id));
-        try {
-            if (set != null && set.next()) {
-                customer = new Customer(
-                        set.getLong(1),
-                        set.getString(2),
-                        set.getInt(3)
-                );
+            try {
+                if (set != null && set.next()) {
+                    customer = new Customer(
+                            set.getLong(1),
+                            set.getString(2),
+                            set.getInt(3)
+                    );
+
+                }
+            } catch (Exception exception) {
+                log.error(exception);
+
+
 
             }
-        } catch (Exception exception) {
-            log.error(exception);
-            return new Result(ERROR, Optional.ofNullable(customer),READ,CREATE_ERROR_CUSTOMER);
 
+        if (Optional.ofNullable(customer).equals(Optional.empty())){
+            return new Result(ERROR, Optional.ofNullable(customer), READ, NPE_CUSTOMER);
+        }
+        else {
+            return new Result(SUCCESS, Optional.ofNullable(customer), READ, EXIST_CUSTOMER);
         }
 
-        return new Result(SUCCESS, Optional.ofNullable(customer),READ,CREATE_SUCCESS_CUSTOMER);
     }
 
     @Override
