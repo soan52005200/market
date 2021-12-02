@@ -4,7 +4,7 @@ import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvCustomBindByPosition;
 
 
-public class Product {
+public class Product extends Object {
 
     @CsvBindByPosition(position = 0)
     private Long id;

@@ -9,6 +9,8 @@ import ru.sfedu.market.bean.ProductType;
 import ru.sfedu.market.utils.Result;
 import ru.sfedu.market.utils.Status;
 
+
+
 import java.io.IOException;
 import java.sql.*;
 import java.util.Optional;
@@ -27,14 +29,15 @@ public class DataProviderJDBC implements IDataProvider{
     public Result<Customer> createCustomer(Customer customer) {
         try{
             execute(String.format(CUSTOMER_INSERT, customer.getId(), customer.getFio(), customer.getAge()));
+            return new Result(SUCCESS,customer, CREATE,CREATE_SUCCESS_CUSTOMER);
         }catch(Exception exception){
-            return new Result<>(ERROR,customer, CREATE,CREATE_ERROR_CUSTOMER);
+            return new Result(ERROR,customer, CREATE,CREATE_ERROR_CUSTOMER);
         }
-        return new Result<>(SUCCESS,customer, CREATE,CREATE_ERROR_CUSTOMER);
+
     }
 
     @Override
-    public Optional<Customer> readCustomerById(Long id) {
+    public Result<Customer> readCustomerById(Long id) {
         Customer customer = null;
         ResultSet set = select(String.format(CUSTOMER_SELECT, id));
         try {
@@ -44,90 +47,105 @@ public class DataProviderJDBC implements IDataProvider{
                         set.getString(2),
                         set.getInt(3)
                 );
+                return new Result(SUCCESS, Optional.ofNullable(customer),READ,CREATE_SUCCESS_CUSTOMER);
             }
         } catch (Exception exception) {
             log.error(exception);
+            return new Result(ERROR, Optional.ofNullable(customer),READ,CREATE_ERROR_CUSTOMER);
+
         }
-        return Optional.ofNullable(customer);
+
+
     }
 
     @Override
     public Result<Customer> updateCustomer(Customer customer) {
-        if (readCustomerById(customer.getId()).getStatus()) {
+        if (readCustomerById(customer.getId()).equals(SUCCESS)) {
             execute(String.format(CUSTOMER_UPDATE, customer.getFio(), customer.getAge(), customer.getId()));
-            return new Result<>(SUCCESS,customer, UPDATE, UPDATE_SUCCESS);
+            return new Result(SUCCESS,customer, UPDATE, UPDATE_SUCCESS);
         }
         else{
-            return new Result<>(ERROR,null, UPDATE, NPE_CUSTOMER);
+            return new Result(ERROR,null, UPDATE, NPE_CUSTOMER);
         }
     }
 
     @Override
-    public Result<Void> deleteCustomerById(Long id) {
-        if (readCustomerById(id).isPresent()) {
+    public Result<Customer> deleteCustomerById(Long id) {
+        if (readCustomerById(id).equals(SUCCESS)) {
             execute(String.format(CUSTOMER_DELETE, id));
-            return new Result<>(SUCCESS,null, DELETE, REMOVE_SUCCESS);
+            return new Result(SUCCESS,null, DELETE, REMOVE_SUCCESS);
         }
         else{
-            return new Result<>(ERROR,null, DELETE, NPE_CUSTOMER);
+            return new Result(ERROR,null, DELETE, NPE_CUSTOMER);
         }
     }
 
 
     @Override
-    public Result<Product> createProduct(Product product){return execute(String.format(PRODUCT_INSERT, product.getId(), product.getName(), product.getType()));}
+    public Result<Product> createProduct(Product product){
+        try{
+            execute(String.format(PRODUCT_INSERT, product.getId(), product.getName(), product.getType()));
+            return new Result(SUCCESS,product, CREATE,CREATE_SUCCESS_PRODUCT);
+        }catch(Exception exception){
+            return new Result(ERROR,product, CREATE,CREATE_ERROR_PRODUCT);
+        }
+
+    }
+
 
     @Override
-    public Result readProductById(Long id) {
-        Product obj = null;
+    public Result<Product> readProductById(Long id) {
+        Product product = null;
         ResultSet set = select(String.format(PRODUCT_SELECT, id));
         try {
             if (set != null && set.next()) {
-                obj = new Product(
+                product = new Product(
                         set.getLong(1),
                         set.getString(2),
                         ProductType.valueOf(set.getString(3))
                 );
+
             }
         } catch (Exception exception) {
             log.error(exception);
+            return new Result(UNSUCCESSFUL,product, DELETE, REMOVE_UNSUCCESS);
         }
-        return new Result(SUCCESS,Optional.ofNullable(obj), DELETE, REMOVE_SUCCESS);
+        return new Result(SUCCESS,product, DELETE, REMOVE_SUCCESS);
     }
 
 
     @Override
     public Result<Product> updateProduct(Product product) {
-        if (readProductById(product.getId()).isPresent()) {
+        if (readProductById(product.getId()).equals(SUCCESS)) {
             execute(String.format(PRODUCT_UPDATE, product.getName(), product.getType(), product.getId()));
-            return new Result<>(SUCCESS,product, UPDATE, UPDATE_SUCCESS);
+            return new Result(SUCCESS,product, UPDATE, UPDATE_SUCCESS);
         }
         else{
-            return new Result<>(ERROR,null, UPDATE, NPE_PRODUCT);
+            return new Result(ERROR,null, UPDATE, NPE_PRODUCT);
         }
     }
 
     @Override
     public Result<Void> deleteProductById(Long id) {
-        if (readProductById(id).isPresent()) {
+        if (readProductById(id).equals(SUCCESS)) {
             execute(String.format(PRODUCT_DELETE, id));
-            return new Result<>(SUCCESS,null, DELETE, REMOVE_SUCCESS);
+            return new Result(SUCCESS,null, DELETE, REMOVE_SUCCESS);
         }
         else{
-            return new Result<>(ERROR,null, DELETE, NPE_CUSTOMER);
+            return new Result(ERROR,null, DELETE, NPE_CUSTOMER);
         }
     }
 
     @Override
     public Result<Order> createOrder(Order order) {
-        if (readOrderById(order.getId()).isEmpty()) {
-            Optional<Customer> customer = readCustomerById(order.getCustomer().getId());
-            Optional<? extends Product> product = readProductById(order.getProduct().getId());
-            if (customer.isEmpty()) {
-                return new Result<Order>(ERROR, null, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId()));
+        if (readOrderById(order.getId()).equals(SUCCESS)) {
+            Customer customer = readCustomerById(order.getCustomer().getId()).getBean();
+            Product product = readProductById(order.getProduct().getId()).getBean();
+            if (customer.equals(null)) {
+                return new Result(ERROR, null, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId()));
             }
-            if (product.isEmpty()) {
-                return new Result<Order>(ERROR, null, CREATE, String.format(EMPTY_BEAN, order.getProduct().getId()));
+            if (product.equals(null)) {
+                return new Result(ERROR, null, CREATE, String.format(EMPTY_BEAN, order.getProduct().getId()));
             }
             /**
              *
@@ -139,57 +157,65 @@ public class DataProviderJDBC implements IDataProvider{
             }*/
             return execute(String.format(ORDER_INSERT, order.getId(), order.getProduct().getId(), order.getCustomer().getId()));
         }
-        return new Result<>(ERROR, order, CREATE, String.format(PRESENT_BEAN, order.getId()));
+        return new Result(ERROR, order, CREATE, String.format(PRESENT_BEAN, order.getId()));
     }
 
     @Override
-    public Optional<Order> readOrderById(Long id) {
-            Order obj = null;
-            ResultSet set = select(String.format(ORDER_SELECT, id));
-            try {
-                if (set != null && set.next()) {
-                    obj = new Order();
-                    obj.setId(set.getLong(1));
-                    Optional<? extends Product> product = readProductById(set.getLong(2));
-                    Optional<Customer> customer = readCustomerById(set.getLong(3));
+    public Result<Order> readOrderById(Long id) {
 
-                    if (product.isEmpty()) {
+        ResultSet set = select(String.format(ORDER_SELECT, id));
+        Order order= new Order();
+            try {
+
+                if (set != null && set.next()) {
+
+                    order.setId(set.getLong(1));
+                    Product product = readProductById(set.getLong(2)).getBean();
+                    Customer customer = readCustomerById(set.getLong(3)).getBean();
+
+                    if (product.equals(null)) {
                         throw new NullPointerException(NPE_PRODUCT);
-                    } else if (customer.isEmpty()) {
+                    } else if (customer.equals(null)) {
                         throw new NullPointerException(NPE_CUSTOMER);
                     }
 
-                    obj.setProduct(product.get());
-                    obj.setCustomer(customer.get());
+                    order.setProduct(product);
+                    order.setCustomer(customer);
+                    return new Result(SUCCESS, order, CREATE, String.format(PRESENT_BEAN, order.getId()));
+
+                }
+                else{
+                    return new Result(ERROR, null, CREATE, String.format(PRESENT_BEAN, order.getId()));
+
                 }
             } catch (Exception exception) {
                 log.error(exception);
+
             }
-            return Optional.ofNullable(obj);
 
     }
 
     @Override
     public Result<Order> updateOrder(Order order) {
-        if (readOrderById(order.getId()).isPresent()) {
+        if (readOrderById(order.getId()).equals(null)) {
             execute(String.format(ORDER_UPDATE, order.getProduct().getId(), order.getCustomer().getId(), order.getId()));
-            return new Result<>(SUCCESS, order, UPDATE, UPDATE_SUCCESS);
+            return new Result(SUCCESS, order, UPDATE, UPDATE_SUCCESS);
         } else {
-            return new Result<>(ERROR, null, UPDATE, NPE_ORDER);
+            return new Result(ERROR, null, UPDATE, NPE_ORDER);
         }
     }
 
 
 
     @Override
-    public Result<Void> deleteOrderById(Long id) {
-        Optional<Order> optional = readOrderById(id);
-        if (optional.isEmpty()) {
+    public Result<Order> deleteOrderById(Long id) {
+        Order order = (readOrderById(id).getBean());
+        if (order.equals(null)) {
 
-            return new Result<>(ERROR, null, UPDATE, String.format(EMPTY_BEAN, id));
+            return new Result(ERROR, null, UPDATE, String.format(EMPTY_BEAN, id));
         }
         execute(String.format(ORDER_DELETE, id));
-        return new Result<Void>(SUCCESS, null, UPDATE, REMOVE_SUCCESS);
+        return new Result(SUCCESS, null, UPDATE, REMOVE_SUCCESS);
     }
 
     private <T> Result<T> execute(String sql) {

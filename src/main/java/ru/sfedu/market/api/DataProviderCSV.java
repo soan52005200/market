@@ -31,16 +31,16 @@ public class DataProviderCSV implements IDataProvider {
 
     @Override
     public Result<Customer> createCustomer(Customer customer) {
-        if (readCustomerById(customer.getId()).isEmpty()) {
-            return create(customer, CSV_CUSTOMER_KEY);
+        if (readCustomerById(customer.getId()).equals(null)) {
+            return new Result(SUCCESS, customer, CREATE, String.format(PRESENT_BEAN, customer.getId()));
         }
-        return new Result<>(UNSUCCESSFUL, customer, CREATE, String.format(PRESENT_BEAN, customer.getId()));
+        return new Result(UNSUCCESSFUL, customer, CREATE, String.format(PRESENT_BEAN, customer.getId()));
 
     }
 
     @Override
-    public Optional<Customer> readCustomerById(Long id) {
-        return getAll(Customer.class, CSV_CUSTOMER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
+    public Result<Customer> readCustomerById(Long id) {
+        return new Result(SUCCESS,getAll(Customer.class, CSV_CUSTOMER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst(),READ,String.format(PRESENT_BEAN, id));
 
     }
 
@@ -61,18 +61,18 @@ public class DataProviderCSV implements IDataProvider {
     }
 
     @Override
-    public Result<Void> deleteCustomerById(Long id) {
+    public Result<Customer> deleteCustomerById(Long id) {
         List<Customer> customers = getAll(Customer.class, CSV_CUSTOMER_KEY);
         if (customers.stream().noneMatch(o -> o.getId().equals(id))) {
-            return new Result<>(UNSUCCESSFUL, null, DELETE, String.format(EMPTY_BEAN, id));
+            return new Result(UNSUCCESSFUL, null, DELETE, String.format(EMPTY_BEAN, id));
         }
         /**removeOrderByCustomerCascade(id);   Удаление заказа(include)*/
         customers.removeIf(o -> o.getId().equals(id));
-        return remove(customers, CSV_CUSTOMER_KEY);
+        return new Result(SUCCESS,customers,DELETE, REMOVE_SUCCESS);
     }
     @Override
     public Result<Product> createProduct(Product product) {
-        if (readProductById(product.getId()).isEmpty()) {
+        if (readProductById(product.getId()).equals(SUCCESS)) {
             return create(product, CSV_PRODUCT_KEY);
         }
         return new Result<>(UNSUCCESSFUL, product, CREATE, String.format(PRESENT_BEAN, product.getId()));
@@ -81,7 +81,7 @@ public class DataProviderCSV implements IDataProvider {
     }
 
     @Override
-    public Optional<Product> readProductById(Long id) {
+    public Result<Product> readProductById(Long id) {
         return getAll(Product.class, CSV_PRODUCT_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
     }
 
@@ -125,7 +125,7 @@ public class DataProviderCSV implements IDataProvider {
     }
 
     @Override
-    public Optional<Order> readOrderById(Long id) {
+    public Result<Order> readOrderById(Long id) {
         return getAll(Order.class, CSV_ORDER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
     }
 

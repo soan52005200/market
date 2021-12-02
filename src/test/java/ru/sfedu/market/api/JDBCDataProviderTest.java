@@ -19,7 +19,7 @@ public class JDBCDataProviderTest extends Mongo{
 
 
         assertEquals(jdbc.createCustomer(readyCustomer1()).getStatus(),SUCCESS);/** Crud  */
-        assertTrue(jdbc.readCustomerById(readyCustomer1().getId()).isPresent()); /** cRud  */
+        assertEquals(jdbc.readCustomerById(readyCustomer1().getId()).getStatus(),SUCCESS); /** cRud  */
         assertEquals(jdbc.updateCustomer(readyCustomer2()).getStatus(),SUCCESS);/** crUd  */
         assertEquals(jdbc.deleteCustomerById(readyCustomer2().getId()).getStatus(),SUCCESS); /** cruD*/
 
@@ -29,7 +29,7 @@ public class JDBCDataProviderTest extends Mongo{
         jdbc.createCustomer(readyCustomer3());
 
         assertEquals(jdbc.createCustomer(readyCustomer3()).getStatus(),ERROR);/** Crud  */
-        assertFalse(jdbc.readCustomerById(readyCustomer1().getId()).isPresent());/** cRud  */
+        assertEquals(jdbc.readCustomerById(readyCustomer1().getId()).getStatus(),ERROR);/** cRud  */
         assertEquals(jdbc.updateCustomer(readyCustomer2()).getStatus(),ERROR);/** crUd  */
         assertEquals(jdbc.deleteCustomerById(readyCustomer2().getId()).getStatus(),ERROR); /** cruD*/
 
@@ -39,7 +39,7 @@ public class JDBCDataProviderTest extends Mongo{
     public void crudJDBCProductSuccess() {
 
         assertEquals(jdbc.createProduct(readyProduct1()).getStatus(),SUCCESS);/** Crud  */
-        assertTrue(jdbc.readProductById(readyProduct1().getId()).isPresent()); /** cRud  */
+        assertEquals(jdbc.readProductById(readyProduct1().getId()).getStatus(),SUCCESS); /** cRud  */
         assertEquals(jdbc.updateProduct(readyProduct2()).getStatus(),SUCCESS);/** crUd  */
         assertEquals(jdbc.deleteProductById(readyProduct2().getId()).getStatus(),SUCCESS); /** cruD*/
 

@@ -19,8 +19,8 @@ public class ProductConverter extends AbstractBeanField<Product> {
 
     @Override
     protected Object convert(String s) throws CsvDataTypeMismatchException, CsvConstraintViolationException {
-        Optional<Product> optional = csv.readProductById(Long.parseLong(s));
-        if (optional.isEmpty()) {
+        Product product = csv.readProductById(Long.parseLong(s)).getBean();
+        if (product.equals(null)) {
             throw new NullPointerException(NPE_PRODUCT);
         }
         return optional.get();
