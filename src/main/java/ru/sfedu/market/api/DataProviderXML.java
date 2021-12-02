@@ -19,6 +19,7 @@ import java.util.Optional;
 
 import static ru.sfedu.market.Constants.*;
 import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
+import static ru.sfedu.market.utils.Crud.*;
 import static ru.sfedu.market.utils.Status.*;
 
 
@@ -28,101 +29,114 @@ public class DataProviderXML implements IDataProvider{
 
     @Override
     public Result<Customer> createCustomer(Customer customer) {
-        if (readCustomerById(customer.getId()).isEmpty()) {
+        if (readCustomerById(customer.getId()).equals(null)) {
             List<Customer> list = getAll(Customer.class, XML_CUSTOMER_KEY);
             list.add(customer);
             return refresh(list, XML_CUSTOMER_KEY);
         }
-        return new Result<>(UNSUCCESSFUL, customer, method, String.format(PRESENT_BEAN, customer.getId()));
+        return new Result(ERROR, customer, CREATE, String.format(PRESENT_BEAN, customer.getId()));
     }
 
     @Override
-    public Optional<Customer> readCustomerById(Long id) {
-        return getAll(Customer.class, XML_CUSTOMER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
+    public Result<Customer> readCustomerById(Long id) {
+        if (readCustomerById(id).equals(null)) {
+            return new Result(SUCCESS,getAll(Customer.class, XML_CUSTOMER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst(),READ,String.format(PRESENT_BEAN, id));
+
+        }
+        else{
+            return new Result(ERROR,null,READ,NPE_CUSTOMER);
+        }
+
     }
 
     @Override
     public Result<Customer> updateCustomer(Customer customer) {
         List<Customer> customers = getAll(Customer.class, XML_CUSTOMER_KEY);
         if (customers.stream().noneMatch(o -> o.getId().equals(customer.getId()))) {
-            return new Result<>(UNSUCCESSFUL, null, method, String.format(EMPTY_BEAN, customer.getId()));
+            return new Result<>(UNSUCCESSFUL, null, UPDATE, String.format(EMPTY_BEAN, customer.getId()));
         }
         customers.removeIf(o -> o.getId().equals(customer.getId()));
         customers.add(customer);
         Result<Customer> refresh = refresh(customers, XML_CUSTOMER_KEY);
         if (refresh.getStatus() == SUCCESS) {
-            return new Result<>(SUCCESS, customer, method, String.format(UPDATE_SUCCESS, customer.toString()));
+            return new Result<>(SUCCESS, customer, UPDATE, String.format(UPDATE_SUCCESS, customer.toString()));
         } else {
-            return new Result<>(ERROR, customer, method, refresh.getLog());
+            return new Result<>(ERROR, customer, UPDATE, refresh.getLog());
         }
     }
     @Override
-    public Result<Void> deleteCustomerById(Long id) {
+    public Result<Customer> deleteCustomerById(Long id) {
         List<Customer> customers = getAll(Customer.class, XML_CUSTOMER_KEY);
         if (customers.stream().noneMatch(o -> o.getId().equals(id))) {
-            return new Result<>(UNSUCCESSFUL, null, method, String.format(EMPTY_BEAN, id));
+            return new Result(UNSUCCESSFUL, null, DELETE, String.format(EMPTY_BEAN, id));
         }
         /**removeOrderByCustomerCascade(id); реалиовать удаление всех заказов пользователя*/
         customers.removeIf(o -> o.getId().equals(id));
         Result<Customer> result = refresh(customers, XML_CUSTOMER_KEY);
-        return new Result<>(result.getStatus(), null, method, result.getLog());
+        return new Result(result.getStatus(), customers, DELETE, result.getLog());
     }
 
 
 
     @Override
     public Result<Product> createProduct(Product product) {
-        if (readProductById(product.getId()).isEmpty()) {
+        if (readProductById(product.getId()).equals(null)) {
             List<Product> list = getAll(Product.class, XML_PRODUCT_KEY);
             list.add(product);
             return refresh(list, XML_PRODUCT_KEY);
         }
-        return new Result<>(UNSUCCESSFUL, product, method, String.format(PRESENT_BEAN, product.getId()));
+        return new Result<>(UNSUCCESSFUL, product, CREATE, String.format(PRESENT_BEAN, product.getId()));
     }
 
     @Override
-    public Optional<Product> readProductById(Long id) {
-        return getAll(Product.class, XML_PRODUCT_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
+    public Result<Product> readProductById(Long id) {
+        if (readCustomerById(id).equals(null)) {
+            return new Result(SUCCESS,getAll(Product.class, XML_PRODUCT_KEY).stream().filter(o -> o.getId().equals(id)).findFirst(),READ,String.format(PRESENT_BEAN, id));
+
+        }
+        else{
+            return new Result(ERROR,null,READ,NPE_CUSTOMER);
+        }
     }
 
     @Override
     public Result<Product> updateProduct(Product product) {
         List<Product> products = getAll(Product.class, XML_PRODUCT_KEY);
         if (products.stream().noneMatch(o -> o.getId().equals(product.getId()))) {
-            return new Result<>(UNSUCCESSFUL, null, method, String.format(EMPTY_BEAN, product.getId()));
+            return new Result<>(UNSUCCESSFUL, null, UPDATE, String.format(EMPTY_BEAN, product.getId()));
         }
         products.removeIf(o -> o.getId().equals(product.getId()));
         products.add(product);
         Result<Product> refresh = refresh(products, XML_PRODUCT_KEY);
         if (refresh.getStatus() == SUCCESS) {
-            return new Result<>(SUCCESS, product, method, String.format(UPDATE_SUCCESS, product.toString()));
+            return new Result<>(SUCCESS, product, UPDATE, String.format(UPDATE_SUCCESS, product.toString()));
         } else {
-            return new Result<>(ERROR, product, method, refresh.getLog());
+            return new Result<>(ERROR, product, UPDATE, refresh.getLog());
         }
     }
 
     @Override
-    public Result<Void> deleteProductById(Long id) {
+    public Result<Product> deleteProductById(Long id) {
         List<Product> products = getAll(Product.class, XML_PRODUCT_KEY);
         if (products.stream().noneMatch(o -> o.getId().equals(id))) {
-            return new Result<>(UNSUCCESSFUL, null, method, String.format(EMPTY_BEAN, id));
+            return new Result<>(UNSUCCESSFUL, null, DELETE, String.format(EMPTY_BEAN, id));
         }
 
         products.removeIf(o -> o.getId().equals(id));
         Result<Product> result = refresh(products, XML_PRODUCT_KEY);
-        return new Result<>(result.getStatus(), null, method, result.getLog());
+        return new Result<>(result.getStatus(), null, DELETE, result.getLog());
     }
 
     @Override
     public Result<Order> createOrder(Order order) {
-        if (readOrderById(order.getId()).isEmpty()) {
-            Optional<Customer> customer = readCustomerById(order.getCustomer().getId());
-            Optional<? extends Product> product = readProductById(order.getProduct().getId());
-            if (customer.isEmpty()) {
-                return new Result<Order>(UNSUCCESSFUL, null, method, String.format(EMPTY_BEAN, order.getCustomer().getId()));
+        if (readOrderById(order.getId()).equals(null)) {
+            Customer customer = readCustomerById(order.getId()).getBean();
+            Product product = readProductById(order.getId()).getBean();
+            if (customer.equals(null)) {
+                return new Result<Order>(UNSUCCESSFUL, null, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId()));
             }
-            if (product.isEmpty()) {
-                return new Result<Order>(UNSUCCESSFUL, null, method, String.format(EMPTY_BEAN, order.getProduct().getId()));
+            if (product.equals(null)) {
+                return new Result<Order>(UNSUCCESSFUL, null, CREATE, String.format(EMPTY_BEAN, order.getProduct().getId()));
             }
             /**Проверка на возраст
              *
@@ -133,35 +147,41 @@ public class DataProviderXML implements IDataProvider{
             list.add(order);
             return refresh(list, XML_ORDER_KEY);
         }
-        return new Result<>(UNSUCCESSFUL, order, method, String.format(PRESENT_BEAN, order.getId()));
+        return new Result<>(UNSUCCESSFUL, order, CREATE, String.format(PRESENT_BEAN, order.getId()));
     }
 
     @Override
-    public Optional<Order> readOrderById(Long id) {
-        return getAll(Order.class, XML_ORDER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
+    public Result<Order> readOrderById(Long id) {
+        if (readOrderById(id).equals(null)) {
+            return new Result(SUCCESS,getAll(Order.class, XML_ORDER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst(),READ,String.format(PRESENT_BEAN, id));
+
+        }
+        else{
+            return new Result(ERROR,null,READ,NPE_ORDER);
+        }
     }
 
     @Override
     public Result<Order> updateOrder(Order order) {
         List<Order> orders = getAll(Order.class, XML_ORDER_KEY);
         if (orders.stream().noneMatch(o -> o.getId().equals(order.getId()))) {
-            return new Result<>(UNSUCCESSFUL, null, method, String.format(EMPTY_BEAN, order.getId()));
+            return new Result<>(UNSUCCESSFUL, null, UPDATE, String.format(EMPTY_BEAN, order.getId()));
         }
         orders.removeIf(o -> o.getId().equals(order.getId()));
         orders.add(order);
         Result<Order> refresh = refresh(orders,XML_ORDER_KEY);
         if (refresh.getStatus() == SUCCESS) {
-            return new Result<>(SUCCESS, order, method, String.format(UPDATE_SUCCESS, order.toString()));
+            return new Result<>(SUCCESS, order, UPDATE, String.format(UPDATE_SUCCESS, order.toString()));
         } else {
-            return new Result<>(ERROR, order, method, refresh.getLog());
+            return new Result<>(ERROR, order, UPDATE, refresh.getLog());
         }
     }
 
     @Override
-    public Result<Void> deleteOrderById(Long id) {
+    public Result<Order> deleteOrderById(Long id) {
         List<Order> orders = getAll(Order.class, XML_ORDER_KEY);
         if (orders.stream().noneMatch(o -> o.getId().equals(id))) {
-            return new Result<>(UNSUCCESSFUL, null, method, String.format(EMPTY_BEAN, id));
+            return new Result<>(UNSUCCESSFUL, null, DELETE, String.format(EMPTY_BEAN, id));
         }
 
         /**Order order = getOrderById(id).get();
@@ -170,9 +190,9 @@ public class DataProviderXML implements IDataProvider{
 
         Result<Order> result = refresh(orders, XML_ORDER_KEY);
         if (result.getStatus() == SUCCESS) {
-            result = new Result<>(SUCCESS, null, method, ORDER_CLOSE);
+            result = new Result<>(SUCCESS, null, DELETE, ORDER_CLOSE);
         }
-        return new Result<>(result.getStatus(), null, method, result.getLog());
+        return new Result<>(result.getStatus(), null, DELETE, result.getLog());
     }
 
 
@@ -183,10 +203,10 @@ public class DataProviderXML implements IDataProvider{
             Serializer serializer = new Persister();
             serializer.write(new Container<T>(container), fileWriter);
 
-            return new Result<T>(SUCCESS, null, method, PERSISTENCE_SUCCESS);
+            return new Result<T>(SUCCESS, null, CREATE, PERSISTENCE_SUCCESS);
         } catch (Exception exception) {
             log.error(exception);
-            return new Result<T>(ERROR, null, method, exception.getMessage());
+            return new Result<T>(ERROR, null, CREATE, exception.getMessage());
         }
     }
 

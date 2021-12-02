@@ -20,7 +20,7 @@ public class XMLDataProviderTest extends Mongo{
     public void registerXmlCustomerSuccess() {
 
         assertEquals(xml.createCustomer(readyCustomer1()).getStatus(),SUCCESS);/** Crud  */
-        assertTrue(xml.readCustomerById(readyCustomer1().getId()).isPresent());/** cRud  */
+        assertEquals(xml.readCustomerById(readyCustomer1().getId()).getStatus(),SUCCESS);/** cRud  */
         assertEquals(xml.updateCustomer(readyCustomer2()).getStatus(),SUCCESS);/** crUd  */
         assertEquals(xml.deleteCustomerById(readyCustomer2().getId()).getStatus(),SUCCESS); /** cruD*/
     }
@@ -29,7 +29,7 @@ public class XMLDataProviderTest extends Mongo{
         xml.createCustomer(readyCustomer3());
 
         assertEquals(xml.createCustomer(readyCustomer3()).getStatus(),UNSUCCESSFUL);/** Crud  */
-        assertFalse(xml.readCustomerById(readyCustomer1().getId()).isPresent());/** cRud  */
+        assertEquals(xml.readCustomerById(readyCustomer1().getId()).getStatus(),UNSUCCESSFUL);/** cRud  */
         assertEquals(xml.updateCustomer(readyCustomer2()).getStatus(),UNSUCCESSFUL);/** crUd  */
         assertEquals(xml.deleteCustomerById(readyCustomer2().getId()).getStatus(),UNSUCCESSFUL); /** cruD*/
 
@@ -39,7 +39,7 @@ public class XMLDataProviderTest extends Mongo{
     @Test
     void crudXmlProductSuccess() throws IOException{
         assertEquals(xml.createProduct(readyProduct1()).getStatus(),SUCCESS);/** Crud  */
-        assertTrue(xml.readProductById(readyProduct1().getId()).isPresent());/** cRud  */
+        assertEquals(xml.readProductById(readyProduct1().getId()).getStatus(),SUCCESS);/** cRud  */
         assertEquals(xml.updateProduct(readyProduct2()).getStatus(),SUCCESS);/** crUd  */
         assertEquals(xml.deleteProductById(readyProduct2().getId()).getStatus(),SUCCESS); /** cruD*/
     }
@@ -51,7 +51,7 @@ public class XMLDataProviderTest extends Mongo{
         xml.createProduct(readyProduct3());
 
         assertEquals(xml.createProduct(readyProduct3()).getStatus(),UNSUCCESSFUL);/** Crud  */
-        assertFalse(xml.readProductById(readyProduct1().getId()).isPresent());/** cRud  */
+        assertEquals(xml.readProductById(readyProduct1().getId()).getStatus(),UNSUCCESSFUL);/** cRud  */
         assertEquals(xml.updateProduct(readyProduct1()).getStatus(),UNSUCCESSFUL);/** crUd  */
         assertEquals(xml.deleteProductById(readyProduct2().getId()).getStatus(),UNSUCCESSFUL); /** cruD*/
 
@@ -65,7 +65,7 @@ public class XMLDataProviderTest extends Mongo{
 
 
         assertEquals(xml.createOrder(readyOrder1()).getStatus(),SUCCESS);/** Crud  */
-        assertTrue(xml.readOrderById(readyOrder1().getId()).isPresent());/** cRud  */
+        assertEquals(xml.readOrderById(readyOrder1().getId()).getStatus(),SUCCESS);/** cRud  */
         assertEquals(xml.updateOrder(readyOrder2()).getStatus(),SUCCESS);/** crUd  */
         assertEquals(xml.deleteOrderById(readyOrder2().getId()).getStatus(),SUCCESS); /** cruD*/
 
@@ -87,7 +87,7 @@ public class XMLDataProviderTest extends Mongo{
 
 
         assertEquals(xml.createOrder(readyOrder3()).getStatus(),UNSUCCESSFUL);/** Crud  */
-        assertFalse(xml.readOrderById(readyOrder1().getId()).isPresent());/** cRud  */
+        assertEquals(xml.readOrderById(readyOrder1().getId()).getStatus(),UNSUCCESSFUL);/** cRud  */
         assertEquals(xml.updateOrder(readyOrder1()).getStatus(),UNSUCCESSFUL);/** crUd  */
         assertEquals(xml.deleteOrderById(readyOrder1().getId()).getStatus(),UNSUCCESSFUL); /** cruD*/
 

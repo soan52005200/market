@@ -47,7 +47,7 @@ public class DataProviderJDBC implements IDataProvider{
                         set.getString(2),
                         set.getInt(3)
                 );
-                return new Result(SUCCESS, Optional.ofNullable(customer),READ,CREATE_SUCCESS_CUSTOMER);
+
             }
         } catch (Exception exception) {
             log.error(exception);
@@ -55,14 +55,14 @@ public class DataProviderJDBC implements IDataProvider{
 
         }
 
-
+        return new Result(SUCCESS, Optional.ofNullable(customer),READ,CREATE_SUCCESS_CUSTOMER);
     }
 
     @Override
     public Result<Customer> updateCustomer(Customer customer) {
-        if (readCustomerById(customer.getId()).equals(SUCCESS)) {
+        if (readCustomerById(customer.getId()).getStatus().equals(SUCCESS)) {
             execute(String.format(CUSTOMER_UPDATE, customer.getFio(), customer.getAge(), customer.getId()));
-            return new Result(SUCCESS,customer, UPDATE, UPDATE_SUCCESS);
+            return new Result(SUCCESS,customer, UPDATE, SUCCESS_UPDATE);
         }
         else{
             return new Result(ERROR,null, UPDATE, NPE_CUSTOMER);
@@ -71,7 +71,7 @@ public class DataProviderJDBC implements IDataProvider{
 
     @Override
     public Result<Customer> deleteCustomerById(Long id) {
-        if (readCustomerById(id).equals(SUCCESS)) {
+        if (readCustomerById(id).getStatus().equals(SUCCESS)) {
             execute(String.format(CUSTOMER_DELETE, id));
             return new Result(SUCCESS,null, DELETE, REMOVE_SUCCESS);
         }
@@ -108,7 +108,7 @@ public class DataProviderJDBC implements IDataProvider{
             }
         } catch (Exception exception) {
             log.error(exception);
-            return new Result(UNSUCCESSFUL,product, DELETE, REMOVE_UNSUCCESS);
+            return new Result(UNSUCCESSFUL,product, DELETE, REMOVE_UNSUCCESSFUL);
         }
         return new Result(SUCCESS,product, DELETE, REMOVE_SUCCESS);
     }
@@ -126,7 +126,7 @@ public class DataProviderJDBC implements IDataProvider{
     }
 
     @Override
-    public Result<Void> deleteProductById(Long id) {
+    public Result<Product> deleteProductById(Long id) {
         if (readProductById(id).equals(SUCCESS)) {
             execute(String.format(PRODUCT_DELETE, id));
             return new Result(SUCCESS,null, DELETE, REMOVE_SUCCESS);
@@ -155,7 +155,7 @@ public class DataProviderJDBC implements IDataProvider{
             if (customer.get().getAge() < product.get().getAgeLimit()) {
                 return new Result<>(UNSUCCESSFUL, null, EXCEPTION_AGE_LIMIT);
             }*/
-            return execute(String.format(ORDER_INSERT, order.getId(), order.getProduct().getId(), order.getCustomer().getId()));
+            return new Result(SUCCESS,execute(String.format(ORDER_INSERT, order.getId(), order.getProduct().getId(), order.getCustomer().getId())),CREATE,CREATE_SUCCESS_ORDER);
         }
         return new Result(ERROR, order, CREATE, String.format(PRESENT_BEAN, order.getId()));
     }
@@ -181,27 +181,24 @@ public class DataProviderJDBC implements IDataProvider{
 
                     order.setProduct(product);
                     order.setCustomer(customer);
-                    return new Result(SUCCESS, order, CREATE, String.format(PRESENT_BEAN, order.getId()));
+
 
                 }
-                else{
-                    return new Result(ERROR, null, CREATE, String.format(PRESENT_BEAN, order.getId()));
 
-                }
             } catch (Exception exception) {
                 log.error(exception);
-
+                return new Result(ERROR, null, CREATE, String.format(PRESENT_BEAN, order.getId()));
             }
-
+        return new Result(SUCCESS, order, CREATE, String.format(PRESENT_BEAN, order.getId()));
     }
 
     @Override
     public Result<Order> updateOrder(Order order) {
         if (readOrderById(order.getId()).equals(null)) {
             execute(String.format(ORDER_UPDATE, order.getProduct().getId(), order.getCustomer().getId(), order.getId()));
-            return new Result(SUCCESS, order, UPDATE, UPDATE_SUCCESS);
+            return new Result(ERROR,order, UPDATE, NPE_ORDER );
         } else {
-            return new Result(ERROR, null, UPDATE, NPE_ORDER);
+            return new Result(SUCCESS, order, UPDATE, UPDATE_SUCCESS);
         }
     }
 

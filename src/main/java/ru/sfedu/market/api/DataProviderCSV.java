@@ -40,8 +40,13 @@ public class DataProviderCSV implements IDataProvider {
 
     @Override
     public Result<Customer> readCustomerById(Long id) {
+        if (readCustomerById(id).equals(null)) {
         return new Result(SUCCESS,getAll(Customer.class, CSV_CUSTOMER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst(),READ,String.format(PRESENT_BEAN, id));
 
+        }
+        else{
+            return new Result(ERROR,null,READ,NPE_CUSTOMER);
+        }
     }
 
     @Override
@@ -52,7 +57,7 @@ public class DataProviderCSV implements IDataProvider {
         }
         customers.removeIf(o -> o.getId().equals(customer.getId()));
         customers.add(customer);
-        Result<Void> refresh = remove(customers, CSV_CUSTOMER_KEY);
+        Result refresh = remove(customers, CSV_CUSTOMER_KEY);
         if (refresh.getStatus() == SUCCESS) {
             return new Result<>(SUCCESS, customer, UPDATE, String.format(UPDATE_SUCCESS, customer.toString()));
         } else {
@@ -82,7 +87,13 @@ public class DataProviderCSV implements IDataProvider {
 
     @Override
     public Result<Product> readProductById(Long id) {
-        return getAll(Product.class, CSV_PRODUCT_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
+        if (readProductById(id).equals(null)) {
+            return new Result(SUCCESS,getAll(Product.class, CSV_PRODUCT_KEY).stream().filter(o -> o.getId().equals(id)).findFirst(),READ,String.format(PRESENT_BEAN, id));
+
+        }
+        else{
+            return new Result(ERROR,null,READ,NPE_PRODUCT);
+        }
     }
 
     @Override
@@ -93,7 +104,7 @@ public class DataProviderCSV implements IDataProvider {
         }
         products.removeIf(o -> o.getId().equals(product.getId()));
         products.add(product);
-        Result<Void> refresh = remove(products, CSV_PRODUCT_KEY);
+        Result refresh = remove(products, CSV_PRODUCT_KEY);
         if (refresh.getStatus() == SUCCESS) {
             return new Result<>(SUCCESS, product, UPDATE, String.format(UPDATE_SUCCESS, product.toString()));
         } else {
@@ -102,7 +113,7 @@ public class DataProviderCSV implements IDataProvider {
     }
 
     @Override
-    public Result<Void> deleteProductById(Long id) {
+    public Result<Product> deleteProductById(Long id) {
 
         List<Product> products = getAll(Product.class, CSV_PRODUCT_KEY);
         if (products.stream().noneMatch(o -> o.getId().equals(id))) {
@@ -118,15 +129,21 @@ public class DataProviderCSV implements IDataProvider {
 
     @Override
     public Result<Order> createOrder(Order order) {
-        if (readOrderById(order.getId()).isEmpty()) {
+        if (readOrderById(order.getId()).equals(null)) {
             return create(order, CSV_ORDER_KEY);
         }
-        return new Result<>(UNSUCCESSFUL, order,UPDATE, String.format(PRESENT_BEAN, order.getId()));
+        return new Result<>(UNSUCCESSFUL, order,CREATE, String.format(PRESENT_BEAN, order.getId()));
     }
 
     @Override
     public Result<Order> readOrderById(Long id) {
-        return getAll(Order.class, CSV_ORDER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
+        if (readOrderById(id).equals(null)) {
+            return new Result(SUCCESS,getAll(Order.class, CSV_ORDER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst(),READ,String.format(PRESENT_BEAN, id));
+
+        }
+        else{
+            return new Result(ERROR,null,READ,NPE_ORDER);
+        }
     }
 
     @Override
@@ -137,7 +154,7 @@ public class DataProviderCSV implements IDataProvider {
         }
         orders.removeIf(o -> o.getId().equals(order.getId()));
         orders.add(order);
-        Result<Void> refresh = remove(orders, CSV_ORDER_KEY);
+        Result refresh = remove(orders, CSV_ORDER_KEY);
         if (refresh.getStatus() == SUCCESS) {
             return new Result<>(SUCCESS, order, UPDATE, String.format(UPDATE_SUCCESS, order.toString()));
         } else {
@@ -146,7 +163,7 @@ public class DataProviderCSV implements IDataProvider {
     }
 
     @Override
-    public Result<Void> deleteOrderById(Long id) {
+    public Result<Order> deleteOrderById(Long id) {
         List<Order> orders = getAll(Order.class, CSV_ORDER_KEY);
         if (orders.stream().noneMatch(o -> o.getId().equals(id))) {
             return new Result<>(UNSUCCESSFUL, null, DELETE, String.format(EMPTY_BEAN, id));
@@ -206,9 +223,9 @@ public class DataProviderCSV implements IDataProvider {
     }
 
 
-    private <T> Result<Void> remove(List<T> beans, String key) {
+    private <T> Result remove(List<T> beans, String key) {
 
-        Result<Void> result;
+        Result<T> result;
 
         try {
             CSVWriter csvWriter = new CSVWriter(new FileWriter(getConfigurationEntry(key), false));
@@ -216,11 +233,11 @@ public class DataProviderCSV implements IDataProvider {
             beanToCsv.write(beans);
             csvWriter.close();
 
-            result = new Result<Void>(SUCCESS, null, DELETE, REMOVE_SUCCESS);
+            result = new Result(SUCCESS, null, DELETE, REMOVE_SUCCESS);
 
         } catch (Exception e) {
             log.error(e);
-            result = new Result<Void>(ERROR, null, DELETE, e.getMessage());
+            result = new Result(ERROR, null, DELETE, e.getMessage());
         }
         return result;
     }

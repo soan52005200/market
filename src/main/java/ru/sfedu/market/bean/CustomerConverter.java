@@ -17,19 +17,19 @@ public class CustomerConverter extends AbstractBeanField<Customer> {
 
     @Override
     protected Object convert(String s) throws CsvDataTypeMismatchException, CsvConstraintViolationException {
-        Optional<Customer> optional = csv.readCustomerById(Long.parseLong(s));
-        if (optional.isEmpty()) {
+        Customer customer = csv.readCustomerById(Long.parseLong(s)).getBean();
+        if (customer.equals(null)) {
             throw new NullPointerException(NPE_CUSTOMER);
         }
-        return optional.get();
+        return customer;
     }
 
     @Override
     protected String convertToWrite(Object value) throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
-        Optional<Customer> optional = csv.readCustomerById(((Customer) value).getId());
-        if (optional.isEmpty()) {
+        Customer customer = csv.readCustomerById(((Product) value).getId()).getBean();
+        if (customer.equals(null)) {
             throw new NullPointerException(NPE_CUSTOMER);
         }
-        return String.valueOf(optional.get().getId());
+        return customer.toString();
     }
 }

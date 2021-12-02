@@ -10,6 +10,7 @@ public final class Constants {
     public static final String UPDATE_SUCCESS = "Объект %s успешно обновлен";
 
 
+    public static final String SUCCESS_UPDATE = "Объект успешно обновлен";
     public static final String FIRST_TEST_RESULT="Первый тест успешно пройдет";
 
     public static final String PERSISTENCE_SUCCESS = "Объект %s успешно сохранен";

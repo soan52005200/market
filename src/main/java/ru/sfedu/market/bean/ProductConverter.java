@@ -6,6 +6,7 @@ import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import ru.sfedu.market.api.DataProviderCSV;
 import ru.sfedu.market.api.IDataProvider;
+import ru.sfedu.market.utils.Result;
 
 import java.util.Optional;
 
@@ -23,15 +24,15 @@ public class ProductConverter extends AbstractBeanField<Product> {
         if (product.equals(null)) {
             throw new NullPointerException(NPE_PRODUCT);
         }
-        return optional.get();
+        return product;
     }
     @Override
     protected String convertToWrite(Object value) throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
-        Optional<Product> optional = csv.readProductById(((Product) value).getId());
-        if (optional.isEmpty()) {
+        Product product = csv.readProductById(((Product) value).getId()).getBean();
+        if (product.equals(null)) {
             throw new NullPointerException(NPE_PRODUCT);
         }
-        return String.valueOf(optional.get().getId());
+        return product.toString();
     }
 
 }
