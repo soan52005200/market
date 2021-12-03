@@ -27,7 +27,7 @@ public class DataProviderJDBC implements IDataProvider{
 
     @Override
     public Result<Customer> createCustomer(Customer customer) {
-        if (readCustomerById(customer.getId()).equals(ERROR)){
+        if (readCustomerById(customer.getId()).getStatus().equals(ERROR)){
             execute(String.format(CUSTOMER_INSERT, customer.getId(), customer.getFio(), customer.getAge()));
             return new Result(SUCCESS,customer, CREATE,CREATE_SUCCESS_CUSTOMER);
         }else{
@@ -90,10 +90,11 @@ public class DataProviderJDBC implements IDataProvider{
 
     @Override
     public Result<Product> createProduct(Product product){
-        try{
+
+        if (readProductById(product.getId()).getStatus().equals(ERROR)){
             execute(String.format(PRODUCT_INSERT, product.getId(), product.getName(), product.getType()));
             return new Result(SUCCESS,product, CREATE,CREATE_SUCCESS_PRODUCT);
-        }catch(Exception exception){
+        }else{
             return new Result(ERROR,product, CREATE,CREATE_ERROR_PRODUCT);
         }
 
@@ -115,15 +116,22 @@ public class DataProviderJDBC implements IDataProvider{
             }
         } catch (Exception exception) {
             log.error(exception);
-            return new Result(UNSUCCESSFUL,product, DELETE, REMOVE_UNSUCCESSFUL);
+
         }
-        return new Result(SUCCESS,product, DELETE, REMOVE_SUCCESS);
+
+        if (Optional.ofNullable(product).equals(Optional.empty())){
+
+            return new Result(ERROR, Optional.ofNullable(product), READ, NPE_PRODUCT);
+        }
+        else {
+            return new Result(SUCCESS, Optional.ofNullable(product), READ, EXIST_PRODUCT);
+        }
     }
 
 
     @Override
     public Result<Product> updateProduct(Product product) {
-        if (readProductById(product.getId()).equals(SUCCESS)) {
+        if (readProductById(product.getId()).getStatus().equals(SUCCESS)) {
             execute(String.format(PRODUCT_UPDATE, product.getName(), product.getType(), product.getId()));
             return new Result(SUCCESS,product, UPDATE, UPDATE_SUCCESS);
         }
@@ -134,7 +142,7 @@ public class DataProviderJDBC implements IDataProvider{
 
     @Override
     public Result<Product> deleteProductById(Long id) {
-        if (readProductById(id).equals(SUCCESS)) {
+        if (readProductById(id).getStatus().equals(SUCCESS)) {
             execute(String.format(PRODUCT_DELETE, id));
             return new Result(SUCCESS,null, DELETE, REMOVE_SUCCESS);
         }
@@ -145,7 +153,7 @@ public class DataProviderJDBC implements IDataProvider{
 
     @Override
     public Result<Order> createOrder(Order order) {
-        if (readOrderById(order.getId()).equals(SUCCESS)) {
+        if (readOrderById(order.getId()).getStatus().equals(SUCCESS)) {
             Customer customer = readCustomerById(order.getCustomer().getId()).getBean();
             Product product = readProductById(order.getProduct().getId()).getBean();
             if (customer.equals(null)) {
@@ -164,39 +172,47 @@ public class DataProviderJDBC implements IDataProvider{
             }*/
             return new Result(SUCCESS,execute(String.format(ORDER_INSERT, order.getId(), order.getProduct().getId(), order.getCustomer().getId())),CREATE,CREATE_SUCCESS_ORDER);
         }
-        return new Result(ERROR, order, CREATE, String.format(PRESENT_BEAN, order.getId()));
+        else {
+            return new Result(ERROR, order, CREATE, String.format(PRESENT_BEAN, order.getId()));
+        }
     }
 
     @Override
-    public Result<Order> readOrderById(Long id) {
+    public Result<Order> readOrderById(Long id) throws NullPointerException {
 
+        Order obj = null;
+        select(String.format(ORDER_SELECT, id));
         ResultSet set = select(String.format(ORDER_SELECT, id));
-        Order order= new Order();
-            try {
-
-                if (set != null && set.next()) {
-
-                    order.setId(set.getLong(1));
-                    Product product = readProductById(set.getLong(2)).getBean();
-                    Customer customer = readCustomerById(set.getLong(3)).getBean();
-
-                    if (product.equals(null)) {
-                        throw new NullPointerException(NPE_PRODUCT);
-                    } else if (customer.equals(null)) {
-                        throw new NullPointerException(NPE_CUSTOMER);
-                    }
-
-                    order.setProduct(product);
-                    order.setCustomer(customer);
-
-
+        Product product = new Product();
+        Customer customer = new Customer();
+        System.out.println("pizda");
+        try {
+            if (set != null && set.next()) {
+                obj = new Order();
+                obj.setId(set.getLong(1));
+                if (Optional.ofNullable(set.getLong(2)).equals(Optional.empty())) {
+                    product =null;
+                    System.out.println("3");
+                }else {
+                    System.out.println("4");
+                    product = readProductById(set.getLong(2)).getBean();
                 }
+                if (Optional.ofNullable(set.getLong(3)).equals(Optional.empty())) {
+                    customer =null;
+                    System.out.println("3");
+                }else {
+                    System.out.println("4");
+                    customer = readCustomerById(set.getLong(3)).getBean();
+                }
+                obj.setProduct(product);
+                obj.setCustomer(customer);
 
-            } catch (Exception exception) {
-                log.error(exception);
-                return new Result(ERROR, null, CREATE, String.format(PRESENT_BEAN, order.getId()));
+
             }
-        return new Result(SUCCESS, order, CREATE, String.format(PRESENT_BEAN, order.getId()));
+        } catch (Exception exception) {
+            log.error(exception);
+        }
+        return null;
     }
 
     @Override
@@ -244,6 +260,7 @@ public class DataProviderJDBC implements IDataProvider{
         } catch (Exception exception) {
             log.error(exception);
         }
+
         return resultSet;
     }
 
