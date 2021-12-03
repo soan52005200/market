@@ -3,6 +3,9 @@ package ru.sfedu.market.bean;
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvCustomBindByPosition;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
+
 
 public class Product extends Object {
 
@@ -43,6 +46,7 @@ public class Product extends Object {
     public void setType(ProductType type) {
         this.type = type;
     }
+
 
     @Override
     public String toString() {

@@ -58,17 +58,17 @@ public class JDBCDataProviderTest extends Mongo{
     }
     @Test
     void crudJDBCOrderSuccess() throws IOException{
-        //jdbc.createCustomer(readyCustomer1());
-        //jdbc.createProduct(readyProduct1());
+        jdbc.createCustomer(readyCustomer1());
+        jdbc.createProduct(readyProduct1());
 
 
         assertEquals(jdbc.createOrder(readyOrder1()).getStatus(),SUCCESS);/** Crud  */
-        //assertEquals(jdbc.readOrderById(readyOrder1().getId()).getStatus(),SUCCESS);/** cRud  */
-        //assertEquals(jdbc.updateOrder(readyOrder2()).getStatus(),SUCCESS);/** crUd  */
-        //assertEquals(jdbc.deleteOrderById(readyOrder2().getId()).getStatus(),SUCCESS); /** cruD*/
+        assertEquals(jdbc.readOrderById(readyOrder1().getId()).getStatus(),SUCCESS);/** cRud  */
+        assertEquals(jdbc.updateOrder(readyOrder2()).getStatus(),SUCCESS);/** crUd  */
+        assertEquals(jdbc.deleteOrderById(readyOrder2().getId()).getStatus(),SUCCESS); /** cruD*/
 
-        //jdbc.deleteCustomerById(readyCustomer1().getId());
-        //jdbc.deleteProductById(readyProduct1().getId());
+        jdbc.deleteCustomerById(readyCustomer1().getId());
+        jdbc.deleteProductById(readyProduct1().getId());
 
     }
 

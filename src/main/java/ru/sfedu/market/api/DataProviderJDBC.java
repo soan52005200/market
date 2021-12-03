@@ -57,10 +57,10 @@ public class DataProviderJDBC implements IDataProvider{
             }
 
         if (Optional.ofNullable(customer).equals(Optional.empty())){
-            return new Result(ERROR, Optional.ofNullable(customer), READ, NPE_CUSTOMER);
+            return new Result(ERROR, customer, READ, NPE_CUSTOMER);
         }
         else {
-            return new Result(SUCCESS, Optional.ofNullable(customer), READ, EXIST_CUSTOMER);
+            return new Result(SUCCESS, customer, READ, EXIST_CUSTOMER);
         }
 
     }
@@ -121,10 +121,10 @@ public class DataProviderJDBC implements IDataProvider{
 
         if (Optional.ofNullable(product).equals(Optional.empty())){
 
-            return new Result(ERROR, Optional.ofNullable(product), READ, NPE_PRODUCT);
+            return new Result(ERROR, product, READ, NPE_PRODUCT);
         }
         else {
-            return new Result(SUCCESS, Optional.ofNullable(product), READ, EXIST_PRODUCT);
+            return new Result(SUCCESS, product , READ, EXIST_PRODUCT);
         }
     }
 
@@ -153,9 +153,9 @@ public class DataProviderJDBC implements IDataProvider{
 
     @Override
     public Result<Order> createOrder(Order order) {
-        if (readOrderById(order.getId()).getStatus().equals(SUCCESS)) {
-            Customer customer = readCustomerById(order.getCustomer().getId()).getBean();
-            Product product = readProductById(order.getProduct().getId()).getBean();
+        if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
+            Customer customer = order.getCustomer();
+            Product product = order.getProduct();
             if (customer.equals(null)) {
                 return new Result(ERROR, null, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId()));
             }
@@ -180,44 +180,37 @@ public class DataProviderJDBC implements IDataProvider{
     @Override
     public Result<Order> readOrderById(Long id) throws NullPointerException {
 
-        Order obj = null;
-        select(String.format(ORDER_SELECT, id));
+        Order order = new Order();
         ResultSet set = select(String.format(ORDER_SELECT, id));
-        Product product = new Product();
-        Customer customer = new Customer();
-        System.out.println("pizda");
+
         try {
             if (set != null && set.next()) {
-                obj = new Order();
-                obj.setId(set.getLong(1));
-                if (Optional.ofNullable(set.getLong(2)).equals(Optional.empty())) {
-                    product =null;
-                    System.out.println("3");
-                }else {
-                    System.out.println("4");
-                    product = readProductById(set.getLong(2)).getBean();
+                order = new Order();
+                order.setId(set.getLong(1));
+                Product product = readProductById(set.getLong(2)).getBean();
+                Customer customer = readCustomerById(set.getLong(3)).getBean();
+                if (product.equals(null)) {
+                    return new Result(ERROR,order,READ,NPE_PRODUCT);
                 }
-                if (Optional.ofNullable(set.getLong(3)).equals(Optional.empty())) {
-                    customer =null;
-                    System.out.println("3");
-                }else {
-                    System.out.println("4");
-                    customer = readCustomerById(set.getLong(3)).getBean();
+                if (customer.equals(null)) {
+                    return new Result(ERROR,order,READ,NPE_CUSTOMER);
                 }
-                obj.setProduct(product);
-                obj.setCustomer(customer);
 
-
+                order.setProduct(product);
+                order.setCustomer(customer);
+            }
+            else{
+                return new Result(ERROR,order,READ,NPE_CUSTOMER);
             }
         } catch (Exception exception) {
             log.error(exception);
         }
-        return null;
+        return new Result(SUCCESS,order,READ,EXIST_ORDER);
     }
 
     @Override
     public Result<Order> updateOrder(Order order) {
-        if (readOrderById(order.getId()).equals(null)) {
+        if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
             execute(String.format(ORDER_UPDATE, order.getProduct().getId(), order.getCustomer().getId(), order.getId()));
             return new Result(ERROR,order, UPDATE, NPE_ORDER );
         } else {
