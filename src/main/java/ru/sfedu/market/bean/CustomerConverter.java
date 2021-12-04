@@ -10,6 +10,8 @@ import ru.sfedu.market.api.IDataProvider;
 import java.util.Optional;
 
 import static ru.sfedu.market.Constants.NPE_CUSTOMER;
+import static ru.sfedu.market.Constants.NPE_PRODUCT;
+import static ru.sfedu.market.utils.Status.ERROR;
 
 public class CustomerConverter extends AbstractBeanField<Customer> {
 
@@ -17,8 +19,9 @@ public class CustomerConverter extends AbstractBeanField<Customer> {
 
     @Override
     protected Object convert(String s) throws CsvDataTypeMismatchException, CsvConstraintViolationException {
+
         Customer customer = csv.readCustomerById(Long.parseLong(s)).getBean();
-        if (customer.equals(null)) {
+        if (csv.readCustomerById(customer.getId()).getStatus().equals(ERROR)) {
             throw new NullPointerException(NPE_CUSTOMER);
         }
         return customer;
@@ -26,10 +29,10 @@ public class CustomerConverter extends AbstractBeanField<Customer> {
 
     @Override
     protected String convertToWrite(Object value) throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
-        Customer customer = csv.readCustomerById(((Product) value).getId()).getBean();
-        if (customer.equals(null)) {
+        Customer customer = (Customer) value;
+        if (csv.readCustomerById(customer.getId()).getStatus().equals(ERROR)) {
             throw new NullPointerException(NPE_CUSTOMER);
         }
-        return customer.toString();
+        return customer.getId().toString();
     }
 }

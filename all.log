@@ -408,3 +408,53 @@ INSERT INTO "order" VALUES (1, 1, 1); [23505-200]
 23:17:54.416 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - java.lang.ClassCastException: class java.util.Optional cannot be cast to class ru.sfedu.market.bean.Product (java.util.Optional is in module java.base of loader 'bootstrap'; ru.sfedu.market.bean.Product is in unnamed module of loader 'app')
 23:18:11.367 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - java.lang.ClassCastException: class java.util.Optional cannot be cast to class ru.sfedu.market.bean.Product (java.util.Optional is in module java.base of loader 'bootstrap'; ru.sfedu.market.bean.Product is in unnamed module of loader 'app')
 23:29:33.349 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - java.lang.ClassCastException: class java.util.Optional cannot be cast to class ru.sfedu.market.bean.Customer (java.util.Optional is in module java.base of loader 'bootstrap'; ru.sfedu.market.bean.Customer is in unnamed module of loader 'app')
+23:54:03.892 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+23:54:30.187 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+23:54:49.131 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+23:56:54.637 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+23:57:10.016 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+23:58:52.076 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:02:42.169 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:02:57.272 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:03:16.444 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:03:34.260 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:03:55.057 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:08:46.388 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:09:36.186 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:10:08.007 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:11:13.611 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:12:17.526 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:14:56.250 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:22:35.113 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:31:36.728 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:33:21.458 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:34:01.520 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:34:22.622 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:34:56.390 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:43:06.254 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+00:45:12.593 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException
+01:03:12.557 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.ClassCastException: class ru.sfedu.market.bean.Customer cannot be cast to class ru.sfedu.market.bean.Product (ru.sfedu.market.bean.Customer and ru.sfedu.market.bean.Product are in unnamed module of loader 'app')
+01:10:09.833 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:10:09.839 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:16:28.719 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:16:28.726 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:17:31.556 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:17:31.562 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:23:01.394 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:23:01.407 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:23:37.982 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:23:37.997 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:24:21.460 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:24:21.472 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:25:15.065 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:25:15.079 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:25:46.198 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:25:46.222 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:36:14.748 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:36:14.773 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:38:37.694 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:38:37.719 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:41:29.868 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:41:29.892 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:45:02.687 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+01:45:02.714 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.

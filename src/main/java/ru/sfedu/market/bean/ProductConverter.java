@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import static ru.sfedu.market.Constants.NPE_CUSTOMER;
 import static ru.sfedu.market.Constants.NPE_PRODUCT;
+import static ru.sfedu.market.utils.Status.ERROR;
 
 
 public class ProductConverter extends AbstractBeanField<Product> {
@@ -21,18 +22,19 @@ public class ProductConverter extends AbstractBeanField<Product> {
     @Override
     protected Object convert(String s) throws CsvDataTypeMismatchException, CsvConstraintViolationException {
         Product product = csv.readProductById(Long.parseLong(s)).getBean();
-        if (product.equals(null)) {
+
+        if (csv.readProductById(product.getId()).getStatus().equals(ERROR)) {
             throw new NullPointerException(NPE_PRODUCT);
         }
         return product;
     }
     @Override
     protected String convertToWrite(Object value) throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
-        Product product = csv.readProductById(((Product) value).getId()).getBean();
-        if (product.equals(null)) {
+        Product product = (Product) value;
+        if (csv.readProductById(product.getId()).getStatus().equals(ERROR)) {
             throw new NullPointerException(NPE_PRODUCT);
         }
-        return product.toString();
+        return product.getId().toString();
     }
 
 }

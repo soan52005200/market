@@ -31,147 +31,174 @@ public class DataProviderCSV implements IDataProvider {
 
     @Override
     public Result<Customer> createCustomer(Customer customer) {
-        if (readCustomerById(customer.getId()).equals(null)) {
-            return new Result(SUCCESS, customer, CREATE, String.format(PRESENT_BEAN, customer.getId()));
+        if (readCustomerById(customer.getId()).getStatus().equals(ERROR)) {
+            create(customer,CSV_CUSTOMER_KEY);
+            return new Result(SUCCESS, customer, CREATE, CREATE_SUCCESS_CUSTOMER);
         }
-        return new Result(UNSUCCESSFUL, customer, CREATE, String.format(PRESENT_BEAN, customer.getId()));
+        return new Result(ERROR, customer, CREATE, String.format(PRESENT_BEAN, customer.getId()));
 
     }
 
     @Override
     public Result<Customer> readCustomerById(Long id) {
-        if (readCustomerById(id).equals(null)) {
-        return new Result(SUCCESS,getAll(Customer.class, CSV_CUSTOMER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst(),READ,String.format(PRESENT_BEAN, id));
+        List<Customer> customers = getAll(Customer.class, CSV_CUSTOMER_KEY);
+        Optional optional = getAll(Customer.class, CSV_CUSTOMER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
+        if (optional.isEmpty()) {
+
+            return new Result(ERROR,null,READ,NPE_CUSTOMER);
 
         }
         else{
-            return new Result(ERROR,null,READ,NPE_CUSTOMER);
+
+            return new Result(SUCCESS,optional.get(),READ, CSV_CUSTOMER_KEY);
+
         }
+
+
+
     }
+
 
     @Override
     public Result<Customer> updateCustomer(Customer customer) {
         List<Customer> customers = getAll(Customer.class, CSV_CUSTOMER_KEY);
         if (customers.stream().noneMatch(o -> o.getId().equals(customer.getId()))) {
-            return new Result<>(UNSUCCESSFUL, null, UPDATE, String.format(EMPTY_BEAN, customer.getId()));
+            return new Result<>(ERROR, null, UPDATE, String.format(EMPTY_BEAN, customer.getId()));
         }
         customers.removeIf(o -> o.getId().equals(customer.getId()));
         customers.add(customer);
         Result refresh = remove(customers, CSV_CUSTOMER_KEY);
         if (refresh.getStatus() == SUCCESS) {
-            return new Result<>(SUCCESS, customer, UPDATE, String.format(UPDATE_SUCCESS, customer.toString()));
+            return new Result(SUCCESS, customer, UPDATE, String.format(UPDATE_SUCCESS, customer.toString()));
         } else {
-            return new Result<>(ERROR, customer, UPDATE, refresh.getLog());
+            return new Result(ERROR, customer, UPDATE, refresh.getLog());
         }
     }
 
     @Override
     public Result<Customer> deleteCustomerById(Long id) {
         List<Customer> customers = getAll(Customer.class, CSV_CUSTOMER_KEY);
-        if (customers.stream().noneMatch(o -> o.getId().equals(id))) {
-            return new Result(UNSUCCESSFUL, null, DELETE, String.format(EMPTY_BEAN, id));
+        if (readCustomerById(id).getStatus().equals(ERROR)) {
+            return new Result(ERROR, null, DELETE, String.format(EMPTY_BEAN, id));
         }
         /**removeOrderByCustomerCascade(id);   Удаление заказа(include)*/
         customers.removeIf(o -> o.getId().equals(id));
+        remove(customers,CSV_CUSTOMER_KEY);
         return new Result(SUCCESS,customers,DELETE, REMOVE_SUCCESS);
     }
     @Override
     public Result<Product> createProduct(Product product) {
-        if (readProductById(product.getId()).equals(SUCCESS)) {
-            return create(product, CSV_PRODUCT_KEY);
+        if (readProductById(product.getId()).getStatus().equals(ERROR)) {
+            create(product,CSV_PRODUCT_KEY);
+            return new Result(SUCCESS, product, CREATE, CREATE_SUCCESS_PRODUCT);
         }
-        return new Result<>(UNSUCCESSFUL, product, CREATE, String.format(PRESENT_BEAN, product.getId()));
+        return new Result(ERROR, product, CREATE, String.format(PRESENT_BEAN, product.getId()));
 
 
     }
 
     @Override
     public Result<Product> readProductById(Long id) {
-        if (readProductById(id).equals(null)) {
-            return new Result(SUCCESS,getAll(Product.class, CSV_PRODUCT_KEY).stream().filter(o -> o.getId().equals(id)).findFirst(),READ,String.format(PRESENT_BEAN, id));
-
-        }
-        else{
+        List<Product> products = getAll(Product.class, CSV_PRODUCT_KEY);
+        Optional optional = getAll(Product.class, CSV_PRODUCT_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
+        if (optional.isEmpty()) {
             return new Result(ERROR,null,READ,NPE_PRODUCT);
         }
+        else{
+            return new Result(SUCCESS,optional.get(),READ, CSV_PRODUCT_KEY);
+        }
     }
+
+
 
     @Override
     public Result<Product> updateProduct(Product product) {
         List<Product> products = getAll(Product.class, CSV_PRODUCT_KEY);
         if (products.stream().noneMatch(o -> o.getId().equals(product.getId()))) {
-            return new Result<>(UNSUCCESSFUL, null, UPDATE, String.format(EMPTY_BEAN, product.getId()));
+            return new Result(ERROR, null, UPDATE, String.format(EMPTY_BEAN, product.getId()));
         }
         products.removeIf(o -> o.getId().equals(product.getId()));
         products.add(product);
         Result refresh = remove(products, CSV_PRODUCT_KEY);
         if (refresh.getStatus() == SUCCESS) {
-            return new Result<>(SUCCESS, product, UPDATE, String.format(UPDATE_SUCCESS, product.toString()));
+            return new Result(SUCCESS, product, UPDATE, String.format(UPDATE_SUCCESS, product.toString()));
         } else {
-            return new Result<>(ERROR, product, UPDATE, refresh.getLog());
+            return new Result(ERROR, product, UPDATE, refresh.getLog());
         }
     }
+
 
     @Override
     public Result<Product> deleteProductById(Long id) {
 
         List<Product> products = getAll(Product.class, CSV_PRODUCT_KEY);
-        if (products.stream().noneMatch(o -> o.getId().equals(id))) {
-            return new Result<>(UNSUCCESSFUL, null, UPDATE, String.format(EMPTY_BEAN, id));
+        if (readProductById(id).getStatus().equals(ERROR)) {
+            return new Result(ERROR, null, DELETE, String.format(EMPTY_BEAN, id));
         }
         /**Надо реализовать автоматическое удаление заказов с этим покупателем
          *
          * реализовать удаление заказов с этими товарами.*/
-
         products.removeIf(o -> o.getId().equals(id));
-        return remove(products, CSV_PRODUCT_KEY);
+        remove(products,CSV_PRODUCT_KEY);
+        return new Result(SUCCESS,products,DELETE, REMOVE_SUCCESS);
     }
 
     @Override
     public Result<Order> createOrder(Order order) {
-        if (readOrderById(order.getId()).equals(null)) {
-            return create(order, CSV_ORDER_KEY);
+        if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
+            create(order,CSV_ORDER_KEY);
+            return new Result(SUCCESS, order, CREATE, CREATE_SUCCESS_ORDER);
         }
-        return new Result<>(UNSUCCESSFUL, order,CREATE, String.format(PRESENT_BEAN, order.getId()));
+        return new Result(ERROR, order, CREATE, String.format(PRESENT_BEAN, order.getId()));
     }
+
+
+
 
     @Override
-    public Result<Order> readOrderById(Long id) {
-        if (readOrderById(id).equals(null)) {
-            return new Result(SUCCESS,getAll(Order.class, CSV_ORDER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst(),READ,String.format(PRESENT_BEAN, id));
 
-        }
-        else{
+    public Result<Order> readOrderById(Long id) {
+        List<Order> orders = getAll(Order.class, CSV_ORDER_KEY);
+        Optional optional = getAll(Order.class, CSV_ORDER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
+
+        if (optional.isEmpty()) {
             return new Result(ERROR,null,READ,NPE_ORDER);
         }
+        else{
+            return new Result(SUCCESS,optional.get(),READ, EXIST_OBJECT);
+
+        }
     }
+
+
 
     @Override
     public Result<Order> updateOrder(Order order) {
         List<Order> orders = getAll(Order.class, CSV_ORDER_KEY);
         if (orders.stream().noneMatch(o -> o.getId().equals(order.getId()))) {
-            return new Result<>(UNSUCCESSFUL, null, UPDATE, String.format(EMPTY_BEAN, order.getId()));
+            return new Result(ERROR, null, UPDATE, String.format(EMPTY_BEAN, order.getId()));
         }
         orders.removeIf(o -> o.getId().equals(order.getId()));
         orders.add(order);
         Result refresh = remove(orders, CSV_ORDER_KEY);
         if (refresh.getStatus() == SUCCESS) {
-            return new Result<>(SUCCESS, order, UPDATE, String.format(UPDATE_SUCCESS, order.toString()));
+            return new Result(SUCCESS, order, UPDATE, String.format(UPDATE_SUCCESS, order.toString()));
         } else {
-            return new Result<>(ERROR, order, UPDATE, refresh.getLog());
+            return new Result(ERROR, order, UPDATE, refresh.getLog());
         }
     }
 
     @Override
     public Result<Order> deleteOrderById(Long id) {
         List<Order> orders = getAll(Order.class, CSV_ORDER_KEY);
-        if (orders.stream().noneMatch(o -> o.getId().equals(id))) {
-            return new Result<>(UNSUCCESSFUL, null, DELETE, String.format(EMPTY_BEAN, id));
+        if (readOrderById(id).getStatus().equals(ERROR)) {
+            return new Result(ERROR, null, DELETE, String.format(EMPTY_BEAN, id));
         }
         /**Надо реализовать проверку на возраст покупателя если в заказе алкоголь.*/
 
         orders.removeIf(o -> o.getId().equals(id));
-        return remove(orders, CSV_ORDER_KEY);
+        remove(orders,CSV_ORDER_KEY);
+        return new Result(SUCCESS,orders,DELETE, REMOVE_SUCCESS);
     }
 
 
@@ -184,15 +211,21 @@ public class DataProviderCSV implements IDataProvider {
         Result<T> result;
         try {
             CSVWriter csvWriter = new CSVWriter(new FileWriter(getConfigurationEntry(key), true));
-                                                                                        /**В конце файла*/
+                                                                                    /**В конце файла*/
             StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(csvWriter).build();
+
+
             beanToCsv.write(bean);
+
             csvWriter.close();
 
-            result = new Result<T>(SUCCESS, bean, CREATE, String.format(PERSISTENCE_SUCCESS, bean.toString()));
+            result = new Result(SUCCESS, bean, CREATE, String.format(PERSISTENCE_SUCCESS, bean.toString()));
+
         } catch (Exception e) {
+
             log.error(e);
-            result = new Result<T>(ERROR, null, CREATE, e.getMessage());
+            result = new Result(ERROR, null, CREATE, e.getMessage());
+
         }
         return result;
 
@@ -209,7 +242,9 @@ public class DataProviderCSV implements IDataProvider {
             CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(reader)
                     .withType(clazz)
                     .build();
+
             List<T> listUser = csvToBean.parse();
+
 
             reader.close();
 
@@ -225,11 +260,12 @@ public class DataProviderCSV implements IDataProvider {
 
     private <T> Result remove(List<T> beans, String key) {
 
-        Result<T> result;
+        Result<Void> result;
 
         try {
             CSVWriter csvWriter = new CSVWriter(new FileWriter(getConfigurationEntry(key), false));
             StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(csvWriter).build();
+
             beanToCsv.write(beans);
             csvWriter.close();
 

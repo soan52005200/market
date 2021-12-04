@@ -40,10 +40,12 @@ public final class Constants {
     public static final String NPE_CUSTOMER = "Такого клиента не существует";
     public static final String NPE_PRODUCT = "Такого продукта не существует";
     public static final String NPE_ORDER = "Такоего заказа не существует";
+    public static final String NPE_OBJECT = "Такоего объекта не существует";
 
     public static final String EXIST_CUSTOMER = "Клиент существует";
     public static final String EXIST_PRODUCT = "Продукт существует";
     public static final String EXIST_ORDER = "Заказ существует";
+    public static final String EXIST_OBJECT = "Объект существует";
 
     public static final String JDBC_DRIVER = "jdbcDriver";
     public static final String JDBC_URL = "jdbcUrl";
