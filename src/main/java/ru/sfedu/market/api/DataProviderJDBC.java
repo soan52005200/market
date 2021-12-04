@@ -223,12 +223,12 @@ public class DataProviderJDBC implements IDataProvider{
     @Override
     public Result<Order> deleteOrderById(Long id) {
         Order order = (readOrderById(id).getBean());
-        if (order.equals(null)) {
+        if (order.getId()==null) {
 
-            return new Result(ERROR, null, UPDATE, String.format(EMPTY_BEAN, id));
+            return new Result(ERROR, order, UPDATE, String.format(EMPTY_BEAN, id));
         }
         execute(String.format(ORDER_DELETE, id));
-        return new Result(SUCCESS, null, UPDATE, REMOVE_SUCCESS);
+        return new Result(SUCCESS, order, UPDATE, REMOVE_SUCCESS);
     }
 
     private <T> Result<T> execute(String sql) {

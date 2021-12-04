@@ -87,7 +87,7 @@ public class JDBCDataProviderTest extends Mongo{
         assertEquals(jdbc.createOrder(readyOrder3()).getStatus(),ERROR);/** Crud  */
         assertEquals(jdbc.readOrderById(readyOrder1().getId()).getStatus(),ERROR);/** cRud  */
         assertEquals(jdbc.updateOrder(readyOrder1()).getStatus(),ERROR);/** crUd  */
-        assertEquals(jdbc.deleteOrderById(readyOrder1().getId()).getStatus(),ERROR); /** cruD*/
+        assertEquals(jdbc.deleteOrderById(readyOrder2().getId()).getStatus(),ERROR); /** cruD*/
 
 
 
