@@ -27,9 +27,6 @@ class CSVDataProviderTest extends Mongo{
 
     private final IDataProvider csv = new DataProviderCSV();
 
-    public CSVDataProviderTest(Long id, Class className, Date date, String actor, String methodName, Map<String, Object> object, Status status) {
-        super(id, className, date, actor, methodName, object, status);
-    }
 
     @Test
     void crudCsvCustomerSuccess() throws IOException{

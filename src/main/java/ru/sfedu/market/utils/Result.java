@@ -23,9 +23,13 @@ public class Result<T> {
         return bean;
     }
 
+    public Crud getMethodName() {return methodName;}
+
     public String getLog() {
         return log;
     }
+
+
 
     @Override
     public String toString() {

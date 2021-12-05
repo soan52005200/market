@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import ru.sfedu.market.bean.Customer;
 import ru.sfedu.market.bean.Order;
 import ru.sfedu.market.bean.Product;
+import ru.sfedu.market.utils.Crud;
 import ru.sfedu.market.utils.Result;
 import ru.sfedu.market.utils.Status;
 
@@ -36,7 +37,6 @@ import static ru.sfedu.market.bean.ProductType.*;
 public class Mongo {
     private static final Logger log = LogManager.getLogger(Mongo.class.getName());
 
-    private Long id;
 
     private Class className;
 
@@ -44,17 +44,25 @@ public class Mongo {
 
     private String actor;
 
-    private String methodName;
+    private Crud methodName;
 
-    private Map<String,Object> object;
+    private Object object;
 
     private Status status;
 
-
+    public Mongo(){ }
+    public Mongo(Result result) {
+        this.className = result.getBean().getClass();
+        this.date = new Date();
+        this.actor = "MAIN ACTOR";
+        this.methodName = result.getMethodName();
+        this.object = result.getBean();
+        this.status = result.getStatus();
+    }
 
 
     public Result WriteToMongo(Result result) throws IOException{
-
+        Mongo mongo = new Mongo(result);
         CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
                 MongoClientSettings.getDefaultCodecRegistry(),
                 CodecRegistries.fromProviders(PojoCodecProvider.builder()
@@ -67,8 +75,8 @@ public class Mongo {
         MongoCollection<Mongo> collection = new MongoClient()
                 .getDatabase("data")
                 .withCodecRegistry(codecRegistry).getCollection("data", Mongo.class);
+        collection.insertOne(mongo);
 
-        System.out.println("Connected to database!");
 
 
     return result;
