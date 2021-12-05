@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import ru.sfedu.market.bean.Customer;
 import ru.sfedu.market.bean.Order;
 import ru.sfedu.market.bean.Product;
+import ru.sfedu.market.utils.Result;
 import ru.sfedu.market.utils.Status;
 
 import java.io.IOException;
@@ -51,7 +52,9 @@ public class Mongo {
 
 
 
-    public void Mongo(Class className,Object bean,String methodName) throws IOException{
+
+    public Result WriteToMongo(Result result) throws IOException{
+
         CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
                 MongoClientSettings.getDefaultCodecRegistry(),
                 CodecRegistries.fromProviders(PojoCodecProvider.builder()
@@ -68,7 +71,7 @@ public class Mongo {
         System.out.println("Connected to database!");
 
 
-    return;
+    return result;
     }
 
 
@@ -77,6 +80,7 @@ public class Mongo {
 
 
     public Customer readyCustomer1(){
+
         return new Customer(1L, "Ivan", 18);
 
     }

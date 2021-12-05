@@ -1,5 +1,7 @@
 package ru.sfedu.market.utils;
 
+import com.mongodb.Mongo;
+
 public class Result<T> {
     private final Status status;
     private final T bean;

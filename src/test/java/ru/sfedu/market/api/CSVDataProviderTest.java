@@ -9,8 +9,11 @@ import ru.sfedu.market.bean.Customer;
 import ru.sfedu.market.utils.ConfigurationUtil;
 import ru.sfedu.market.api.DataProviderCSV.*;
 import ru.sfedu.market.utils.Result;
+import ru.sfedu.market.utils.Status;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.sfedu.market.Constants.FIRST_TEST_RESULT;
@@ -24,13 +27,17 @@ class CSVDataProviderTest extends Mongo{
 
     private final IDataProvider csv = new DataProviderCSV();
 
+    public CSVDataProviderTest(Long id, Class className, Date date, String actor, String methodName, Map<String, Object> object, Status status) {
+        super(id, className, date, actor, methodName, object, status);
+    }
+
     @Test
     void crudCsvCustomerSuccess() throws IOException{
 
-        assertEquals(csv.createCustomer(readyCustomer1()).getStatus(),SUCCESS);/** Crud */
-        assertEquals(csv.readCustomerById(readyCustomer1().getId()).getStatus(),SUCCESS);/** cRud  */
-        assertEquals(csv.updateCustomer(readyCustomer2()).getStatus(),SUCCESS);/** crUd  */
-        assertEquals(csv.deleteCustomerById(readyCustomer2().getId()).getStatus(),SUCCESS); /** cruD*/
+        assertEquals(WriteToMongo(csv.createCustomer(readyCustomer1())).getStatus(),SUCCESS);/** Crud */
+        assertEquals(WriteToMongo(csv.readCustomerById(readyCustomer1().getId())).getStatus(),SUCCESS);/** cRud  */
+        assertEquals(WriteToMongo(csv.updateCustomer(readyCustomer2())).getStatus(),SUCCESS);/** crUd  */
+        assertEquals(WriteToMongo(csv.deleteCustomerById(readyCustomer2().getId())).getStatus(),SUCCESS); /** cruD*/
 
     }
 
@@ -40,20 +47,20 @@ class CSVDataProviderTest extends Mongo{
     void crudCsvCustomerUnsuccessful() throws IOException {
         csv.createCustomer(readyCustomer3());
 
-        assertEquals(csv.createCustomer(readyCustomer3()).getStatus(),ERROR);/** Crud  */
-        assertEquals(csv.readCustomerById(readyCustomer1().getId()).getStatus(),ERROR);/** cRud  */
-        assertEquals(csv.updateCustomer(readyCustomer2()).getStatus(),ERROR);/** crUd  */
-        assertEquals(csv.deleteCustomerById(readyCustomer2().getId()).getStatus(),ERROR); /** cruD*/
+        assertEquals(WriteToMongo(csv.createCustomer(readyCustomer3())).getStatus(),ERROR);/** Crud  */
+        assertEquals(WriteToMongo(csv.readCustomerById(readyCustomer1().getId())).getStatus(),ERROR);/** cRud  */
+        assertEquals(WriteToMongo(csv.updateCustomer(readyCustomer2())).getStatus(),ERROR);/** crUd  */
+        assertEquals(WriteToMongo(csv.deleteCustomerById(readyCustomer2().getId())).getStatus(),ERROR); /** cruD*/
 
 
         csv.deleteCustomerById(readyCustomer3().getId());
     }
     @Test
     void crudCsvProductSuccess() throws IOException{
-        assertEquals(csv.createProduct(readyProduct1()).getStatus(),SUCCESS);/** Crud  */
-        assertEquals(csv.readProductById(readyProduct1().getId()).getStatus(),SUCCESS);/** cRud  */
-        assertEquals(csv.updateProduct(readyProduct2()).getStatus(),SUCCESS);/** crUd  */
-        assertEquals(csv.deleteProductById(readyProduct2().getId()).getStatus(),SUCCESS); /** cruD*/
+        assertEquals(WriteToMongo(csv.createProduct(readyProduct1())).getStatus(),SUCCESS);/** Crud  */
+        assertEquals(WriteToMongo(csv.readProductById(readyProduct1().getId())).getStatus(),SUCCESS);/** cRud  */
+        assertEquals(WriteToMongo(csv.updateProduct(readyProduct2())).getStatus(),SUCCESS);/** crUd  */
+        assertEquals(WriteToMongo(csv.deleteProductById(readyProduct2().getId())).getStatus(),SUCCESS); /** cruD*/
     }
 
 
@@ -62,10 +69,10 @@ class CSVDataProviderTest extends Mongo{
     void crudCsvProductUnsuccessful() throws IOException {
         csv.createProduct(readyProduct3());
 
-        assertEquals(csv.createProduct(readyProduct3()).getStatus(),ERROR);/** Crud  */
-        assertEquals(csv.readProductById(readyProduct1().getId()).getStatus(),ERROR);/** cRud  */
-        assertEquals(csv.updateProduct(readyProduct1()).getStatus(),ERROR);/** crUd  */
-        assertEquals(csv.deleteProductById(readyProduct2().getId()).getStatus(),ERROR); /** cruD*/
+        assertEquals(WriteToMongo(csv.createProduct(readyProduct3())).getStatus(),ERROR);/** Crud  */
+        assertEquals(WriteToMongo(csv.readProductById(readyProduct1().getId())).getStatus(),ERROR);/** cRud  */
+        assertEquals(WriteToMongo(csv.updateProduct(readyProduct1())).getStatus(),ERROR);/** crUd  */
+        assertEquals(WriteToMongo(csv.deleteProductById(readyProduct2().getId())).getStatus(),ERROR); /** cruD*/
 
 
         csv.deleteProductById(readyProduct3().getId());
@@ -77,10 +84,10 @@ class CSVDataProviderTest extends Mongo{
 
 
 
-        System.out.println(csv.createOrder(readyOrder1()));/** Crud  */
-        assertEquals(csv.readOrderById(readyOrder1().getId()).getStatus(),SUCCESS);/** cRud  */
-        assertEquals(csv.updateOrder(readyOrder2()).getStatus(),SUCCESS);/** crUd  */
-        assertEquals(csv.deleteOrderById(readyOrder2().getId()).getStatus(),SUCCESS); /** cruD*/
+        assertEquals(WriteToMongo(csv.createOrder(readyOrder1())).getStatus(),SUCCESS);/** Crud  */
+        assertEquals(WriteToMongo(csv.readOrderById(readyOrder1().getId())).getStatus(),SUCCESS);/** cRud  */
+        assertEquals(WriteToMongo(csv.updateOrder(readyOrder2())).getStatus(),SUCCESS);/** crUd  */
+        assertEquals(WriteToMongo(csv.deleteOrderById(readyOrder2().getId())).getStatus(),SUCCESS); /** cruD*/
 
         csv.deleteCustomerById(readyCustomer1().getId());
         csv.deleteProductById(readyProduct1().getId());
@@ -99,10 +106,10 @@ class CSVDataProviderTest extends Mongo{
 
 
 
-        assertEquals(csv.createOrder(readyOrder3()).getStatus(),ERROR);/** Crud  */
-        assertEquals(csv.readOrderById(readyOrder1().getId()).getStatus(),ERROR);/** cRud  */
-        assertEquals(csv.updateOrder(readyOrder1()).getStatus(),ERROR);/** crUd  */
-        assertEquals(csv.deleteOrderById(readyOrder1().getId()).getStatus(),ERROR); /** cruD*/
+        assertEquals(WriteToMongo(csv.createOrder(readyOrder3())).getStatus(),ERROR);/** Crud  */
+        assertEquals(WriteToMongo(csv.readOrderById(readyOrder1().getId())).getStatus(),ERROR);/** cRud  */
+        assertEquals(WriteToMongo(csv.updateOrder(readyOrder1())).getStatus(),ERROR);/** crUd  */
+        assertEquals(WriteToMongo(csv.deleteOrderById(readyOrder1().getId())).getStatus(),ERROR); /** cruD*/
 
 
 
