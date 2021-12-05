@@ -45,7 +45,7 @@ public class DataProviderCSV implements IDataProvider {
         Optional optional = getAll(Customer.class, CSV_CUSTOMER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
         if (optional.isEmpty()) {
 
-            return new Result(ERROR,null,READ,NPE_CUSTOMER);
+            return new Result(ERROR,new Customer(id,null,null),READ,NPE_CUSTOMER);
 
         }
         else{
@@ -63,7 +63,7 @@ public class DataProviderCSV implements IDataProvider {
     public Result<Customer> updateCustomer(Customer customer) {
         List<Customer> customers = getAll(Customer.class, CSV_CUSTOMER_KEY);
         if (customers.stream().noneMatch(o -> o.getId().equals(customer.getId()))) {
-            return new Result(ERROR, null, UPDATE, String.format(EMPTY_BEAN, customer.getId()));
+            return new Result(ERROR, customer, UPDATE, String.format(EMPTY_BEAN, customer.getId()));
         }
         customers.removeIf(o -> o.getId().equals(customer.getId()));
         customers.add(customer);
@@ -79,12 +79,13 @@ public class DataProviderCSV implements IDataProvider {
     public Result<Customer> deleteCustomerById(Long id) {
         List<Customer> customers = getAll(Customer.class, CSV_CUSTOMER_KEY);
         if (readCustomerById(id).getStatus().equals(ERROR)) {
-            return new Result(ERROR, null, DELETE, String.format(EMPTY_BEAN, id));
+            return new Result(ERROR, new Customer(id,null,null), DELETE, String.format(EMPTY_BEAN, id));
         }
+        Customer customer = readCustomerById(id).getBean();
         /**removeOrderByCustomerCascade(id);   Удаление заказа(include)*/
         customers.removeIf(o -> o.getId().equals(id));
         remove(customers,CSV_CUSTOMER_KEY);
-        return new Result(SUCCESS,customers,DELETE, REMOVE_SUCCESS);
+        return new Result(SUCCESS,customer,DELETE, REMOVE_SUCCESS);
     }
     @Override
     public Result<Product> createProduct(Product product) {
@@ -102,7 +103,7 @@ public class DataProviderCSV implements IDataProvider {
         List<Product> products = getAll(Product.class, CSV_PRODUCT_KEY);
         Optional optional = getAll(Product.class, CSV_PRODUCT_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
         if (optional.isEmpty()) {
-            return new Result(ERROR,null,READ,NPE_PRODUCT);
+            return new Result(ERROR,new Product(id,null,null),READ,NPE_PRODUCT);
         }
         else{
             return new Result(SUCCESS,optional.get(),READ, CSV_PRODUCT_KEY);
@@ -115,7 +116,7 @@ public class DataProviderCSV implements IDataProvider {
     public Result<Product> updateProduct(Product product) {
         List<Product> products = getAll(Product.class, CSV_PRODUCT_KEY);
         if (products.stream().noneMatch(o -> o.getId().equals(product.getId()))) {
-            return new Result(ERROR, null, UPDATE, String.format(EMPTY_BEAN, product.getId()));
+            return new Result(ERROR, product, UPDATE, String.format(EMPTY_BEAN, product.getId()));
         }
         products.removeIf(o -> o.getId().equals(product.getId()));
         products.add(product);
@@ -133,14 +134,15 @@ public class DataProviderCSV implements IDataProvider {
 
         List<Product> products = getAll(Product.class, CSV_PRODUCT_KEY);
         if (readProductById(id).getStatus().equals(ERROR)) {
-            return new Result(ERROR, null, DELETE, String.format(EMPTY_BEAN, id));
+            return new Result(ERROR, new Product(id,null,null), DELETE, String.format(EMPTY_BEAN, id));
         }
         /**Надо реализовать автоматическое удаление заказов с этим покупателем
          *
          * реализовать удаление заказов с этими товарами.*/
+        Product product = readProductById(id).getBean();
         products.removeIf(o -> o.getId().equals(id));
         remove(products,CSV_PRODUCT_KEY);
-        return new Result(SUCCESS,products,DELETE, REMOVE_SUCCESS);
+        return new Result(SUCCESS,product,DELETE, REMOVE_SUCCESS);
     }
 
     @Override
@@ -162,7 +164,7 @@ public class DataProviderCSV implements IDataProvider {
         Optional optional = getAll(Order.class, CSV_ORDER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
 
         if (optional.isEmpty()) {
-            return new Result(ERROR,null,READ,NPE_ORDER);
+            return new Result(ERROR,new Order(id,null,null),READ,NPE_ORDER);
         }
         else{
             return new Result(SUCCESS,optional.get(),READ, EXIST_OBJECT);
@@ -176,7 +178,7 @@ public class DataProviderCSV implements IDataProvider {
     public Result<Order> updateOrder(Order order) {
         List<Order> orders = getAll(Order.class, CSV_ORDER_KEY);
         if (orders.stream().noneMatch(o -> o.getId().equals(order.getId()))) {
-            return new Result(ERROR, null, UPDATE, String.format(EMPTY_BEAN, order.getId()));
+            return new Result(ERROR, order, UPDATE, String.format(EMPTY_BEAN, order.getId()));
         }
         orders.removeIf(o -> o.getId().equals(order.getId()));
         orders.add(order);
@@ -192,13 +194,13 @@ public class DataProviderCSV implements IDataProvider {
     public Result<Order> deleteOrderById(Long id) {
         List<Order> orders = getAll(Order.class, CSV_ORDER_KEY);
         if (readOrderById(id).getStatus().equals(ERROR)) {
-            return new Result(ERROR, null, DELETE, String.format(EMPTY_BEAN, id));
+            return new Result(ERROR, new Order(id,null,null), DELETE, String.format(EMPTY_BEAN, id));
         }
         /**Надо реализовать проверку на возраст покупателя если в заказе алкоголь.*/
-
+        Order order = readOrderById(id).getBean();
         orders.removeIf(o -> o.getId().equals(id));
         remove(orders,CSV_ORDER_KEY);
-        return new Result(SUCCESS,orders,DELETE, REMOVE_SUCCESS);
+        return new Result(SUCCESS,order,DELETE, REMOVE_SUCCESS);
     }
 
 
@@ -224,7 +226,7 @@ public class DataProviderCSV implements IDataProvider {
         } catch (Exception e) {
 
             log.error(e);
-            result = new Result(ERROR, null, CREATE, e.getMessage());
+            result = new Result(ERROR, bean, CREATE, e.getMessage());
 
         }
         return result;

@@ -16,6 +16,7 @@ import java.sql.*;
 import java.util.Optional;
 
 import static ru.sfedu.market.Constants.*;
+import static ru.sfedu.market.bean.ProductType.MILK;
 import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
 import static ru.sfedu.market.utils.Crud.*;
 import static ru.sfedu.market.utils.Status.*;
@@ -57,7 +58,7 @@ public class DataProviderJDBC implements IDataProvider{
             }
 
         if (Optional.ofNullable(customer).equals(Optional.empty())){
-            return new Result(ERROR, customer, READ, NPE_CUSTOMER);
+            return new Result(ERROR, new Customer(id,null,null), READ, NPE_CUSTOMER);
         }
         else {
             return new Result(SUCCESS, customer, READ, EXIST_CUSTOMER);
@@ -72,18 +73,19 @@ public class DataProviderJDBC implements IDataProvider{
             return new Result(SUCCESS,customer, UPDATE, SUCCESS_UPDATE);
         }
         else{
-            return new Result(ERROR,null, UPDATE, NPE_CUSTOMER);
+            return new Result(ERROR,customer, UPDATE, NPE_CUSTOMER);
         }
     }
 
     @Override
     public Result<Customer> deleteCustomerById(Long id) {
+        Customer customer = readCustomerById(id).getBean();
         if (readCustomerById(id).getStatus().equals(SUCCESS)) {
             execute(String.format(CUSTOMER_DELETE, id));
-            return new Result(SUCCESS,null, DELETE, REMOVE_SUCCESS);
+            return new Result(SUCCESS,customer, DELETE, REMOVE_SUCCESS);
         }
         else{
-            return new Result(ERROR,null, DELETE, NPE_CUSTOMER);
+            return new Result(ERROR,new Customer(id,null,null), DELETE, NPE_CUSTOMER);
         }
     }
 
@@ -121,7 +123,7 @@ public class DataProviderJDBC implements IDataProvider{
 
         if (Optional.ofNullable(product).equals(Optional.empty())){
 
-            return new Result(ERROR, product, READ, NPE_PRODUCT);
+            return new Result(ERROR, new Product(id,null,null), READ, NPE_PRODUCT);
         }
         else {
             return new Result(SUCCESS, product , READ, EXIST_PRODUCT);
@@ -136,18 +138,19 @@ public class DataProviderJDBC implements IDataProvider{
             return new Result(SUCCESS,product, UPDATE, UPDATE_SUCCESS);
         }
         else{
-            return new Result(ERROR,null, UPDATE, NPE_PRODUCT);
+            return new Result(ERROR,product, UPDATE, NPE_PRODUCT);
         }
     }
 
     @Override
     public Result<Product> deleteProductById(Long id) {
+        Product product = readProductById(id).getBean();
         if (readProductById(id).getStatus().equals(SUCCESS)) {
             execute(String.format(PRODUCT_DELETE, id));
-            return new Result(SUCCESS,null, DELETE, REMOVE_SUCCESS);
+            return new Result(SUCCESS,product, DELETE, REMOVE_SUCCESS);
         }
         else{
-            return new Result(ERROR,null, DELETE, NPE_CUSTOMER);
+            return new Result(ERROR,new Product(id,null,null), DELETE, NPE_CUSTOMER);
         }
     }
 
@@ -156,11 +159,11 @@ public class DataProviderJDBC implements IDataProvider{
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
             Customer customer = order.getCustomer();
             Product product = order.getProduct();
-            if (customer.equals(null)) {
-                return new Result(ERROR, null, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId()));
+            if (readProductById(product.getId()).getStatus().equals(ERROR)) {
+                return new Result(ERROR, customer, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId()));
             }
-            if (product.equals(null)) {
-                return new Result(ERROR, null, CREATE, String.format(EMPTY_BEAN, order.getProduct().getId()));
+            if (readCustomerById(customer.getId()).getStatus().equals(ERROR)) {
+                return new Result(ERROR, product, CREATE, String.format(EMPTY_BEAN, order.getProduct().getId()));
             }
             /**
              *
@@ -170,7 +173,9 @@ public class DataProviderJDBC implements IDataProvider{
             if (customer.get().getAge() < product.get().getAgeLimit()) {
                 return new Result<>(UNSUCCESSFUL, null, EXCEPTION_AGE_LIMIT);
             }*/
-            return new Result(SUCCESS,execute(String.format(ORDER_INSERT, order.getId(), order.getProduct().getId(), order.getCustomer().getId())),CREATE,CREATE_SUCCESS_ORDER);
+
+            execute(String.format(ORDER_INSERT, order.getId(), order.getProduct().getId(),order.getCustomer().getId()));
+            return new Result(SUCCESS,order,CREATE,CREATE_SUCCESS_ORDER);
         }
         else {
             return new Result(ERROR, order, CREATE, String.format(PRESENT_BEAN, order.getId()));
@@ -189,22 +194,26 @@ public class DataProviderJDBC implements IDataProvider{
                 order.setId(set.getLong(1));
                 Product product = readProductById(set.getLong(2)).getBean();
                 Customer customer = readCustomerById(set.getLong(3)).getBean();
-                if (product.equals(null)) {
-                    return new Result(ERROR,order,READ,NPE_PRODUCT);
+                if (readProductById(product.getId()).getStatus().equals(ERROR)) {
+
+                    return new Result(ERROR,new Order(id,new Product(id,null,null),new Customer(id,null,null)),READ,NPE_PRODUCT);
                 }
-                if (customer.equals(null)) {
-                    return new Result(ERROR,order,READ,NPE_CUSTOMER);
+                if (readCustomerById(customer.getId()).getStatus().equals(ERROR)) {
+
+                    return new Result(ERROR,new Order(id,new Product(id,null,null),new Customer(id,null,null)),READ,NPE_CUSTOMER);
                 }
 
                 order.setProduct(product);
                 order.setCustomer(customer);
             }
             else{
-                return new Result(ERROR,order,READ,NPE_CUSTOMER);
+
+                return new Result(ERROR,new Order(id,new Product(id,null,MILK),new Customer(id,null,null)),READ,NPE_CUSTOMER);
             }
         } catch (Exception exception) {
             log.error(exception);
         }
+
         return new Result(SUCCESS,order,READ,EXIST_ORDER);
     }
 
@@ -223,12 +232,12 @@ public class DataProviderJDBC implements IDataProvider{
     @Override
     public Result<Order> deleteOrderById(Long id) {
         Order order = (readOrderById(id).getBean());
-        if (order.getId()==null) {
+        if (readOrderById(id).getStatus().equals(ERROR)) {
 
-            return new Result(ERROR, order, UPDATE, String.format(EMPTY_BEAN, id));
+            return new Result(ERROR,new Order(id,null,null), DELETE, String.format(EMPTY_BEAN, id));
         }
         execute(String.format(ORDER_DELETE, id));
-        return new Result(SUCCESS, order, UPDATE, REMOVE_SUCCESS);
+        return new Result(SUCCESS, order, DELETE, REMOVE_SUCCESS);
     }
 
     private <T> Result<T> execute(String sql) {

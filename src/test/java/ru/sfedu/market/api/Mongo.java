@@ -51,6 +51,7 @@ public class Mongo {
     private Status status;
 
     public Mongo(){ }
+
     public Mongo(Result result) {
         this.className = result.getBean().getClass();
         this.date = new Date();
@@ -60,22 +61,32 @@ public class Mongo {
         this.status = result.getStatus();
     }
 
+    protected Document beanToMongo(Mongo mongo){
+        Document doc = new Document();
+        doc.put("className",mongo.getClassName().toString());
+        doc.put("date",mongo.getDate().toString());
+        doc.put("actor",mongo.getActor());
+        doc.put("methodName",mongo.getMethodName().toString());
+        doc.put("object",mongo.getObject().toString());
+        doc.put("status",mongo.getStatus().toString());
+        return doc;
+    }
 
-    public Result WriteToMongo(Result result) throws IOException{
-        Mongo mongo = new Mongo(result);
+    public Result writeToMongo(Result result) throws IOException{
+        Document bean = beanToMongo(new Mongo(result));
         CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
                 MongoClientSettings.getDefaultCodecRegistry(),
                 CodecRegistries.fromProviders(PojoCodecProvider.builder()
                         .register(
-                                ClassModel.builder(Mongo.class).enableDiscriminator(true).build()
+                                ClassModel.builder(Document.class).enableDiscriminator(true).build()
                         ).automatic(true)
                         .build()
                 )
         );
-        MongoCollection<Mongo> collection = new MongoClient()
+        MongoCollection<Document> collection = new MongoClient()
                 .getDatabase("data")
-                .withCodecRegistry(codecRegistry).getCollection("data", Mongo.class);
-        collection.insertOne(mongo);
+                .withCodecRegistry(codecRegistry).getCollection("history", Document.class);
+        collection.insertOne(bean);
 
 
 
@@ -83,7 +94,32 @@ public class Mongo {
     }
 
 
-/**Передача данных для mongo осуществляется через методы создания объектов*/
+
+    public Class getClassName() {
+        return this.className;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public String getActor() {
+        return actor;
+    }
+
+    public Crud getMethodName() {
+        return methodName;
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    /**Передача данных для mongo осуществляется через методы создания объектов*/
 
 
 
@@ -123,5 +159,17 @@ public class Mongo {
     public Order readyOrder3(){
         return new Order(2L, readyProduct3(), readyCustomer3());
 
+    }
+
+    @Override
+    public String toString() {
+        return "Mongo{" +
+                "className=" + className +
+                ", date=" + date +
+                ", actor='" + actor + '\'' +
+                ", methodName=" + methodName +
+                ", object=" + object +
+                ", status=" + status +
+                '}';
     }
 }

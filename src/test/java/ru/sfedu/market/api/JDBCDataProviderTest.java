@@ -20,43 +20,43 @@ public class JDBCDataProviderTest extends Mongo{
 
 
     @Test
-    public void crudJDBCCustomerSuccess() {
+    public void crudJDBCCustomerSuccess() throws IOException {
 
 
-        assertEquals(jdbc.createCustomer(readyCustomer1()).getStatus(),SUCCESS);/** Crud  */
-        assertEquals(jdbc.readCustomerById(readyCustomer1().getId()).getStatus(),SUCCESS); /** cRud  */
-        assertEquals(jdbc.updateCustomer(readyCustomer2()).getStatus(),SUCCESS);/** crUd  */
-        assertEquals(jdbc.deleteCustomerById(readyCustomer2().getId()).getStatus(),SUCCESS); /** cruD*/
+        assertEquals(writeToMongo(jdbc.createCustomer(readyCustomer1())).getStatus(),SUCCESS);/** Crud  */
+        assertEquals(writeToMongo(jdbc.readCustomerById(readyCustomer1().getId())).getStatus(),SUCCESS); /** cRud  */
+        assertEquals(writeToMongo(jdbc.updateCustomer(readyCustomer2())).getStatus(),SUCCESS);/** crUd  */
+        assertEquals(writeToMongo(jdbc.deleteCustomerById(readyCustomer2().getId())).getStatus(),SUCCESS); /** cruD*/
 
     }
     @Test
     void crudJDBCCustomerUnsuccessful() throws IOException {
         jdbc.createCustomer(readyCustomer3());
 
-        assertEquals(jdbc.createCustomer(readyCustomer3()).getStatus(),ERROR);/** Crud  */
-        assertEquals(jdbc.readCustomerById(readyCustomer1().getId()).getStatus(),ERROR);/** cRud  */
-        assertEquals(jdbc.updateCustomer(readyCustomer2()).getStatus(),ERROR);/** crUd  */
-        assertEquals(jdbc.deleteCustomerById(readyCustomer2().getId()).getStatus(),ERROR); /** cruD*/
+        assertEquals(writeToMongo(jdbc.createCustomer(readyCustomer3())).getStatus(),ERROR);/** Crud  */
+        assertEquals(writeToMongo(jdbc.readCustomerById(readyCustomer1().getId())).getStatus(),ERROR);/** cRud  */
+        assertEquals(writeToMongo(jdbc.updateCustomer(readyCustomer2())).getStatus(),ERROR);/** crUd  */
+        assertEquals(writeToMongo(jdbc.deleteCustomerById(readyCustomer2().getId())).getStatus(),ERROR); /** cruD*/
 
         jdbc.deleteCustomerById(readyCustomer3().getId());
     }
     @Test
-    public void crudJDBCProductSuccess() {
+    public void crudJDBCProductSuccess() throws IOException {
 
-        assertEquals(jdbc.createProduct(readyProduct1()).getStatus(),SUCCESS);/** Crud  */
-        assertEquals(jdbc.readProductById(readyProduct1().getId()).getStatus(),SUCCESS); /** cRud  */
-        assertEquals(jdbc.updateProduct(readyProduct2()).getStatus(),SUCCESS);/** crUd  */
-        assertEquals(jdbc.deleteProductById(readyProduct2().getId()).getStatus(),SUCCESS); /** cruD*/
+        assertEquals(writeToMongo(jdbc.createProduct(readyProduct1())).getStatus(),SUCCESS);/** Crud  */
+        assertEquals(writeToMongo(jdbc.readProductById(readyProduct1().getId())).getStatus(),SUCCESS); /** cRud  */
+        assertEquals(writeToMongo(jdbc.updateProduct(readyProduct2())).getStatus(),SUCCESS);/** crUd  */
+        assertEquals(writeToMongo(jdbc.deleteProductById(readyProduct2().getId())).getStatus(),SUCCESS); /** cruD*/
 
     }
     @Test
     void crudJDBCProductUnsuccessful() throws IOException {
         jdbc.createProduct(readyProduct3());
 
-        assertEquals(jdbc.createProduct(readyProduct3()).getStatus(),ERROR);/** Crud  */
-        assertEquals(jdbc.readProductById(readyProduct1().getId()).getStatus(),ERROR);/** cRud  */
-        assertEquals(jdbc.updateProduct(readyProduct1()).getStatus(),ERROR);/** crUd  */
-        assertEquals(jdbc.deleteProductById(readyProduct2().getId()).getStatus(),ERROR); /** cruD*/
+        assertEquals(writeToMongo(jdbc.createProduct(readyProduct3())).getStatus(),ERROR);/** Crud  */
+        assertEquals(writeToMongo(jdbc.readProductById(readyProduct1().getId())).getStatus(),ERROR);/** cRud  */
+        assertEquals(writeToMongo(jdbc.updateProduct(readyProduct1())).getStatus(),ERROR);/** crUd  */
+        assertEquals(writeToMongo(jdbc.deleteProductById(readyProduct2().getId())).getStatus(),ERROR); /** cruD*/
 
 
         jdbc.deleteProductById(readyProduct3().getId());
@@ -67,10 +67,10 @@ public class JDBCDataProviderTest extends Mongo{
         jdbc.createProduct(readyProduct1());
 
 
-        assertEquals(jdbc.createOrder(readyOrder1()).getStatus(),SUCCESS);/** Crud  */
-        assertEquals(jdbc.readOrderById(readyOrder1().getId()).getStatus(),SUCCESS);/** cRud  */
-        assertEquals(jdbc.updateOrder(readyOrder2()).getStatus(),SUCCESS);/** crUd  */
-        assertEquals(jdbc.deleteOrderById(readyOrder2().getId()).getStatus(),SUCCESS); /** cruD*/
+        assertEquals(writeToMongo(jdbc.createOrder(readyOrder1())).getStatus(),SUCCESS);/** Crud  */
+        assertEquals(writeToMongo(jdbc.readOrderById(readyOrder1().getId())).getStatus(),SUCCESS);/** cRud  */
+        assertEquals(writeToMongo(jdbc.updateOrder(readyOrder2())).getStatus(),SUCCESS);/** crUd  */
+        assertEquals(writeToMongo(jdbc.deleteOrderById(readyOrder2().getId())).getStatus(),SUCCESS); /** cruD*/
 
         jdbc.deleteCustomerById(readyCustomer1().getId());
         jdbc.deleteProductById(readyProduct1().getId());
@@ -89,10 +89,10 @@ public class JDBCDataProviderTest extends Mongo{
 
 
 
-        assertEquals(jdbc.createOrder(readyOrder3()).getStatus(),ERROR);/** Crud  */
-        assertEquals(jdbc.readOrderById(readyOrder1().getId()).getStatus(),ERROR);/** cRud  */
-        assertEquals(jdbc.updateOrder(readyOrder1()).getStatus(),ERROR);/** crUd  */
-        assertEquals(jdbc.deleteOrderById(readyOrder2().getId()).getStatus(),ERROR); /** cruD*/
+        assertEquals(writeToMongo(jdbc.createOrder(readyOrder3())).getStatus(),ERROR);/** Crud  */
+        assertEquals(writeToMongo(jdbc.readOrderById(readyOrder1().getId())).getStatus(),ERROR);/** cRud  */
+        assertEquals(writeToMongo(jdbc.updateOrder(readyOrder1())).getStatus(),ERROR);/** crUd  */
+        assertEquals(writeToMongo(jdbc.deleteOrderById(readyOrder2().getId())).getStatus(),ERROR); /** cruD*/
 
 
 
