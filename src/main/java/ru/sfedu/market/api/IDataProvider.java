@@ -1,24 +1,31 @@
 package ru.sfedu.market.api;
 
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoCollection;
+import org.bson.Document;
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.ClassModel;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import ru.sfedu.market.bean.*;
 import ru.sfedu.market.utils.Result;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-abstract class IDataProvider{
+public abstract class IDataProvider{
 /**
  *
- */
-public IDataProvider {
-
+ *
     /**
      * Регистрация клиента в сервисе
      * @param customer
      * @return
      */
 
-    Result<Customer> createCustomer(Customer customer);
+    public abstract Result<Customer> createCustomer(Customer customer) throws IOException;
 
     /**
      * Получить информацию о клиенте по его id
@@ -26,7 +33,7 @@ public IDataProvider {
      * @return
      */
 
-    Result<Customer> readCustomerById(Long id);
+    public abstract Result<Customer> readCustomerById(Long id) throws IOException;
 
     /**
      * Изменение информации о клиенте
@@ -34,7 +41,7 @@ public IDataProvider {
      * @return
      */
 
-    Result<Customer> updateCustomer(Customer customer);
+    public abstract Result<Customer> updateCustomer(Customer customer) throws IOException;
 
     /**
      * Удаление клиента из сервиса
@@ -42,7 +49,7 @@ public IDataProvider {
      * @return
      */
 
-    Result<Customer> deleteCustomerById(Long id);
+    public abstract Result<Customer> deleteCustomerById(Long id) throws IOException;
 
     /**
      * Регистрация продукта в сервисе
@@ -50,7 +57,7 @@ public IDataProvider {
      * @return
      */
 
-    Result<Product> createProduct(Product product);
+    public abstract Result<Product> createProduct(Product product) throws IOException;
 
     /**
      * Получить информацию о продукте по его id
@@ -58,7 +65,7 @@ public IDataProvider {
      * @return
      */
 
-    Result<Product> readProductById(Long id);
+    public abstract Result<Product> readProductById(Long id) throws IOException;
 
     /**
      * Изменение информации о продукте
@@ -66,7 +73,7 @@ public IDataProvider {
      * @return
      */
 
-    Result<Product> updateProduct(Product product);
+    public abstract Result<Product> updateProduct(Product product) throws IOException;
 
     /**
      * Удаление продукта из сервиса
@@ -74,7 +81,7 @@ public IDataProvider {
      * @return
      */
 
-    Result<Product> deleteProductById(Long id);
+    public abstract Result<Product> deleteProductById(Long id) throws IOException;
 
 
     /**
@@ -83,7 +90,7 @@ public IDataProvider {
      * @return
      */
 
-    Result<Order> createOrder(Order order);
+    public abstract Result<Order> createOrder(Order order) throws IOException;
 
     /**
      * Получить информацию о заказе
@@ -91,14 +98,14 @@ public IDataProvider {
      * @return
      */
 
-    Result<Order> readOrderById(Long id);
+    public abstract Result<Order> readOrderById(Long id) throws IOException;
 
     /**
      * Изменить заказ
      * @param order
      * @return
      */
-    Result<Order> updateOrder(Order order);
+    public abstract Result<Order> updateOrder(Order order) throws IOException;
 
     /**
      * Закрыть заказ
@@ -106,8 +113,41 @@ public IDataProvider {
      * @return
      */
 
-    Result<Order> deleteOrderById(Long id);
+    public abstract Result<Order> deleteOrderById(Long id) throws IOException;
+
+
+    protected Document beanToMongo(Mongo mongo){
+        Document doc = new Document();
+        doc.put("className",mongo.getClassName().toString());
+        doc.put("date",mongo.getDate().toString());
+        doc.put("actor",mongo.getActor());
+        doc.put("methodName",mongo.getMethodName().toString());
+        doc.put("object",mongo.getObject().toString());
+        doc.put("status",mongo.getStatus().toString());
+        return doc;
+    }
+
+    public Result writeToMongo(Result result) throws IOException {
+        Document bean = beanToMongo(new Mongo(result));
+        CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
+                MongoClientSettings.getDefaultCodecRegistry(),
+                CodecRegistries.fromProviders(PojoCodecProvider.builder()
+                        .register(
+                                ClassModel.builder(Document.class).enableDiscriminator(true).build()
+                        ).automatic(true)
+                        .build()
+                )
+        );
+        MongoCollection<Document> collection = new MongoClient()
+                .getDatabase("data")
+                .withCodecRegistry(codecRegistry).getCollection("history", Document.class);
+        collection.insertOne(bean);
 
 
 
-}}
+        return result;
+    }
+
+
+
+}

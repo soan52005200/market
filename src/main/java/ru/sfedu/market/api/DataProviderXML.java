@@ -13,6 +13,7 @@ import ru.sfedu.market.utils.Result;
 
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,117 +29,117 @@ public class DataProviderXML extends IDataProvider{
     private static final Logger log = LogManager.getLogger(DataProviderXML.class);
 
     @Override
-    public Result<Customer> createCustomer(Customer customer) {
+    public Result<Customer> createCustomer(Customer customer) throws IOException {
         if (readCustomerById(customer.getId()).getStatus().equals(ERROR)) {
             List<Customer> list = getAll(Customer.class, XML_CUSTOMER_KEY);
             list.add(customer);
             refresh(list, XML_CUSTOMER_KEY);
             return new Result(SUCCESS,customer,CREATE,CREATE_SUCCESS_CUSTOMER);
         }
-        return new Result(ERROR, customer, CREATE, String.format(PRESENT_BEAN, customer.getId()));
+        return writeToMongo(new Result(ERROR, customer, CREATE, String.format(PRESENT_BEAN, customer.getId())));
     }
 
 
     @Override
-    public Result<Customer> readCustomerById(Long id) {
+    public Result<Customer> readCustomerById(Long id) throws IOException {
         Optional optional = getAll(Customer.class, XML_CUSTOMER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
         if (optional.isEmpty()) {
-            return new Result(ERROR,new Customer(id,null,null),READ,NPE_CUSTOMER);
+            return writeToMongo(new Result(ERROR,new Customer(id,null,null),READ,NPE_CUSTOMER));
         }
         else{
-            return new Result(SUCCESS,optional.get(),READ,CSV_CUSTOMER_KEY);
+            return writeToMongo(new Result(SUCCESS,optional.get(),READ,CSV_CUSTOMER_KEY));
         }
 
     }
 
     @Override
-    public Result<Customer> updateCustomer(Customer customer) {
+    public Result<Customer> updateCustomer(Customer customer) throws IOException {
         List<Customer> customers = getAll(Customer.class, XML_CUSTOMER_KEY);
         if (customers.stream().noneMatch(o -> o.getId().equals(customer.getId()))) {
-            return new Result(ERROR, customer, UPDATE, String.format(EMPTY_BEAN, customer.getId()));
+            return writeToMongo(new Result(ERROR, customer, UPDATE, String.format(EMPTY_BEAN, customer.getId())));
         }
         customers.removeIf(o -> o.getId().equals(customer.getId()));
         customers.add(customer);
         Result<Customer> refresh = refresh(customers, XML_CUSTOMER_KEY);
         if (refresh.getStatus() == SUCCESS) {
-            return new Result<>(SUCCESS, customer, UPDATE, String.format(UPDATE_SUCCESS, customer.toString()));
+            return writeToMongo(new Result<>(SUCCESS, customer, UPDATE, String.format(UPDATE_SUCCESS, customer.toString())));
         } else {
-            return new Result<>(ERROR, customer, UPDATE, refresh.getLog());
+            return writeToMongo(new Result<>(ERROR, customer, UPDATE, refresh.getLog()));
         }
     }
     @Override
-    public Result<Customer> deleteCustomerById(Long id) {
+    public Result<Customer> deleteCustomerById(Long id) throws IOException {
         List<Customer> customers = getAll(Customer.class, XML_CUSTOMER_KEY);
         if (customers.stream().noneMatch(o -> o.getId().equals(id))) {
-            return new Result(ERROR, new Customer(id,null,null), DELETE, String.format(EMPTY_BEAN, id));
+            return writeToMongo(new Result(ERROR, new Customer(id,null,null), DELETE, String.format(EMPTY_BEAN, id)));
         }
         /**removeOrderByCustomerCascade(id); реалиовать удаление всех заказов пользователя*/
         customers.removeIf(o -> o.getId().equals(id));
         Result<Customer> result = refresh(customers, XML_CUSTOMER_KEY);
-        return new Result(result.getStatus(), new Customer(id,null,null), DELETE, result.getLog());
+        return writeToMongo(new Result(result.getStatus(), new Customer(id,null,null), DELETE, result.getLog()));
     }
 
 
     @Override
-    public Result<Product> createProduct(Product product) {
+    public Result<Product> createProduct(Product product) throws IOException {
         if (readProductById(product.getId()).getStatus().equals(ERROR)) {
             List<Product> list = getAll(Product.class, XML_PRODUCT_KEY);
             list.add(product);
             refresh(list, XML_PRODUCT_KEY);
-            return new Result(SUCCESS, product, CREATE, String.format(PERSISTENCE_SUCCESS, product.getId()));
+            return writeToMongo(new Result(SUCCESS, product, CREATE, String.format(PERSISTENCE_SUCCESS, product.getId())));
         }
-        return new Result(ERROR, product, CREATE, String.format(PRESENT_BEAN, product.getId()));
+        return writeToMongo(new Result(ERROR, product, CREATE, String.format(PRESENT_BEAN, product.getId())));
     }
 
 
     @Override
-    public Result<Product> readProductById(Long id) {
+    public Result<Product> readProductById(Long id) throws IOException {
         Optional optional = getAll(Product.class, XML_PRODUCT_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
         if (optional.isEmpty()) {
-            return new Result(ERROR,new Customer(id,null,null),READ,NPE_PRODUCT);
+            return writeToMongo(new Result(ERROR,new Customer(id,null,null),READ,NPE_PRODUCT));
         }
         else{
-            return new Result(SUCCESS,optional.get(),READ,CSV_PRODUCT_KEY);
+            return writeToMongo(new Result(SUCCESS,optional.get(),READ,CSV_PRODUCT_KEY));
 
         }
     }
 
 
     @Override
-    public Result<Product> updateProduct(Product product) {
+    public Result<Product> updateProduct(Product product) throws IOException {
         List<Product> products = getAll(Product.class, XML_PRODUCT_KEY);
         if (products.stream().noneMatch(o -> o.getId().equals(product.getId()))) {
-            return new Result(ERROR, product, UPDATE, String.format(EMPTY_BEAN, product.getId()));
+            return writeToMongo(new Result(ERROR, product, UPDATE, String.format(EMPTY_BEAN, product.getId())));
         }
         products.removeIf(o -> o.getId().equals(product.getId()));
         products.add(product);
         Result<Product> refresh = refresh(products, XML_PRODUCT_KEY);
         if (refresh.getStatus() == SUCCESS) {
-            return new Result(SUCCESS, product, UPDATE, String.format(UPDATE_SUCCESS, product.toString()));
+            return writeToMongo(new Result(SUCCESS, product, UPDATE, String.format(UPDATE_SUCCESS, product.toString())));
         } else {
-            return new Result(ERROR, product, UPDATE, refresh.getLog());
+            return writeToMongo(new Result(ERROR, product, UPDATE, refresh.getLog()));
         }
     }
 
     @Override
-    public Result<Product> deleteProductById(Long id) {
+    public Result<Product> deleteProductById(Long id) throws IOException {
         List<Product> products = getAll(Product.class, XML_PRODUCT_KEY);
         if (products.stream().noneMatch(o -> o.getId().equals(id))) {
-            return new Result(ERROR, new Product(id,null,null), DELETE, String.format(EMPTY_BEAN, id));
+            return writeToMongo(new Result(ERROR, new Product(id,null,null), DELETE, String.format(EMPTY_BEAN, id)));
         }
 
         products.removeIf(o -> o.getId().equals(id));
         Result<Product> result = refresh(products, XML_PRODUCT_KEY);
-        return new Result(result.getStatus(), new Product(id,null,null), DELETE, result.getLog());
+        return writeToMongo(new Result(result.getStatus(), new Product(id,null,null), DELETE, result.getLog()));
     }
 
     @Override
-    public Result<Order> createOrder(Order order) {
+    public Result<Order> createOrder(Order order) throws IOException {
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
             Customer customer = readCustomerById(order.getId()).getBean();
             Product product = readProductById(order.getId()).getBean();
             if (customer.equals(null)) {
-                return new Result(ERROR, order, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId()));
+                return writeToMongo(new Result(ERROR, order, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId())));
             }
             if (product.equals(null)) {
                 return new Result(ERROR, order, CREATE, String.format(EMPTY_BEAN, order.getProduct().getId()));
@@ -151,44 +152,44 @@ public class DataProviderXML extends IDataProvider{
             List<Order> list = getAll(Order.class, XML_ORDER_KEY);
             list.add(order);
             refresh(list, XML_ORDER_KEY);
-            return new Result(SUCCESS,order,CREATE,CREATE_SUCCESS_ORDER);
+            return writeToMongo(new Result(SUCCESS,order,CREATE,CREATE_SUCCESS_ORDER));
 
         }
-        return new Result(ERROR, order, CREATE, String.format(PRESENT_BEAN, order.getId()));
+        return writeToMongo(new Result(ERROR, order, CREATE, String.format(PRESENT_BEAN, order.getId())));
     }
 
 
     @Override
-    public Result<Order> readOrderById(Long id) {
+    public Result<Order> readOrderById(Long id) throws IOException {
         Optional optional = getAll(Order.class, XML_ORDER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
         if (optional.isEmpty()) {
-            return new Result(ERROR, new Order(id,null,null), READ, NPE_ORDER);
+            return writeToMongo(new Result(ERROR, new Order(id,null,null), READ, NPE_ORDER));
         }
         else{
-            return new Result(SUCCESS,optional.get(),READ,CSV_ORDER_KEY);}
+            return writeToMongo(new Result(SUCCESS,optional.get(),READ,CSV_ORDER_KEY));}
     }
 
     @Override
-    public Result<Order> updateOrder(Order order) {
+    public Result<Order> updateOrder(Order order) throws IOException {
         List<Order> orders = getAll(Order.class, XML_ORDER_KEY);
         if (orders.stream().noneMatch(o -> o.getId().equals(order.getId()))) {
-            return new Result(ERROR, order, UPDATE, String.format(EMPTY_BEAN, order.getId()));
+            return writeToMongo(new Result(ERROR, order, UPDATE, String.format(EMPTY_BEAN, order.getId())));
         }
         orders.removeIf(o -> o.getId().equals(order.getId()));
         orders.add(order);
         Result<Order> refresh = refresh(orders,XML_ORDER_KEY);
         if (refresh.getStatus() == SUCCESS) {
-            return new Result(SUCCESS, order, UPDATE, String.format(UPDATE_SUCCESS, order.toString()));
+            return writeToMongo(new Result(SUCCESS, order, UPDATE, String.format(UPDATE_SUCCESS, order.toString())));
         } else {
-            return new Result(ERROR, order, UPDATE, refresh.getLog());
+            return writeToMongo(new Result(ERROR, order, UPDATE, refresh.getLog()));
         }
     }
 
     @Override
-    public Result<Order> deleteOrderById(Long id) {
+    public Result<Order> deleteOrderById(Long id) throws IOException {
         List<Order> orders = getAll(Order.class, XML_ORDER_KEY);
         if (orders.stream().noneMatch(o -> o.getId().equals(id))) {
-            return new Result(ERROR, new Order(id,null,null), DELETE, String.format(EMPTY_BEAN, id));
+            return writeToMongo(new Result(ERROR, new Order(id,null,null), DELETE, String.format(EMPTY_BEAN, id)));
         }
 
         /**Order order = getOrderById(id).get();
@@ -199,7 +200,7 @@ public class DataProviderXML extends IDataProvider{
         if (result.getStatus() == SUCCESS) {
             result = new Result(SUCCESS, new Order(id,null,null), DELETE, ORDER_CLOSE);
         }
-        return new Result(result.getStatus(), new Order(id,null,null), DELETE, result.getLog());
+        return writeToMongo(new Result(result.getStatus(), new Order(id,null,null), DELETE, result.getLog()));
     }
 
 

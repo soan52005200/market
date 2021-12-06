@@ -1,9 +1,5 @@
-package ru.sfedu.market.api;
+package ru.sfedu.market.bean;
 
-
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientSettings;
@@ -17,7 +13,6 @@ import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.ClassModel;
 import org.bson.codecs.pojo.PojoCodecProvider;
-import org.junit.jupiter.api.Test;
 import ru.sfedu.market.bean.Customer;
 import ru.sfedu.market.bean.Order;
 import ru.sfedu.market.bean.Product;
@@ -61,37 +56,6 @@ public class Mongo {
         this.status = result.getStatus();
     }
 
-    protected Document beanToMongo(Mongo mongo){
-        Document doc = new Document();
-        doc.put("className",mongo.getClassName().toString());
-        doc.put("date",mongo.getDate().toString());
-        doc.put("actor",mongo.getActor());
-        doc.put("methodName",mongo.getMethodName().toString());
-        doc.put("object",mongo.getObject().toString());
-        doc.put("status",mongo.getStatus().toString());
-        return doc;
-    }
-
-    public Result writeToMongo(Result result) throws IOException{
-        Document bean = beanToMongo(new Mongo(result));
-        CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
-                MongoClientSettings.getDefaultCodecRegistry(),
-                CodecRegistries.fromProviders(PojoCodecProvider.builder()
-                        .register(
-                                ClassModel.builder(Document.class).enableDiscriminator(true).build()
-                        ).automatic(true)
-                        .build()
-                )
-        );
-        MongoCollection<Document> collection = new MongoClient()
-                .getDatabase("data")
-                .withCodecRegistry(codecRegistry).getCollection("history", Document.class);
-        collection.insertOne(bean);
-
-
-
-    return result;
-    }
 
 
 
@@ -123,44 +87,6 @@ public class Mongo {
 
 
 
-    public Customer readyCustomer1(){
-
-        return new Customer(1L, "Ivan", 18);
-
-    }
-    public Customer readyCustomer2(){
-        return new Customer(1L, "Yasha", 20);
-
-    }
-    public Customer readyCustomer3(){
-        return new Customer(2L, "Dima", 45);
-
-    }
-    public Product readyProduct1(){
-        return new Product(1L, "Moloko_Vkusnoteevo", MILK);
-
-    }
-    public Product readyProduct2(){
-        return new Product(1L, "Borodinskiy", BAKERY);
-
-    }
-    public Product readyProduct3(){
-        return new Product(2L, "Stolichnaya", ALCOHOL);
-
-    }
-    public Order readyOrder1(){
-        return new Order(1L, readyProduct1(), readyCustomer1());
-
-    }
-    public Order readyOrder2(){
-        return new Order(1L, readyProduct2(), readyCustomer2());
-
-    }
-    public Order readyOrder3(){
-        return new Order(2L, readyProduct3(), readyCustomer3());
-
-    }
-
     @Override
     public String toString() {
         return "Mongo{" +
@@ -173,3 +99,4 @@ public class Mongo {
                 '}';
     }
 }
+

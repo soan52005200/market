@@ -27,18 +27,18 @@ public class DataProviderJDBC extends IDataProvider{
 
 
     @Override
-    public Result<Customer> createCustomer(Customer customer) {
+    public Result<Customer> createCustomer(Customer customer) throws IOException {
         if (readCustomerById(customer.getId()).getStatus().equals(ERROR)){
             execute(String.format(CUSTOMER_INSERT, customer.getId(), customer.getFio(), customer.getAge()));
-            return new Result(SUCCESS,customer, CREATE,CREATE_SUCCESS_CUSTOMER);
+            return writeToMongo(new Result(SUCCESS,customer, CREATE,CREATE_SUCCESS_CUSTOMER));
         }else{
-            return new Result(ERROR,customer, CREATE,CREATE_ERROR_CUSTOMER);
+            return writeToMongo(new Result(ERROR,customer, CREATE,CREATE_ERROR_CUSTOMER));
         }
 
     }
 
     @Override
-    public Result<Customer> readCustomerById(Long id) {
+    public Result<Customer> readCustomerById(Long id) throws IOException {
         Customer customer = null;
         ResultSet set = select(String.format(CUSTOMER_SELECT, id));
             try {
@@ -58,53 +58,53 @@ public class DataProviderJDBC extends IDataProvider{
             }
 
         if (Optional.ofNullable(customer).equals(Optional.empty())){
-            return new Result(ERROR, new Customer(id,null,null), READ, NPE_CUSTOMER);
+            return writeToMongo(new Result(ERROR, new Customer(id,null,null), READ, NPE_CUSTOMER));
         }
         else {
-            return new Result(SUCCESS, customer, READ, EXIST_CUSTOMER);
+            return writeToMongo(new Result(SUCCESS, customer, READ, EXIST_CUSTOMER));
         }
 
     }
 
     @Override
-    public Result<Customer> updateCustomer(Customer customer) {
+    public Result<Customer> updateCustomer(Customer customer) throws IOException {
         if (readCustomerById(customer.getId()).getStatus().equals(SUCCESS)) {
             execute(String.format(CUSTOMER_UPDATE, customer.getFio(), customer.getAge(), customer.getId()));
-            return new Result(SUCCESS,customer, UPDATE, SUCCESS_UPDATE);
+            return writeToMongo(new Result(SUCCESS,customer, UPDATE, SUCCESS_UPDATE));
         }
         else{
-            return new Result(ERROR,customer, UPDATE, NPE_CUSTOMER);
+            return writeToMongo(new Result(ERROR,customer, UPDATE, NPE_CUSTOMER));
         }
     }
 
     @Override
-    public Result<Customer> deleteCustomerById(Long id) {
+    public Result<Customer> deleteCustomerById(Long id) throws IOException {
         Customer customer = readCustomerById(id).getBean();
         if (readCustomerById(id).getStatus().equals(SUCCESS)) {
             execute(String.format(CUSTOMER_DELETE, id));
-            return new Result(SUCCESS,customer, DELETE, REMOVE_SUCCESS);
+            return writeToMongo(new Result(SUCCESS,customer, DELETE, REMOVE_SUCCESS));
         }
         else{
-            return new Result(ERROR,new Customer(id,null,null), DELETE, NPE_CUSTOMER);
+            return writeToMongo(new Result(ERROR,new Customer(id,null,null), DELETE, NPE_CUSTOMER));
         }
     }
 
 
     @Override
-    public Result<Product> createProduct(Product product){
+    public Result<Product> createProduct(Product product) throws IOException {
 
         if (readProductById(product.getId()).getStatus().equals(ERROR)){
             execute(String.format(PRODUCT_INSERT, product.getId(), product.getName(), product.getType()));
-            return new Result(SUCCESS,product, CREATE,CREATE_SUCCESS_PRODUCT);
+            return writeToMongo(new Result(SUCCESS,product, CREATE,CREATE_SUCCESS_PRODUCT));
         }else{
-            return new Result(ERROR,product, CREATE,CREATE_ERROR_PRODUCT);
+            return writeToMongo(new Result(ERROR,product, CREATE,CREATE_ERROR_PRODUCT));
         }
 
     }
 
 
     @Override
-    public Result<Product> readProductById(Long id) {
+    public Result<Product> readProductById(Long id) throws IOException {
         Product product = null;
         ResultSet set = select(String.format(PRODUCT_SELECT, id));
         try {
@@ -123,47 +123,47 @@ public class DataProviderJDBC extends IDataProvider{
 
         if (Optional.ofNullable(product).equals(Optional.empty())){
 
-            return new Result(ERROR, new Product(id,null,null), READ, NPE_PRODUCT);
+            return writeToMongo(new Result(ERROR, new Product(id,null,null), READ, NPE_PRODUCT));
         }
         else {
-            return new Result(SUCCESS, product , READ, EXIST_PRODUCT);
+            return writeToMongo(new Result(SUCCESS, product , READ, EXIST_PRODUCT));
         }
     }
 
 
     @Override
-    public Result<Product> updateProduct(Product product) {
+    public Result<Product> updateProduct(Product product) throws IOException {
         if (readProductById(product.getId()).getStatus().equals(SUCCESS)) {
             execute(String.format(PRODUCT_UPDATE, product.getName(), product.getType(), product.getId()));
-            return new Result(SUCCESS,product, UPDATE, UPDATE_SUCCESS);
+            return writeToMongo(new Result(SUCCESS,product, UPDATE, UPDATE_SUCCESS));
         }
         else{
-            return new Result(ERROR,product, UPDATE, NPE_PRODUCT);
+            return writeToMongo(new Result(ERROR,product, UPDATE, NPE_PRODUCT));
         }
     }
 
     @Override
-    public Result<Product> deleteProductById(Long id) {
+    public Result<Product> deleteProductById(Long id) throws IOException {
         Product product = readProductById(id).getBean();
         if (readProductById(id).getStatus().equals(SUCCESS)) {
             execute(String.format(PRODUCT_DELETE, id));
-            return new Result(SUCCESS,product, DELETE, REMOVE_SUCCESS);
+            return writeToMongo(new Result(SUCCESS,product, DELETE, REMOVE_SUCCESS));
         }
         else{
-            return new Result(ERROR,new Product(id,null,null), DELETE, NPE_CUSTOMER);
+            return writeToMongo(new Result(ERROR,new Product(id,null,null), DELETE, NPE_CUSTOMER));
         }
     }
 
     @Override
-    public Result<Order> createOrder(Order order) {
+    public Result<Order> createOrder(Order order) throws IOException {
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
             Customer customer = order.getCustomer();
             Product product = order.getProduct();
             if (readProductById(product.getId()).getStatus().equals(ERROR)) {
-                return new Result(ERROR, customer, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId()));
+                return writeToMongo(new Result(ERROR, customer, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId())));
             }
             if (readCustomerById(customer.getId()).getStatus().equals(ERROR)) {
-                return new Result(ERROR, product, CREATE, String.format(EMPTY_BEAN, order.getProduct().getId()));
+                return writeToMongo(new Result(ERROR, product, CREATE, String.format(EMPTY_BEAN, order.getProduct().getId())));
             }
             /**
              *
@@ -175,15 +175,15 @@ public class DataProviderJDBC extends IDataProvider{
             }*/
 
             execute(String.format(ORDER_INSERT, order.getId(), order.getProduct().getId(),order.getCustomer().getId()));
-            return new Result(SUCCESS,order,CREATE,CREATE_SUCCESS_ORDER);
+            return writeToMongo(new Result(SUCCESS,order,CREATE,CREATE_SUCCESS_ORDER));
         }
         else {
-            return new Result(ERROR, order, CREATE, String.format(PRESENT_BEAN, order.getId()));
+            return writeToMongo(new Result(ERROR, order, CREATE, String.format(PRESENT_BEAN, order.getId())));
         }
     }
 
     @Override
-    public Result<Order> readOrderById(Long id) throws NullPointerException {
+    public Result<Order> readOrderById(Long id) throws NullPointerException, IOException {
 
         Order order = new Order();
         ResultSet set = select(String.format(ORDER_SELECT, id));
@@ -196,11 +196,11 @@ public class DataProviderJDBC extends IDataProvider{
                 Customer customer = readCustomerById(set.getLong(3)).getBean();
                 if (readProductById(product.getId()).getStatus().equals(ERROR)) {
 
-                    return new Result(ERROR,new Order(id,new Product(id,null,null),new Customer(id,null,null)),READ,NPE_PRODUCT);
+                    return writeToMongo(new Result(ERROR,new Order(id,new Product(id,null,null),new Customer(id,null,null)),READ,NPE_PRODUCT));
                 }
                 if (readCustomerById(customer.getId()).getStatus().equals(ERROR)) {
 
-                    return new Result(ERROR,new Order(id,new Product(id,null,null),new Customer(id,null,null)),READ,NPE_CUSTOMER);
+                    return writeToMongo(new Result(ERROR,new Order(id,new Product(id,null,null),new Customer(id,null,null)),READ,NPE_CUSTOMER));
                 }
 
                 order.setProduct(product);
@@ -208,36 +208,36 @@ public class DataProviderJDBC extends IDataProvider{
             }
             else{
 
-                return new Result(ERROR,new Order(id,new Product(id,null,MILK),new Customer(id,null,null)),READ,NPE_CUSTOMER);
+                return writeToMongo(new Result(ERROR,new Order(id,new Product(id,null,MILK),new Customer(id,null,null)),READ,NPE_CUSTOMER));
             }
         } catch (Exception exception) {
             log.error(exception);
         }
 
-        return new Result(SUCCESS,order,READ,EXIST_ORDER);
+        return writeToMongo(new Result(SUCCESS,order,READ,EXIST_ORDER));
     }
 
     @Override
-    public Result<Order> updateOrder(Order order) {
+    public Result<Order> updateOrder(Order order) throws IOException {
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
             execute(String.format(ORDER_UPDATE, order.getProduct().getId(), order.getCustomer().getId(), order.getId()));
-            return new Result(ERROR,order, UPDATE, NPE_ORDER );
+            return writeToMongo(new Result(ERROR,order, UPDATE, NPE_ORDER ));
         } else {
-            return new Result(SUCCESS, order, UPDATE, UPDATE_SUCCESS);
+            return writeToMongo(new Result(SUCCESS, order, UPDATE, UPDATE_SUCCESS));
         }
     }
 
 
 
     @Override
-    public Result<Order> deleteOrderById(Long id) {
+    public Result<Order> deleteOrderById(Long id) throws IOException {
         Order order = (readOrderById(id).getBean());
         if (readOrderById(id).getStatus().equals(ERROR)) {
 
-            return new Result(ERROR,new Order(id,null,null), DELETE, String.format(EMPTY_BEAN, id));
+            return writeToMongo(new Result(ERROR,new Order(id,null,null), DELETE, String.format(EMPTY_BEAN, id)));
         }
         execute(String.format(ORDER_DELETE, id));
-        return new Result(SUCCESS, order, DELETE, REMOVE_SUCCESS);
+        return writeToMongo(new Result(SUCCESS, order, DELETE, REMOVE_SUCCESS));
     }
 
     private <T> Result<T> execute(String sql) {
