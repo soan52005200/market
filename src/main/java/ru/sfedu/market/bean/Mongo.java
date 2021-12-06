@@ -26,7 +26,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static ru.sfedu.market.Constants.USER;
 import static ru.sfedu.market.bean.ProductType.*;
+import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
 
 
 public class Mongo {
@@ -45,12 +47,11 @@ public class Mongo {
 
     private Status status;
 
-    public Mongo(){ }
 
-    public Mongo(Result result) {
+    public Mongo(Result result) throws IOException {
         this.className = result.getBean().getClass();
         this.date = new Date();
-        this.actor = "MAIN ACTOR";
+        this.actor = getConfigurationEntry(USER);
         this.methodName = result.getMethodName();
         this.object = result.getBean();
         this.status = result.getStatus();
@@ -83,7 +84,6 @@ public class Mongo {
         return status;
     }
 
-    /**Передача данных для mongo осуществляется через методы создания объектов*/
 
 
 

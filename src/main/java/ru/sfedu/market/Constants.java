@@ -16,7 +16,7 @@ public final class Constants {
     public static final String PERSISTENCE_SUCCESS = "Объект %s успешно сохранен";
     public static final String REMOVE_SUCCESS = "Объект успешно удалён";
     public static final String REMOVE_UNSUCCESSFUL = "Объект не удалён";
-
+    public static final String USER="user";
 
     public static final String CSV_CUSTOMER_KEY = "csvCustomer";
     public static final String CSV_PRODUCT_KEY = "csvProduct";
