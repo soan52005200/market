@@ -25,7 +25,7 @@ import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
 import static ru.sfedu.market.utils.Crud.*;
 import static ru.sfedu.market.utils.Status.*;
 
-public class DataProviderCSV implements IDataProvider {
+public class DataProviderCSV extends IDataProvider {
     private static final Logger log = LogManager.getLogger(DataProviderCSV.class);
 
 

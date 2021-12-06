@@ -6,11 +6,11 @@ import ru.sfedu.market.utils.Result;
 
 import java.util.List;
 import java.util.Optional;
-
+abstract class IDataProvider{
 /**
  *
  */
-public interface IDataProvider {
+public IDataProvider {
 
     /**
      * Регистрация клиента в сервисе
@@ -110,4 +110,4 @@ public interface IDataProvider {
 
 
 
-}
+}}

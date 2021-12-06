@@ -4,20 +4,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.sfedu.market.Constants.*;
 import org.junit.jupiter.api.Test;
-import ru.sfedu.market.Main;
-import ru.sfedu.market.bean.Customer;
-import ru.sfedu.market.utils.ConfigurationUtil;
 import ru.sfedu.market.api.DataProviderCSV.*;
-import ru.sfedu.market.utils.Result;
-import ru.sfedu.market.utils.Status;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
+
 
 import static org.junit.jupiter.api.Assertions.*;
-import static ru.sfedu.market.Constants.FIRST_TEST_RESULT;
-import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
+
 import static ru.sfedu.market.utils.Status.*;
 
 class CSVDataProviderTest extends Mongo{
@@ -25,13 +18,13 @@ class CSVDataProviderTest extends Mongo{
 
     private static final Logger log = LogManager.getLogger(CSVDataProviderTest.class.getName());
 
-    private final IDataProvider csv = new DataProviderCSV();
+
 
 
     @Test
     void crudCsvCustomerSuccess() throws IOException{
 
-        assertEquals(writeToMongo(csv.createCustomer(readyCustomer1())).getStatus(),SUCCESS);/** Crud */
+        assertEquals(writeToMongo(createCustomer(readyCustomer1())).getStatus(),SUCCESS);/** Crud */
         assertEquals(writeToMongo(csv.readCustomerById(readyCustomer1().getId())).getStatus(),SUCCESS);/** cRud  */
         assertEquals(writeToMongo(csv.updateCustomer(readyCustomer2())).getStatus(),SUCCESS);/** crUd  */
         assertEquals(writeToMongo(csv.deleteCustomerById(readyCustomer2().getId())).getStatus(),SUCCESS); /** cruD*/

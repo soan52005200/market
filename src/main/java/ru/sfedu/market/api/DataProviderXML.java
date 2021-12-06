@@ -23,7 +23,7 @@ import static ru.sfedu.market.utils.Crud.*;
 import static ru.sfedu.market.utils.Status.*;
 
 
-public class DataProviderXML implements IDataProvider{
+public class DataProviderXML extends IDataProvider{
 
     private static final Logger log = LogManager.getLogger(DataProviderXML.class);
 

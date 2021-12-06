@@ -5,12 +5,7 @@ import com.opencsv.exceptions.CsvConstraintViolationException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import ru.sfedu.market.api.DataProviderCSV;
-import ru.sfedu.market.api.IDataProvider;
-import ru.sfedu.market.utils.Result;
 
-import java.util.Optional;
-
-import static ru.sfedu.market.Constants.NPE_CUSTOMER;
 import static ru.sfedu.market.Constants.NPE_PRODUCT;
 import static ru.sfedu.market.utils.Status.ERROR;
 
