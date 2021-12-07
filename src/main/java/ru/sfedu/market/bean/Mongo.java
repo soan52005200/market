@@ -47,6 +47,8 @@ public class Mongo {
 
     private Status status;
 
+    private String description;
+
 
     public Mongo(Result result) throws IOException {
         this.className = result.getBean().getClass();
@@ -55,6 +57,7 @@ public class Mongo {
         this.methodName = result.getMethodName();
         this.object = result.getBean();
         this.status = result.getStatus();
+        this.description = result.getLog();
     }
 
 
@@ -84,19 +87,10 @@ public class Mongo {
         return status;
     }
 
-
-
-
-    @Override
-    public String toString() {
-        return "Mongo{" +
-                "className=" + className +
-                ", date=" + date +
-                ", actor='" + actor + '\'' +
-                ", methodName=" + methodName +
-                ", object=" + object +
-                ", status=" + status +
-                '}';
+    public String getDescription() {
+        return description;
     }
+
+
 }
 

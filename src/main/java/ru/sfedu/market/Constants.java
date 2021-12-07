@@ -26,6 +26,8 @@ public final class Constants {
     public static final String XML_PRODUCT_KEY = "xmlProduct";
     public static final String XML_ORDER_KEY = "xmlOrder";
 
+    public static final String AGE_ERROR="Покупателю меньше 18";
+
     public static final String ORDER_CLOSE = "Заказ успешно закрыт";
     public static final String PRESENT_BEAN = "Объект с ID=%d уже существует";
 

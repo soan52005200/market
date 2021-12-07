@@ -156,6 +156,11 @@ public class DataProviderJDBC extends IDataProvider{
 
     @Override
     public Result<Order> createOrder(Order order) throws IOException {
+        if ((order.getCustomer().getAge()<18)&&(order.getProduct().getType().equals(ProductType.ALCOHOL)))
+        {
+
+            return writeToMongo(new Result(ERROR, order,CREATE,AGE_ERROR));
+        }/**Проверка на возраст покупателя если в заказе алкоголь.*/
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
             Customer customer = order.getCustomer();
             Product product = order.getProduct();
@@ -165,14 +170,7 @@ public class DataProviderJDBC extends IDataProvider{
             if (readCustomerById(customer.getId()).getStatus().equals(ERROR)) {
                 return writeToMongo(new Result(ERROR, product, CREATE, String.format(EMPTY_BEAN, order.getProduct().getId())));
             }
-            /**
-             *
-             * Проверка на восраст
-             *
 
-            if (customer.get().getAge() < product.get().getAgeLimit()) {
-                return new Result<>(UNSUCCESSFUL, null, EXCEPTION_AGE_LIMIT);
-            }*/
 
             execute(String.format(ORDER_INSERT, order.getId(), order.getProduct().getId(),order.getCustomer().getId()));
             return writeToMongo(new Result(SUCCESS,order,CREATE,CREATE_SUCCESS_ORDER));

@@ -13,8 +13,6 @@ import ru.sfedu.market.bean.*;
 import ru.sfedu.market.utils.Result;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 public abstract class IDataProvider{
 /**
  *
@@ -124,6 +122,7 @@ public abstract class IDataProvider{
         doc.put("methodName",mongo.getMethodName().toString());
         doc.put("object",mongo.getObject().toString());
         doc.put("status",mongo.getStatus().toString());
+        doc.put("description",mongo.getDescription());
         return doc;
     }
 

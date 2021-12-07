@@ -72,6 +72,15 @@ public class BeanTest {
         return new Order(2L, readyProduct3(), readyCustomer3());
 
     }
+    public Order readyOrder4(){
+        return new Order(6L, readyProduct3(), readyCustomer4());
+
+    }
+    public Customer readyCustomer4(){
+
+        return new Customer(1L, "Ivan", 17);
+
+    }
 
 
 }

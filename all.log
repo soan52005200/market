@@ -458,3 +458,4 @@ INSERT INTO "order" VALUES (1, 1, 1); [23505-200]
 01:41:29.892 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
 01:45:02.687 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
 01:45:02.714 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
+18:33:43.298 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException: Такого продукта не существует

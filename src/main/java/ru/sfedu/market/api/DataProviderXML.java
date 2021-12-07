@@ -9,6 +9,7 @@ import org.simpleframework.xml.core.Persister;
 import ru.sfedu.market.bean.Customer;
 import ru.sfedu.market.bean.Order;
 import ru.sfedu.market.bean.Product;
+import ru.sfedu.market.bean.ProductType;
 import ru.sfedu.market.utils.Result;
 
 import java.io.FileReader;
@@ -82,6 +83,7 @@ public class DataProviderXML extends IDataProvider{
 
     @Override
     public Result<Product> createProduct(Product product) throws IOException {
+
         if (readProductById(product.getId()).getStatus().equals(ERROR)) {
             List<Product> list = getAll(Product.class, XML_PRODUCT_KEY);
             list.add(product);
@@ -135,6 +137,11 @@ public class DataProviderXML extends IDataProvider{
 
     @Override
     public Result<Order> createOrder(Order order) throws IOException {
+        if ((order.getCustomer().getAge()<18)&&(order.getProduct().getType().equals(ProductType.ALCOHOL)))
+        {
+
+            return writeToMongo(new Result(ERROR, order,CREATE,AGE_ERROR));
+        }/**Проверка на возраст покупателя если в заказе алкоголь.*/
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
             Customer customer = readCustomerById(order.getId()).getBean();
             Product product = readProductById(order.getId()).getBean();
@@ -235,7 +242,7 @@ public class DataProviderXML extends IDataProvider{
     }
 
 
-/** ПЕРЕМЕСТИТЬ В class отдельный */
+
 
     @Root(name = "Container")
     private static class Container<T> {

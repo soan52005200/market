@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import ru.sfedu.market.bean.Customer;
 import ru.sfedu.market.bean.Order;
 import ru.sfedu.market.bean.Product;
+import ru.sfedu.market.bean.ProductType;
 import ru.sfedu.market.utils.Result;
 
 import java.io.FileReader;
@@ -147,6 +148,12 @@ public class DataProviderCSV extends IDataProvider {
 
     @Override
     public Result<Order> createOrder(Order order) throws IOException {
+        if ((order.getCustomer().getAge()<18)&&(order.getProduct().getType().equals(ProductType.ALCOHOL)))
+        {
+
+            return writeToMongo(new Result(ERROR, order,CREATE,AGE_ERROR));
+        }/**Проверка на возраст покупателя если в заказе алкоголь.*/
+
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
             create(order,CSV_ORDER_KEY);
             return writeToMongo(new Result(SUCCESS, order, CREATE, CREATE_SUCCESS_ORDER));
@@ -192,12 +199,12 @@ public class DataProviderCSV extends IDataProvider {
 
     @Override
     public Result<Order> deleteOrderById(Long id) throws IOException {
+        Order order = readOrderById(id).getBean();
         List<Order> orders = getAll(Order.class, CSV_ORDER_KEY);
         if (readOrderById(id).getStatus().equals(ERROR)) {
             return writeToMongo(new Result(ERROR, new Order(id,null,null), DELETE, String.format(EMPTY_BEAN, id)));
         }
-        /**Надо реализовать проверку на возраст покупателя если в заказе алкоголь.*/
-        Order order = readOrderById(id).getBean();
+
         orders.removeIf(o -> o.getId().equals(id));
         remove(orders,CSV_ORDER_KEY);
         return writeToMongo(new Result(SUCCESS,order,DELETE, REMOVE_SUCCESS));
