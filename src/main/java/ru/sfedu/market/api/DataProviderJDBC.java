@@ -2,10 +2,7 @@ package ru.sfedu.market.api;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.sfedu.market.bean.Customer;
-import ru.sfedu.market.bean.Order;
-import ru.sfedu.market.bean.Product;
-import ru.sfedu.market.bean.ProductType;
+import ru.sfedu.market.bean.*;
 import ru.sfedu.market.utils.Result;
 import ru.sfedu.market.utils.Status;
 
@@ -91,28 +88,29 @@ public class DataProviderJDBC extends IDataProvider{
 
 
     @Override
-    public Result<Product> createProduct(Product product) throws IOException {
+    public Result<Eatable> createEatable(Eatable eatable) throws IOException {
 
-        if (readProductById(product.getId()).getStatus().equals(ERROR)){
-            execute(String.format(PRODUCT_INSERT, product.getId(), product.getName(), product.getType()));
-            return writeToMongo(new Result(SUCCESS,product, CREATE,CREATE_SUCCESS_PRODUCT));
+        if (readEatableById(eatable.getId()).getStatus().equals(ERROR)){
+            execute(String.format(EATABLE_INSERT, eatable.getId(), eatable.getName(), eatable.getType()));
+            return writeToMongo(new Result(SUCCESS,eatable, CREATE,CREATE_SUCCESS_PRODUCT));
         }else{
-            return writeToMongo(new Result(ERROR,product, CREATE,CREATE_ERROR_PRODUCT));
+            return writeToMongo(new Result(ERROR,eatable, CREATE,CREATE_ERROR_PRODUCT));
         }
 
     }
 
 
     @Override
-    public Result<Product> readProductById(Long id) throws IOException {
-        Product product = null;
-        ResultSet set = select(String.format(PRODUCT_SELECT, id));
+    public Result<Eatable> readEatableById(Long id) throws IOException {
+        Eatable eatable = null;
+        ResultSet set = select(String.format(EATABLE_SELECT, id));
         try {
             if (set != null && set.next()) {
-                product = new Product(
+                eatable = new Eatable(
                         set.getLong(1),
                         set.getString(2),
-                        ProductType.valueOf(set.getString(3))
+                        ProductType.valueOf(set.getString(3)),
+                        set.getInt(4)
                 );
 
             }
@@ -121,36 +119,36 @@ public class DataProviderJDBC extends IDataProvider{
 
         }
 
-        if (Optional.ofNullable(product).equals(Optional.empty())){
+        if (Optional.ofNullable(eatable).equals(Optional.empty())){
 
-            return writeToMongo(new Result(ERROR, new Product(id,null,null), READ, NPE_PRODUCT));
+            return writeToMongo(new Result(ERROR, new Eatable(id,null,null,null), READ, NPE_PRODUCT));
         }
         else {
-            return writeToMongo(new Result(SUCCESS, product , READ, EXIST_PRODUCT));
+            return writeToMongo(new Result(SUCCESS, eatable , READ, EXIST_PRODUCT));
         }
     }
 
 
     @Override
-    public Result<Product> updateProduct(Product product) throws IOException {
-        if (readProductById(product.getId()).getStatus().equals(SUCCESS)) {
-            execute(String.format(PRODUCT_UPDATE, product.getName(), product.getType(), product.getId()));
-            return writeToMongo(new Result(SUCCESS,product, UPDATE, UPDATE_SUCCESS));
+    public Result<Eatable> updateEatable(Eatable eatable) throws IOException {
+        if (readEatableById(eatable.getId()).getStatus().equals(SUCCESS)) {
+            execute(String.format(EATABLE_UPDATE, eatable.getName(), eatable.getType(), eatable.getId()));
+            return writeToMongo(new Result(SUCCESS,eatable, UPDATE, SUCCESS_UPDATE));
         }
         else{
-            return writeToMongo(new Result(ERROR,product, UPDATE, NPE_PRODUCT));
+            return writeToMongo(new Result(ERROR,eatable, UPDATE, NPE_PRODUCT));
         }
     }
 
     @Override
-    public Result<Product> deleteProductById(Long id) throws IOException {
-        Product product = readProductById(id).getBean();
-        if (readProductById(id).getStatus().equals(SUCCESS)) {
-            execute(String.format(PRODUCT_DELETE, id));
-            return writeToMongo(new Result(SUCCESS,product, DELETE, REMOVE_SUCCESS));
+    public Result<Eatable> deleteEatableById(Long id) throws IOException {
+        Eatable eatable = readEatableById(id).getBean();
+        if (readEatableById(id).getStatus().equals(SUCCESS)) {
+            execute(String.format(EATABLE_DELETE, id));
+            return writeToMongo(new Result(SUCCESS,eatable, DELETE, REMOVE_SUCCESS));
         }
         else{
-            return writeToMongo(new Result(ERROR,new Product(id,null,null), DELETE, NPE_CUSTOMER));
+            return writeToMongo(new Result(ERROR,new Eatable(id,null,null,null), DELETE, NPE_PRODUCT));
         }
     }
 
@@ -160,7 +158,7 @@ public class DataProviderJDBC extends IDataProvider{
         {
 
             return writeToMongo(new Result(ERROR, order,CREATE,AGE_ERROR));
-        }/**Проверка на возраст покупателя если в заказе алкоголь.*/
+        }
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
             Customer customer = order.getCustomer();
             Product product = order.getProduct();

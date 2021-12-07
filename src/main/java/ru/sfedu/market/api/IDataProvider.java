@@ -55,7 +55,7 @@ public abstract class IDataProvider{
      * @return
      */
 
-    public abstract Result<Product> createProduct(Product product) throws IOException;
+    public abstract Result<Eatable> createEatable(Eatable eatable) throws IOException;
 
     /**
      * Получить информацию о продукте по его id
@@ -63,15 +63,15 @@ public abstract class IDataProvider{
      * @return
      */
 
-    public abstract Result<Product> readProductById(Long id) throws IOException;
+    public abstract Result<Eatable> readEatableById(Long id) throws IOException;
 
     /**
      * Изменение информации о продукте
-     * @param product
+     * @param eatable
      * @return
      */
 
-    public abstract Result<Product> updateProduct(Product product) throws IOException;
+    public abstract Result<Eatable> updateEatable(Eatable eatable) throws IOException;
 
     /**
      * Удаление продукта из сервиса
@@ -79,7 +79,7 @@ public abstract class IDataProvider{
      * @return
      */
 
-    public abstract Result<Product> deleteProductById(Long id) throws IOException;
+    public abstract Result<Eatable> deleteEatableById(Long id) throws IOException;
 
 
     /**

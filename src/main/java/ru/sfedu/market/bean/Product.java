@@ -2,6 +2,7 @@ package ru.sfedu.market.bean;
 
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvCustomBindByPosition;
+import org.simpleframework.xml.Element;
 
 import javax.swing.text.html.Option;
 import java.util.Optional;
@@ -10,13 +11,14 @@ import java.util.Optional;
 public class Product extends Object {
 
     @CsvBindByPosition(position = 0)
-    private Long id;
+    protected Long id;
 
     @CsvBindByPosition(position = 1)
-    private String name;
+    protected String name;
 
     @CsvCustomBindByPosition(position = 2, converter = ProductTypeConverter.class)
-    private ProductType type;
+    protected ProductType type;
+
 
     public Product() { }
 
