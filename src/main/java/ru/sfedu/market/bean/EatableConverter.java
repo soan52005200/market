@@ -8,8 +8,7 @@ import ru.sfedu.market.api.DataProviderCSV;
 import ru.sfedu.market.api.IDataProvider;
 
 import java.io.IOException;
-
-import static ru.sfedu.market.Constants.NPE_PRODUCT;
+import static ru.sfedu.market.Constants.NPE_EATABLE;
 import static ru.sfedu.market.utils.Status.ERROR;
 
 
@@ -23,7 +22,7 @@ public class EatableConverter extends AbstractBeanField<Eatable> {
         try {
             Eatable eatable = csv.readEatableById(Long.parseLong(s)).getBean();
             if (csv.readEatableById(eatable.getId()).getStatus().equals(ERROR)) {
-                throw new NullPointerException(NPE_PRODUCT);
+                throw new NullPointerException(NPE_EATABLE);
             }
             return eatable;
         } catch (IOException e) {
@@ -39,7 +38,7 @@ public class EatableConverter extends AbstractBeanField<Eatable> {
         try {
             Eatable eatable = (Eatable) value;
             if (csv.readEatableById(eatable.getId()).getStatus().equals(ERROR)) {
-                throw new NullPointerException(NPE_PRODUCT);
+                throw new NullPointerException(NPE_EATABLE);
 
             }
             return eatable.getId().toString();
