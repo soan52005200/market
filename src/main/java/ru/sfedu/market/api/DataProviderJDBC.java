@@ -162,7 +162,7 @@ public class DataProviderJDBC extends IDataProvider{
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
             Customer customer = order.getCustomer();
             Product product = order.getProduct();
-            if (readProductById(product.getId()).getStatus().equals(ERROR)) {
+            if (readProductByIdAndType(product.getId(),order.getType()).getStatus().equals(ERROR)) {
                 return writeToMongo(new Result(ERROR, customer, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId())));
             }
             if (readCustomerById(customer.getId()).getStatus().equals(ERROR)) {
@@ -187,12 +187,14 @@ public class DataProviderJDBC extends IDataProvider{
         try {
             if (set != null && set.next()) {
                 order = new Order();
+                order.setType(ProductType.valueOf(set.getString(3)));
                 order.setId(set.getLong(1));
-                Product product = readProductById(set.getLong(2)).getBean();
+                Result productResult =readProductByIdAndType(set.getLong(2),order.getType());
                 Customer customer = readCustomerById(set.getLong(3)).getBean();
-                if (readProductById(product.getId()).getStatus().equals(ERROR)) {
 
-                    return writeToMongo(new Result(ERROR,new Order(id,new Product(id,null,null),new Customer(id,null,null)),READ,NPE_PRODUCT));
+                if (productResult.getStatus().equals(ERROR)) {
+
+                    return writeToMongo(new Result(ERROR,new Order(id,new Product(id,null,null),new Customer(id,null,null),null),READ,NPE_PRODUCT));
                 }
                 if (readCustomerById(customer.getId()).getStatus().equals(ERROR)) {
 
@@ -234,6 +236,19 @@ public class DataProviderJDBC extends IDataProvider{
         }
         execute(String.format(ORDER_DELETE, id));
         return writeToMongo(new Result(SUCCESS, order, DELETE, REMOVE_SUCCESS));
+    }
+
+    @Override
+    public Result readProductByTypeAndId(ProductType type, Long id) throws IOException {
+        switch (type) {
+            case MILK,MEET,BAKERY,BAKERY,FRUIT,VEGETABLE,SWEET,ALCOHOL:
+                return readEatableById(id);
+            case CLOTHES,STATIONERY:
+                return readUneatableById(id);
+
+            default:
+                return new Result(ERROR,null,READ,NPE_OBJECT);
+        }
     }
 
     private <T> Result<T> execute(String sql) {

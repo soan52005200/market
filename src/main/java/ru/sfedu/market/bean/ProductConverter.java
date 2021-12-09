@@ -22,7 +22,8 @@ public class ProductConverter extends AbstractBeanField<Product> {
 
         try {
             Product product = null;
-            product = csv.readProductById(Long.parseLong(s)).getBean();if (csv.readProductById(product.getId()).getStatus().equals(ERROR)) {
+            product = csv.readProductById(Long.parseLong(s)).getBean();
+            if (csv.readProductById(product.getId()).getStatus().equals(ERROR)) {
                 throw new NullPointerException(NPE_PRODUCT);
             }
             return product;

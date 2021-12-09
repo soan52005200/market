@@ -113,6 +113,14 @@ public abstract class IDataProvider{
 
     public abstract Result<Order> deleteOrderById(Long id) throws IOException;
 
+    /**
+     * Обработка продукта
+     * @param id type
+     * @return
+     */
+
+    public abstract Result<Product> readProductByIdAndType(Long id,ProductType type) throws IOException;
+
 
     protected Document beanToMongo(Mongo mongo){
         Document doc = new Document();

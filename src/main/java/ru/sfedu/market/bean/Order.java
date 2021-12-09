@@ -12,16 +12,23 @@ public class Order {
     private Long id;
     @Element
     @CsvCustomBindByPosition(position = 1,converter = ProductConverter.class)
-    private Product product;
+    private Eatable eatable;
+    @Element
+    @CsvCustomBindByPosition(position = 1,converter = ProductConverter.class)
+    private Uneatable uneatable;
     @Element
     @CsvCustomBindByPosition(position = 2, converter = CustomerConverter.class)
     private Customer customer;
+    @Element
+
+
 
     public Order() { }
 
-    public Order(Long id, Product product, Customer customer) {
+    public Order(Long id, Eatable eatable,Uneatable uneatable, Customer customer) {
         this.id = id;
-        this.product = product;
+        this.eatable = eatable;
+        this.uneatable = uneatable;
         this.customer = customer;
     }
 
@@ -33,12 +40,20 @@ public class Order {
         this.id = id;
     }
 
-    public Product getProduct() {
-        return product;
+    public Eatable getEatable() {
+        return eatable;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setEatable(Eatable eatable) {
+        this.eatable = eatable;
+    }
+
+    public Uneatable getUneatable() {
+        return uneatable;
+    }
+
+    public void setUneatable(Uneatable uneatable) {
+        this.uneatable = uneatable;
     }
 
     public Customer getCustomer() {
@@ -49,11 +64,14 @@ public class Order {
         this.customer = customer;
     }
 
+
+
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", product=" + product +
+                ", eatable=" + eatable +
+                ", uneatable=" + uneatable +
                 ", customer=" + customer +
                 '}';
     }

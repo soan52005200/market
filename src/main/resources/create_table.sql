@@ -33,7 +33,8 @@ create table if not exists uneatable (
 
 create table if not exists "order" (
     id integer not null,
-    product_id integer,
+    eatable_id integer,
+    uneatable_id integer,
     customer_id integer,
 
     primary key (id),

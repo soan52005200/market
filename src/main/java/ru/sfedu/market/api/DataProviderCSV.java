@@ -14,6 +14,7 @@ import ru.sfedu.market.bean.Product;
 import ru.sfedu.market.bean.ProductType;
 import ru.sfedu.market.utils.Result;
 
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,6 +24,7 @@ import java.util.Optional;
 
 import static ru.sfedu.market.Constants.*;
 import static ru.sfedu.market.Constants.CSV_ORDER_KEY;
+import static ru.sfedu.market.bean.ProductType.*;
 import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
 import static ru.sfedu.market.utils.Crud.*;
 import static ru.sfedu.market.utils.Status.*;
@@ -209,6 +211,7 @@ public class DataProviderCSV extends IDataProvider {
         remove(orders,CSV_ORDER_KEY);
         return writeToMongo(new Result(SUCCESS,order,DELETE, REMOVE_SUCCESS));
     }
+
 
 
     /** ПОШЛИ СИСТЕМНЫЕ МЕТОДЫ */

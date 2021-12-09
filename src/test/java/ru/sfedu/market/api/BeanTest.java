@@ -12,9 +12,7 @@ import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.ClassModel;
 import org.bson.codecs.pojo.PojoCodecProvider;
-import ru.sfedu.market.bean.Customer;
-import ru.sfedu.market.bean.Order;
-import ru.sfedu.market.bean.Product;
+import ru.sfedu.market.bean.*;
 import ru.sfedu.market.utils.Crud;
 import ru.sfedu.market.utils.Result;
 import ru.sfedu.market.utils.Status;
@@ -48,39 +46,52 @@ public class BeanTest {
         return new Customer(2L, "Dima", 45);
 
     }
-    public Product readyProduct1(){
-        return new Product(1L, "Moloko_Vkusnoteevo", MILK);
-
-    }
-    public Product readyProduct2(){
-        return new Product(1L, "Borodinskiy", BAKERY);
-
-    }
-    public Product readyProduct3(){
-        return new Product(2L, "Stolichnaya", ALCOHOL);
-
-    }
-    public Order readyOrder1(){
-        return new Order(1L, readyProduct1(), readyCustomer1());
-
-    }
-    public Order readyOrder2(){
-        return new Order(1L, readyProduct2(), readyCustomer2());
-
-    }
-    public Order readyOrder3(){
-        return new Order(2L, readyProduct3(), readyCustomer3());
-
-    }
-    public Order readyOrder4(){
-        return new Order(6L, readyProduct3(), readyCustomer4());
-
-    }
     public Customer readyCustomer4(){
 
         return new Customer(1L, "Ivan", 17);
 
     }
+    public Eatable readyEatable1(){
+        return new Eatable(1L, "Moloko_Vkusnoteevo", MILK,10);
+
+    }
+    public Eatable readyEatable2(){
+        return new Eatable(1L, "Borodinskiy", BAKERY,5);
+
+    }
+    public Eatable readyEatable3(){
+        return new Eatable(2L, "Stolichnaya", ALCOHOL,365);
+
+    }
+    public Uneatable readyUneatable1(){
+        return new Uneatable(1L, "Moloko_Vkusnoteevo", MILK,10);
+
+    }
+    public Uneatable readyUneatable2(){
+        return new Uneatable(1L, "Borodinskiy", BAKERY,5);
+
+    }
+    public Uneatable readyUneatable3(){
+        return new Uneatable(2L, "Stolichnaya", ALCOHOL,365);
+
+    }
+    public Order readyOrder1(){
+        return new Order(1L, readyEatable1(),readyUneatable1(),readyCustomer1());
+
+    }
+    public Order readyOrder2(){
+        return new Order(1L, readyEatable2(),readyUneatable2(), readyCustomer2());
+
+    }
+    public Order readyOrder3(){
+        return new Order(2L, readyEatable3(),readyUneatable3(), readyCustomer3());
+
+    }
+    public Order readyOrder4(){
+        return new Order(6L, readyEatable3(),readyUneatable3(), readyCustomer4());
+
+    }
+
 
 
 }
