@@ -76,11 +76,11 @@ public final class Constants {
 
 
 
-    public static final String ORDER_INSERT = "INSERT INTO \"order\" VALUES (%d, %d, %d);";
+    public static final String ORDER_INSERT = "INSERT INTO \"order\" VALUES (%d, %d, %d, %d);";
     public static final String ORDER_UPDATE = "UPDATE \"order\" SET product_id=%d, customer_id=%d WHERE id = %d;";
-    public static final String ORDER_SELECT = "SELECT id, product_id, customer_id FROM \"order\" WHERE id = %d;";
+    public static final String ORDER_SELECT = "SELECT id, eatable_id, uneatable_id, customer_id FROM \"order\" WHERE id = %d;";
     public static final String ORDER_DELETE = "DELETE FROM \"order\" WHERE id = %d;";
-    public static final String ORDER_SELECT_CUSTOMER = "SELECT id, product_id, customer_id FROM \"order\" WHERE customer_id = %d;";
+    public static final String ORDER_SELECT_CUSTOMER = "SELECT id, eatable_id, uneatable_id, customer_id  FROM \"order\" WHERE customer_id = %d;";
 
 
 

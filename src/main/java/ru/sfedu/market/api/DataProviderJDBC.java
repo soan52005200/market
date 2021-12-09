@@ -121,7 +121,7 @@ public class DataProviderJDBC extends IDataProvider{
 
         if (Optional.ofNullable(eatable).equals(Optional.empty())){
 
-            return writeToMongo(new Result(ERROR, new Eatable(id,null,null,null), READ, NPE_PRODUCT));
+            return writeToMongo(new Result(ERROR, new Eatable(id,null,null,0), READ, NPE_EATABLE));
         }
         else {
             return writeToMongo(new Result(SUCCESS, eatable , READ, EXIST_PRODUCT));
@@ -148,9 +148,74 @@ public class DataProviderJDBC extends IDataProvider{
             return writeToMongo(new Result(SUCCESS,eatable, DELETE, REMOVE_SUCCESS));
         }
         else{
-            return writeToMongo(new Result(ERROR,new Eatable(id,null,null,null), DELETE, NPE_EATABLE));
+            return writeToMongo(new Result(ERROR,new Eatable(id,null,null,0), DELETE, NPE_EATABLE));
         }
     }
+    @Override
+    public Result<Uneatable> createUneatable(Uneatable uneatable) throws IOException {
+
+        if (readUneatableById(uneatable.getId()).getStatus().equals(ERROR)){
+            execute(String.format(UNEATABLE_INSERT, uneatable.getId(), uneatable.getName(), uneatable.getType()));
+            return writeToMongo(new Result(SUCCESS,uneatable, CREATE,CREATE_SUCCESS_PRODUCT));
+        }else{
+            return writeToMongo(new Result(ERROR,uneatable, CREATE,CREATE_ERROR_PRODUCT));
+        }
+
+    }
+
+
+    @Override
+    public Result<Uneatable> readUneatableById(Long id) throws IOException {
+        Uneatable uneatable = null;
+        ResultSet set = select(String.format(UNEATABLE_SELECT, id));
+        try {
+            if (set != null && set.next()) {
+                uneatable = new Uneatable(
+                        set.getLong(1),
+                        set.getString(2),
+                        ProductType.valueOf(set.getString(3)),
+                        set.getInt(4)
+                );
+
+            }
+        } catch (Exception exception) {
+            log.error(exception);
+
+        }
+
+        if (Optional.ofNullable(uneatable).equals(Optional.empty())){
+
+            return writeToMongo(new Result(ERROR, new Uneatable(id,null,null,0), READ, NPE_UNEATABLE));
+        }
+        else {
+            return writeToMongo(new Result(SUCCESS, uneatable , READ, EXIST_PRODUCT));
+        }
+    }
+
+
+    @Override
+    public Result<Uneatable> updateUneatable(Uneatable uneatable) throws IOException {
+        if (readUneatableById(uneatable.getId()).getStatus().equals(SUCCESS)) {
+            execute(String.format(UNEATABLE_UPDATE, uneatable.getName(), uneatable.getType(), uneatable.getId()));
+            return writeToMongo(new Result(SUCCESS,uneatable, UPDATE, SUCCESS_UPDATE));
+        }
+        else{
+            return writeToMongo(new Result(ERROR,uneatable, UPDATE, NPE_UNEATABLE));
+        }
+    }
+
+    @Override
+    public Result<Uneatable> deleteUneatableById(Long id) throws IOException {
+        Uneatable uneatable = readUneatableById(id).getBean();
+        if (readUneatableById(id).getStatus().equals(SUCCESS)) {
+            execute(String.format(UNEATABLE_DELETE, id));
+            return writeToMongo(new Result(SUCCESS,uneatable, DELETE, REMOVE_SUCCESS));
+        }
+        else{
+            return writeToMongo(new Result(ERROR,new Uneatable(id,null,null,0), DELETE, NPE_UNEATABLE));
+        }
+    }
+
 
     @Override
     public Result<Order> createOrder(Order order) throws IOException {
@@ -164,16 +229,16 @@ public class DataProviderJDBC extends IDataProvider{
             Eatable eatable = order.getEatable();
             Uneatable uneatable = order.getUneatable();
             if (readEatableById(eatable.getId()).getStatus().equals(ERROR)) {
-                return writeToMongo(new Result(ERROR, eatable, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId())));
+                return writeToMongo(new Result(ERROR, eatable, CREATE, String.format(EMPTY_BEAN, order.getEatable().getId())));
             }if (readUneatableById(uneatable.getId()).getStatus().equals(ERROR)) {
-                return writeToMongo(new Result(ERROR, uneatable, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId())));
+                return writeToMongo(new Result(ERROR, uneatable, CREATE, String.format(EMPTY_BEAN, order.getUneatable().getId())));
             }
             if (readCustomerById(customer.getId()).getStatus().equals(ERROR)) {
-                return writeToMongo(new Result(ERROR, customer, CREATE, String.format(EMPTY_BEAN, order.getProduct().getId())));
+                return writeToMongo(new Result(ERROR, customer, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId())));
             }
 
 
-            execute(String.format(ORDER_INSERT, order.getId(), order.getProduct().getId(),order.getCustomer().getId()));
+            execute(String.format(ORDER_INSERT, order.getId(), order.getEatable().getId(),order.getUneatable().getId(),order.getCustomer().getId()));
             return writeToMongo(new Result(SUCCESS,order,CREATE,CREATE_SUCCESS_ORDER));
         }
         else {
@@ -190,26 +255,31 @@ public class DataProviderJDBC extends IDataProvider{
         try {
             if (set != null && set.next()) {
                 order = new Order();
-                order.setType(ProductType.valueOf(set.getString(3)));
                 order.setId(set.getLong(1));
-                Result productResult =readProductByIdAndType(set.getLong(2),order.getType());
-                Customer customer = readCustomerById(set.getLong(3)).getBean();
+                Result eatableResult = readEatableById(set.getLong(2));
+                Result uneatableResult = readUneatableById(set.getLong(3));
+                Customer customer = readCustomerById(set.getLong(4)).getBean();
 
-                if (productResult.getStatus().equals(ERROR)) {
+                if (eatableResult.getStatus().equals(ERROR)) {
 
-                    return writeToMongo(new Result(ERROR,new Order(id,new Product(id,null,null),new Customer(id,null,null),null),READ,NPE_PRODUCT));
+                    return writeToMongo(new Result(ERROR,new Order(id,new Eatable(id,null,null,0),new Uneatable(id,null,null,0),new Customer(id,null,null)),READ,NPE_EATABLE));}
+                if (uneatableResult.getStatus().equals(ERROR)) {
+
+                    return writeToMongo(new Result(ERROR,new Order(id,new Eatable(id,null,null,0),new Uneatable(id,null,null,0),new Customer(id,null,null)),READ,NPE_UNEATABLE));
+
                 }
                 if (readCustomerById(customer.getId()).getStatus().equals(ERROR)) {
 
-                    return writeToMongo(new Result(ERROR,new Order(id,new Product(id,null,null),new Customer(id,null,null)),READ,NPE_CUSTOMER));
+                    return writeToMongo(new Result(ERROR,new Order(id,new Eatable(id,null,null,0),new Uneatable(id,null,null,0),new Customer(id,null,null)),READ,NPE_CUSTOMER));
                 }
 
-                order.setProduct(product);
+                order.setEatable((Eatable) eatableResult.getBean());
+                order.setUneatable((Uneatable) uneatableResult.getBean());
                 order.setCustomer(customer);
             }
             else{
 
-                return writeToMongo(new Result(ERROR,new Order(id,new Product(id,null,MILK),new Customer(id,null,null)),READ,NPE_CUSTOMER));
+                return writeToMongo(new Result(ERROR,new Order(id,new Eatable(id,null,null,0),new Uneatable(id,null,null,0),new Customer(id,null,null)),READ,NPE_CUSTOMER));
             }
         } catch (Exception exception) {
             log.error(exception);
@@ -221,7 +291,7 @@ public class DataProviderJDBC extends IDataProvider{
     @Override
     public Result<Order> updateOrder(Order order) throws IOException {
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
-            execute(String.format(ORDER_UPDATE, order.getProduct().getId(), order.getCustomer().getId(), order.getId()));
+            execute(String.format(ORDER_UPDATE, order.getEatable().getId(),order.getUneatable().getId(), order.getCustomer().getId(), order.getId()));
             return writeToMongo(new Result(ERROR,order, UPDATE, NPE_ORDER ));
         } else {
             return writeToMongo(new Result(SUCCESS, order, UPDATE, UPDATE_SUCCESS));
@@ -235,23 +305,10 @@ public class DataProviderJDBC extends IDataProvider{
         Order order = (readOrderById(id).getBean());
         if (readOrderById(id).getStatus().equals(ERROR)) {
 
-            return writeToMongo(new Result(ERROR,new Order(id,null,null), DELETE, String.format(EMPTY_BEAN, id)));
+            return writeToMongo(new Result(ERROR,new Order(id,null,null,null), DELETE, String.format(EMPTY_BEAN, id)));
         }
         execute(String.format(ORDER_DELETE, id));
         return writeToMongo(new Result(SUCCESS, order, DELETE, REMOVE_SUCCESS));
-    }
-
-    @Override
-    public Result readProductByTypeAndId(ProductType type, Long id) throws IOException {
-        switch (type) {
-            case MILK,MEET,BAKERY,BAKERY,FRUIT,VEGETABLE,SWEET,ALCOHOL:
-                return readEatableById(id);
-            case CLOTHES,STATIONERY:
-                return readUneatableById(id);
-
-            default:
-                return new Result(ERROR,null,READ,NPE_OBJECT);
-        }
     }
 
     private <T> Result<T> execute(String sql) {

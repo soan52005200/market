@@ -17,7 +17,7 @@ public class Eatable extends Product{
     //
     public Eatable () { };
 
-    public Eatable(Long id, String name, ProductType type,Integer bestBefore) {
+    public Eatable(Long id, String name, ProductType type,int bestBefore) {
         this.id=id;
         this.name=name;
         this.type=type;
