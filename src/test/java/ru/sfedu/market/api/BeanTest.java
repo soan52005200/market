@@ -64,15 +64,15 @@ public class BeanTest {
 
     }
     public Uneatable readyUneatable1(){
-        return new Uneatable(1L, "Moloko_Vkusnoteevo", MILK,10);
+        return new Uneatable(1L, "Mobile_phone", ELECTRONICS,365);
 
     }
     public Uneatable readyUneatable2(){
-        return new Uneatable(1L, "Borodinskiy", BAKERY,5);
+        return new Uneatable(1L, "Vacuum_cleaner", ELECTRONICS,720);
 
     }
     public Uneatable readyUneatable3(){
-        return new Uneatable(2L, "Stolichnaya", ALCOHOL,365);
+        return new Uneatable(2L, "Iron", ELECTRONICS,365);
 
     }
     public Order readyOrder1(){

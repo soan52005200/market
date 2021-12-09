@@ -14,13 +14,17 @@ public class XMLDataProviderTest extends BeanTest {
 
 
     @Test
-    public void registerXmlCustomerSuccess() throws IOException {
+    void crudXmlCustomerSuccess() throws IOException{
 
-        assertEquals(xml.createCustomer(readyCustomer1()).getStatus(),SUCCESS);/** Crud  */
+        assertEquals(xml.createCustomer(readyCustomer1()).getStatus(),SUCCESS);/** Crud */
         assertEquals(xml.readCustomerById(readyCustomer1().getId()).getStatus(),SUCCESS);/** cRud  */
         assertEquals(xml.updateCustomer(readyCustomer2()).getStatus(),SUCCESS);/** crUd  */
         assertEquals(xml.deleteCustomerById(readyCustomer2().getId()).getStatus(),SUCCESS); /** cruD*/
+
     }
+
+
+
     @Test
     void crudXmlCustomerUnsuccessful() throws IOException {
         xml.createCustomer(readyCustomer3());
@@ -34,31 +38,55 @@ public class XMLDataProviderTest extends BeanTest {
         xml.deleteCustomerById(readyCustomer3().getId());
     }
     @Test
-    void crudXmlProductSuccess() throws IOException{
-        assertEquals(xml.createProduct(readyProduct1()).getStatus(),SUCCESS);/** Crud  */
-        assertEquals(xml.readProductById(readyProduct1().getId()).getStatus(),SUCCESS);/** cRud  */
-        assertEquals(xml.updateProduct(readyProduct2()).getStatus(),SUCCESS);/** crUd  */
-        assertEquals(xml.deleteProductById(readyProduct2().getId()).getStatus(),SUCCESS); /** cruD*/
+    void crudXmlEatableSuccess() throws IOException{
+        assertEquals(xml.createEatable(readyEatable1()).getStatus(),SUCCESS);/** Crud  */
+        assertEquals(xml.readEatableById(readyEatable1().getId()).getStatus(),SUCCESS);/** cRud  */
+        assertEquals(xml.updateEatable(readyEatable2()).getStatus(),SUCCESS);/** crUd  */
+        assertEquals(xml.deleteEatableById(readyEatable2().getId()).getStatus(),SUCCESS); /** cruD*/
     }
 
 
 
     @Test
-    void crudXmlProductUnsuccessful() throws IOException {
-        xml.createProduct(readyProduct3());
+    void crudXmlEatableUnsuccessful() throws IOException {
+        xml.createEatable(readyEatable3());
 
-        assertEquals(xml.createProduct(readyProduct3()).getStatus(),ERROR);/** Crud  */
-        assertEquals(xml.readProductById(readyProduct1().getId()).getStatus(),ERROR);/** cRud  */
-        assertEquals(xml.updateProduct(readyProduct1()).getStatus(),ERROR);/** crUd  */
-        assertEquals(xml.deleteProductById(readyProduct2().getId()).getStatus(),ERROR); /** cruD*/
+        assertEquals(xml.createEatable(readyEatable3()).getStatus(),ERROR);/** Crud  */
+        assertEquals(xml.readEatableById(readyEatable1().getId()).getStatus(),ERROR);/** cRud  */
+        assertEquals(xml.updateEatable(readyEatable1()).getStatus(),ERROR);/** crUd  */
+        assertEquals(xml.deleteEatableById(readyEatable2().getId()).getStatus(),ERROR); /** cruD*/
 
 
-        xml.deleteProductById(readyProduct3().getId());
+        xml.deleteEatableById(readyEatable3().getId());
+    }
+    @Test
+    void crudXmlUneatableSuccess() throws IOException{
+        assertEquals(xml.createUneatable(readyUneatable1()).getStatus(),SUCCESS);/** Crud  */
+        assertEquals(xml.readUneatableById(readyUneatable1().getId()).getStatus(),SUCCESS);/** cRud  */
+        assertEquals(xml.updateUneatable(readyUneatable2()).getStatus(),SUCCESS);/** crUd  */
+        assertEquals(xml.deleteUneatableById(readyUneatable2().getId()).getStatus(),SUCCESS); /** cruD*/
+    }
+
+
+
+    @Test
+    void crudXmlUneatableUnsuccessful() throws IOException {
+        xml.createUneatable(readyUneatable3());
+
+        assertEquals(xml.createUneatable(readyUneatable3()).getStatus(),ERROR);/** Crud  */
+        assertEquals(xml.readUneatableById(readyUneatable1().getId()).getStatus(),ERROR);/** cRud  */
+        assertEquals(xml.updateUneatable(readyUneatable1()).getStatus(),ERROR);/** crUd  */
+        assertEquals(xml.deleteUneatableById(readyUneatable2().getId()).getStatus(),ERROR); /** cruD*/
+
+
+        xml.deleteUneatableById(readyUneatable3().getId());
     }
     @Test
     void crudXmlOrderSuccess() throws IOException{
         xml.createCustomer(readyCustomer1());
-        xml.createProduct(readyProduct1());
+        xml.createUneatable(readyUneatable1());
+        xml.createEatable(readyEatable1());
+
 
 
         assertEquals(xml.createOrder(readyOrder1()).getStatus(),SUCCESS);/** Crud  */
@@ -67,7 +95,8 @@ public class XMLDataProviderTest extends BeanTest {
         assertEquals(xml.deleteOrderById(readyOrder2().getId()).getStatus(),SUCCESS); /** cruD*/
 
         xml.deleteCustomerById(readyCustomer1().getId());
-        xml.deleteProductById(readyProduct1().getId());
+        xml.deleteEatableById(readyEatable1().getId());
+        xml.deleteUneatableById(readyUneatable1().getId());
 
     }
 
@@ -76,9 +105,11 @@ public class XMLDataProviderTest extends BeanTest {
     @Test
     void crudXmlOrderUnsuccessful() throws IOException {
         xml.createCustomer(readyCustomer1());
-        xml.createProduct(readyProduct1());
+        xml.createEatable(readyEatable1());
+        xml.createUneatable(readyUneatable1());
         xml.createCustomer(readyCustomer3());
-        xml.createProduct(readyProduct3());
+        xml.createEatable(readyEatable3());
+        xml.createUneatable(readyUneatable3());
         xml.createOrder(readyOrder3());
 
 
@@ -92,9 +123,11 @@ public class XMLDataProviderTest extends BeanTest {
 
         xml.deleteOrderById((readyOrder3().getId()));
         xml.deleteCustomerById(readyCustomer1().getId());
-        xml.deleteProductById(readyProduct1().getId());
+        xml.deleteEatableById(readyEatable1().getId());
+        xml.deleteUneatableById(readyUneatable1().getId());
         xml.deleteCustomerById(readyCustomer3().getId());
-        xml.deleteProductById(readyProduct3().getId());
+        xml.deleteEatableById(readyEatable3().getId());
+        xml.deleteUneatableById(readyUneatable3().getId());
 
     }
 
