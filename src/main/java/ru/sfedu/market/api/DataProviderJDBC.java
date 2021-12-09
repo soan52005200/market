@@ -162,13 +162,14 @@ public class DataProviderJDBC extends IDataProvider{
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
             Customer customer = order.getCustomer();
             Eatable eatable = order.getEatable();
-            if (readEatable(product.getId(),order.getType()).getStatus().equals(ERROR)) {
-                return writeToMongo(new Result(ERROR, customer, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId())));
-            }if (readProductByIdAndType(product.getId(),order.getType()).getStatus().equals(ERROR)) {
-                return writeToMongo(new Result(ERROR, customer, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId())));
+            Uneatable uneatable = order.getUneatable();
+            if (readEatableById(eatable.getId()).getStatus().equals(ERROR)) {
+                return writeToMongo(new Result(ERROR, eatable, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId())));
+            }if (readUneatableById(uneatable.getId()).getStatus().equals(ERROR)) {
+                return writeToMongo(new Result(ERROR, uneatable, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId())));
             }
             if (readCustomerById(customer.getId()).getStatus().equals(ERROR)) {
-                return writeToMongo(new Result(ERROR, product, CREATE, String.format(EMPTY_BEAN, order.getProduct().getId())));
+                return writeToMongo(new Result(ERROR, customer, CREATE, String.format(EMPTY_BEAN, order.getProduct().getId())));
             }
 
 
