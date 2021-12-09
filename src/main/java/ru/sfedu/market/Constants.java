@@ -19,7 +19,8 @@ public final class Constants {
     public static final String USER="user";
 
     public static final String CSV_CUSTOMER_KEY = "csvCustomer";
-    public static final String CSV_PRODUCT_KEY = "csvProduct";
+    public static final String CSV_EATABLE_KEY = "csvEatable";
+    public static final String CSV_UNEATABLE_KEY = "csvUneatable";
     public static final String CSV_ORDER_KEY = "csvOrder";
 
     public static final String XML_CUSTOMER_KEY = "xmlCustomer";
@@ -41,7 +42,8 @@ public final class Constants {
     public static final String CREATE_ERROR_ORDER = "Заказ не создан";
 
     public static final String NPE_CUSTOMER = "Такого клиента не существует";
-    public static final String NPE_PRODUCT = "Такого продукта не существует";
+    public static final String NPE_EATABLE = "Такого продукта не существует";
+    public static final String NPE_UNEATABLE = "Такого продукта не существует";
     public static final String NPE_ORDER = "Такоего заказа не существует";
     public static final String NPE_OBJECT = "Такоего объекта не существует";
 

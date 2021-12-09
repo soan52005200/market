@@ -11,13 +11,13 @@ public class Order {
     @CsvBindByPosition(position = 0)
     private Long id;
     @Element
-    @CsvCustomBindByPosition(position = 1,converter = ProductConverter.class)
+    @CsvCustomBindByPosition(position = 1,converter = EatableConverter.class)
     private Eatable eatable;
     @Element
-    @CsvCustomBindByPosition(position = 1,converter = ProductConverter.class)
+    @CsvCustomBindByPosition(position = 2,converter = UneatableConverter.class)
     private Uneatable uneatable;
     @Element
-    @CsvCustomBindByPosition(position = 2, converter = CustomerConverter.class)
+    @CsvCustomBindByPosition(position = 3, converter = CustomerConverter.class)
     private Customer customer;
     @Element
 

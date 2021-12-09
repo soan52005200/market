@@ -51,7 +51,7 @@ public abstract class IDataProvider{
 
     /**
      * Регистрация продукта в сервисе
-     * @param product
+     * @param eatable
      * @return
      */
 
@@ -80,6 +80,38 @@ public abstract class IDataProvider{
      */
 
     public abstract Result<Eatable> deleteEatableById(Long id) throws IOException;
+
+    /**
+     * Регистрация продукта в сервисе
+     * @param uneatable
+     * @return
+     */
+
+    public abstract Result<Uneatable> createUneatable(Uneatable uneatable) throws IOException;
+
+    /**
+     * Получить информацию о продукте по его id
+     * @param id
+     * @return
+     */
+
+    public abstract Result<Uneatable> readUneatableById(Long id) throws IOException;
+
+    /**
+     * Изменение информации о продукте
+     * @param uneatable
+     * @return
+     */
+
+    public abstract Result<Uneatable> updateUneatable(Uneatable uneatable) throws IOException;
+
+    /**
+     * Удаление продукта из сервиса
+     * @param id
+     * @return
+     */
+
+    public abstract Result<Uneatable> deleteUneatableById(Long id) throws IOException;
 
 
     /**
@@ -119,7 +151,6 @@ public abstract class IDataProvider{
      * @return
      */
 
-    public abstract Result<Product> readProductByIdAndType(Long id,ProductType type) throws IOException;
 
 
     protected Document beanToMongo(Mongo mongo){

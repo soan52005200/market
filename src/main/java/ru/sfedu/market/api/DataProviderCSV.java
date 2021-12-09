@@ -8,10 +8,7 @@ import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.sfedu.market.bean.Customer;
-import ru.sfedu.market.bean.Order;
-import ru.sfedu.market.bean.Product;
-import ru.sfedu.market.bean.ProductType;
+import ru.sfedu.market.bean.*;
 import ru.sfedu.market.utils.Result;
 
 
@@ -92,65 +89,119 @@ public class DataProviderCSV extends IDataProvider {
         return writeToMongo(new Result(SUCCESS,customer,DELETE, REMOVE_SUCCESS));
     }
     @Override
-    public Result<Product> createProduct(Product product) throws IOException {
-        if (readProductById(product.getId()).getStatus().equals(ERROR)) {
-            create(product,CSV_PRODUCT_KEY);
-            return writeToMongo(new Result(SUCCESS, product, CREATE, CREATE_SUCCESS_PRODUCT));
+    public Result<Eatable> createEatable(Eatable eatable) throws IOException {
+        if (readEatableById(eatable.getId()).getStatus().equals(ERROR)) {
+            create(eatable,CSV_EATABLE_KEY);
+            return writeToMongo(new Result(SUCCESS, eatable, CREATE, CREATE_SUCCESS_PRODUCT));
         }
-        return writeToMongo(new Result(ERROR, product, CREATE, String.format(PRESENT_BEAN, product.getId())));
+        return writeToMongo(new Result(ERROR, eatable, CREATE, String.format(PRESENT_BEAN, eatable.getId())));
 
 
     }
 
     @Override
-    public Result<Product> readProductById(Long id) throws IOException {
-        Optional optional = getAll(Product.class, CSV_PRODUCT_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
+    public Result<Eatable> readEatableById(Long id) throws IOException {
+        Optional optional = getAll(Eatable.class, CSV_EATABLE_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
         if (optional.isEmpty()) {
-            return writeToMongo(new Result(ERROR,new Product(id,null,null),READ,NPE_PRODUCT));
+            return writeToMongo(new Result(ERROR,new Product(id,null,null),READ,NPE_EATABLE));
         }
         else{
-            return writeToMongo(new Result(SUCCESS,optional.get(),READ, CSV_PRODUCT_KEY));
+            return writeToMongo(new Result(SUCCESS,optional.get(),READ, CSV_EATABLE_KEY));
         }
     }
 
 
 
     @Override
-    public Result<Product> updateProduct(Product product) throws IOException {
-        List<Product> products = getAll(Product.class, CSV_PRODUCT_KEY);
-        if (products.stream().noneMatch(o -> o.getId().equals(product.getId()))) {
-            return writeToMongo(new Result(ERROR, product, UPDATE, String.format(EMPTY_BEAN, product.getId())));
+    public Result<Eatable> updateEatable(Eatable eatable) throws IOException {
+        List<Eatable> eatables = getAll(Eatable.class, CSV_EATABLE_KEY);
+        if (eatables.stream().noneMatch(o -> o.getId().equals(eatable.getId()))) {
+            return writeToMongo(new Result(ERROR, eatable, UPDATE, String.format(EMPTY_BEAN, eatable.getId())));
         }
-        products.removeIf(o -> o.getId().equals(product.getId()));
-        products.add(product);
-        Result refresh = remove(products, CSV_PRODUCT_KEY);
+        eatables.removeIf(o -> o.getId().equals(eatable.getId()));
+        eatables.add(eatable);
+        Result refresh = remove(eatables, CSV_EATABLE_KEY);
         if (refresh.getStatus() == SUCCESS) {
-            return writeToMongo(new Result(SUCCESS, product, UPDATE, String.format(UPDATE_SUCCESS, product.toString())));
+            return writeToMongo(new Result(SUCCESS, eatable, UPDATE, String.format(UPDATE_SUCCESS, eatable.toString())));
         } else {
-            return writeToMongo(new Result(ERROR, product, UPDATE, refresh.getLog()));
+            return writeToMongo(new Result(ERROR, eatable, UPDATE, refresh.getLog()));
         }
     }
-
-
     @Override
-    public Result<Product> deleteProductById(Long id) throws IOException {
+    public Result<Eatable> deleteEatableById(Long id) throws IOException {
 
-        List<Product> products = getAll(Product.class, CSV_PRODUCT_KEY);
-        if (readProductById(id).getStatus().equals(ERROR)) {
-            return writeToMongo(new Result(ERROR, new Product(id,null,null), DELETE, String.format(EMPTY_BEAN, id)));
+        List<Eatable> eatables = getAll(Eatable.class, CSV_EATABLE_KEY);
+        if (readEatableById(id).getStatus().equals(ERROR)) {
+            return writeToMongo(new Result(ERROR, new Eatable(id,null,null,0), DELETE, String.format(EMPTY_BEAN, id)));
         }
         /**Надо реализовать автоматическое удаление заказов с этим покупателем
          *
          * реализовать удаление заказов с этими товарами.*/
-        Product product = readProductById(id).getBean();
-        products.removeIf(o -> o.getId().equals(id));
-        remove(products,CSV_PRODUCT_KEY);
-        return writeToMongo(new Result(SUCCESS,product,DELETE, REMOVE_SUCCESS));
+        Eatable eatable = readEatableById(id).getBean();
+        eatables.removeIf(o -> o.getId().equals(id));
+        remove(eatables,CSV_EATABLE_KEY);
+        return writeToMongo(new Result(SUCCESS,eatable,DELETE, REMOVE_SUCCESS));
+    }
+    @Override
+    public Result<Uneatable> createUneatable(Uneatable uneatable) throws IOException {
+        if (readUneatableById(uneatable.getId()).getStatus().equals(ERROR)) {
+            create(uneatable,CSV_UNEATABLE_KEY);
+            return writeToMongo(new Result(SUCCESS, uneatable, CREATE, CREATE_SUCCESS_PRODUCT));
+        }
+        return writeToMongo(new Result(ERROR, uneatable, CREATE, String.format(PRESENT_BEAN, uneatable.getId())));
+
+
+    }
+
+    @Override
+    public Result<Uneatable> readUneatableById(Long id) throws IOException {
+        Optional optional = getAll(Uneatable.class, CSV_UNEATABLE_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
+        if (optional.isEmpty()) {
+            return writeToMongo(new Result(ERROR,new Uneatable(id,null,null, 0),READ,NPE_UNEATABLE));
+        }
+        else{
+            return writeToMongo(new Result(SUCCESS,optional.get(),READ, CSV_UNEATABLE_KEY));
+        }
+    }
+
+
+
+    @Override
+    public Result<Uneatable> updateUneatable(Uneatable uneatable) throws IOException {
+        List<Uneatable> uneatables = getAll(Uneatable.class, CSV_UNEATABLE_KEY);
+        if (uneatables.stream().noneMatch(o -> o.getId().equals(uneatable.getId()))) {
+            return writeToMongo(new Result(ERROR, uneatable, UPDATE, String.format(EMPTY_BEAN, uneatable.getId())));
+        }
+        uneatables.removeIf(o -> o.getId().equals(uneatable.getId()));
+        uneatables.add(uneatable);
+        Result refresh = remove(uneatables, CSV_UNEATABLE_KEY);
+        if (refresh.getStatus() == SUCCESS) {
+            return writeToMongo(new Result(SUCCESS, uneatable, UPDATE, String.format(UPDATE_SUCCESS, uneatable.toString())));
+        } else {
+            return writeToMongo(new Result(ERROR, uneatable, UPDATE, refresh.getLog()));
+        }
+    }
+
+
+    @Override
+    public Result<Uneatable> deleteUneatableById(Long id) throws IOException {
+
+        List<Uneatable> uneatables = getAll(Uneatable.class, CSV_UNEATABLE_KEY);
+        if (readUneatableById(id).getStatus().equals(ERROR)) {
+            return writeToMongo(new Result(ERROR, new Uneatable(id,null,null,0), DELETE, String.format(EMPTY_BEAN, id)));
+        }
+        /**Надо реализовать автоматическое удаление заказов с этим покупателем
+         *
+         * реализовать удаление заказов с этими товарами.*/
+        Uneatable uneatable = readUneatableById(id).getBean();
+        uneatables.removeIf(o -> o.getId().equals(id));
+        remove(uneatables,CSV_UNEATABLE_KEY);
+        return writeToMongo(new Result(SUCCESS,uneatable,DELETE, REMOVE_SUCCESS));
     }
 
     @Override
     public Result<Order> createOrder(Order order) throws IOException {
-        if ((order.getCustomer().getAge()<18)&&(order.getProduct().getType().equals(ProductType.ALCOHOL)))
+        if ((order.getCustomer().getAge()<18)&&(order.getEatable().getType().equals(ProductType.ALCOHOL)))
         {
 
             return writeToMongo(new Result(ERROR, order,CREATE,AGE_ERROR));
@@ -173,7 +224,7 @@ public class DataProviderCSV extends IDataProvider {
         Optional optional = getAll(Order.class, CSV_ORDER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
 
         if (optional.isEmpty()) {
-            return writeToMongo(new Result(ERROR,new Order(id,null,null),READ,NPE_ORDER));
+            return writeToMongo(new Result(ERROR,new Order(id,null,null,null),READ,NPE_ORDER));
         }
         else{
             return writeToMongo(new Result(SUCCESS,optional.get(),READ, EXIST_OBJECT));
@@ -204,7 +255,7 @@ public class DataProviderCSV extends IDataProvider {
         Order order = readOrderById(id).getBean();
         List<Order> orders = getAll(Order.class, CSV_ORDER_KEY);
         if (readOrderById(id).getStatus().equals(ERROR)) {
-            return writeToMongo(new Result(ERROR, new Order(id,null,null), DELETE, String.format(EMPTY_BEAN, id)));
+            return writeToMongo(new Result(ERROR, new Order(id,null,null,null), DELETE, String.format(EMPTY_BEAN, id)));
         }
 
         orders.removeIf(o -> o.getId().equals(id));

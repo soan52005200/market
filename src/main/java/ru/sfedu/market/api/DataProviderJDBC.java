@@ -136,7 +136,7 @@ public class DataProviderJDBC extends IDataProvider{
             return writeToMongo(new Result(SUCCESS,eatable, UPDATE, SUCCESS_UPDATE));
         }
         else{
-            return writeToMongo(new Result(ERROR,eatable, UPDATE, NPE_PRODUCT));
+            return writeToMongo(new Result(ERROR,eatable, UPDATE, NPE_EATABLE));
         }
     }
 
@@ -148,21 +148,23 @@ public class DataProviderJDBC extends IDataProvider{
             return writeToMongo(new Result(SUCCESS,eatable, DELETE, REMOVE_SUCCESS));
         }
         else{
-            return writeToMongo(new Result(ERROR,new Eatable(id,null,null,null), DELETE, NPE_PRODUCT));
+            return writeToMongo(new Result(ERROR,new Eatable(id,null,null,null), DELETE, NPE_EATABLE));
         }
     }
 
     @Override
     public Result<Order> createOrder(Order order) throws IOException {
-        if ((order.getCustomer().getAge()<18)&&(order.getProduct().getType().equals(ProductType.ALCOHOL)))
+        if ((order.getCustomer().getAge()<18)&&(order.getEatable().getType().equals(ProductType.ALCOHOL)))
         {
 
             return writeToMongo(new Result(ERROR, order,CREATE,AGE_ERROR));
         }
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
             Customer customer = order.getCustomer();
-            Product product = order.getProduct();
-            if (readProductByIdAndType(product.getId(),order.getType()).getStatus().equals(ERROR)) {
+            Eatable eatable = order.getEatable();
+            if (readEatable(product.getId(),order.getType()).getStatus().equals(ERROR)) {
+                return writeToMongo(new Result(ERROR, customer, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId())));
+            }if (readProductByIdAndType(product.getId(),order.getType()).getStatus().equals(ERROR)) {
                 return writeToMongo(new Result(ERROR, customer, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId())));
             }
             if (readCustomerById(customer.getId()).getStatus().equals(ERROR)) {
