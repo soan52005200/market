@@ -116,7 +116,7 @@ public class XMLDataProviderTest extends BeanTest {
 
         assertEquals(xml.createOrder(readyOrder3()).getStatus(),ERROR);/** Crud  */
         assertEquals(xml.readOrderById(readyOrder1().getId()).getStatus(),ERROR);/** cRud  */
-        assertEquals(xml.updateOrder(readyOrder1()).getStatus(),ERROR);/** crUd  */
+        assertEquals(xml.updateOrder(readyOrder1()).getStatus(),ERROR);/**  crUd  */
         assertEquals(xml.deleteOrderById(readyOrder1().getId()).getStatus(),ERROR); /** cruD*/
 
 
