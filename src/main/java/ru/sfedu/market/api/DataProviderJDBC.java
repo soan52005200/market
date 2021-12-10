@@ -91,7 +91,7 @@ public class DataProviderJDBC extends IDataProvider{
     public Result<Eatable> createEatable(Eatable eatable) throws IOException {
 
         if (readEatableById(eatable.getId()).getStatus().equals(ERROR)){
-            execute(String.format(EATABLE_INSERT, eatable.getId(), eatable.getName(), eatable.getType()));
+            execute(String.format(EATABLE_INSERT, eatable.getId(), eatable.getName(), eatable.getType(),eatable.getBestBefore()));
             return writeToMongo(new Result(SUCCESS,eatable, CREATE,CREATE_SUCCESS_PRODUCT));
         }else{
             return writeToMongo(new Result(ERROR,eatable, CREATE,CREATE_ERROR_PRODUCT));
@@ -132,7 +132,7 @@ public class DataProviderJDBC extends IDataProvider{
     @Override
     public Result<Eatable> updateEatable(Eatable eatable) throws IOException {
         if (readEatableById(eatable.getId()).getStatus().equals(SUCCESS)) {
-            execute(String.format(EATABLE_UPDATE, eatable.getName(), eatable.getType(), eatable.getId()));
+            execute(String.format(EATABLE_UPDATE, eatable.getName(), eatable.getType(),eatable.getBestBefore(), eatable.getId()));
             return writeToMongo(new Result(SUCCESS,eatable, UPDATE, SUCCESS_UPDATE));
         }
         else{
@@ -155,7 +155,7 @@ public class DataProviderJDBC extends IDataProvider{
     public Result<Uneatable> createUneatable(Uneatable uneatable) throws IOException {
 
         if (readUneatableById(uneatable.getId()).getStatus().equals(ERROR)){
-            execute(String.format(UNEATABLE_INSERT, uneatable.getId(), uneatable.getName(), uneatable.getType()));
+            execute(String.format(UNEATABLE_INSERT, uneatable.getId(), uneatable.getName(), uneatable.getType(),uneatable.getGuarantee()));
             return writeToMongo(new Result(SUCCESS,uneatable, CREATE,CREATE_SUCCESS_PRODUCT));
         }else{
             return writeToMongo(new Result(ERROR,uneatable, CREATE,CREATE_ERROR_PRODUCT));
@@ -196,7 +196,7 @@ public class DataProviderJDBC extends IDataProvider{
     @Override
     public Result<Uneatable> updateUneatable(Uneatable uneatable) throws IOException {
         if (readUneatableById(uneatable.getId()).getStatus().equals(SUCCESS)) {
-            execute(String.format(UNEATABLE_UPDATE, uneatable.getName(), uneatable.getType(), uneatable.getId()));
+            execute(String.format(UNEATABLE_UPDATE, uneatable.getName(), uneatable.getType(),uneatable.getGuarantee(), uneatable.getId()));
             return writeToMongo(new Result(SUCCESS,uneatable, UPDATE, SUCCESS_UPDATE));
         }
         else{

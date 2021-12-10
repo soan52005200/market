@@ -480,3 +480,12 @@ SELECT id , name , type FROM eatable WHERE id = 1; [42102-200]
 14:46:16.468 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Неверное количество столбцов
 Column count does not match; SQL statement:
 INSERT INTO eatable VALUES (1, 'Moloko_Vkusnoteevo', 'MILK'); [21002-200]
+15:06:57.749 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLDataException: Недопустимое значение "4" для параметра "columnIndex"
+Invalid value "4" for parameter "columnIndex" [90008-200]
+15:10:08.073 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLDataException: Недопустимое значение "4" для параметра "columnIndex"
+Invalid value "4" for parameter "columnIndex" [90008-200]
+15:10:09.440 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.EATABLE(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.EATABLE(ID)"; SQL statement:
+INSERT INTO eatable VALUES (1, 'Moloko_Vkusnoteevo', 'MILK','10'); [23505-200]
+15:10:09.499 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLDataException: Недопустимое значение "4" для параметра "columnIndex"
+Invalid value "4" for parameter "columnIndex" [90008-200]
