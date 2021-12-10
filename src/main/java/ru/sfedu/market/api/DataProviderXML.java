@@ -6,10 +6,7 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
-import ru.sfedu.market.bean.Customer;
-import ru.sfedu.market.bean.Order;
-import ru.sfedu.market.bean.Product;
-import ru.sfedu.market.bean.ProductType;
+import ru.sfedu.market.bean.*;
 import ru.sfedu.market.utils.Result;
 
 import java.io.FileReader;
@@ -82,80 +79,132 @@ public class DataProviderXML extends IDataProvider{
 
 
     @Override
-    public Result<Product> createProduct(Product product) throws IOException {
+    public Result<Eatable> createEatable(Eatable eatable) throws IOException {
 
-        if (readProductById(product.getId()).getStatus().equals(ERROR)) {
-            List<Product> list = getAll(Product.class, XML_PRODUCT_KEY);
-            list.add(product);
-            refresh(list, XML_PRODUCT_KEY);
-            return writeToMongo(new Result(SUCCESS, product, CREATE, String.format(PERSISTENCE_SUCCESS, product.getId())));
+        if (readEatableById(eatable.getId()).getStatus().equals(ERROR)) {
+            List<Eatable> list = getAll(Eatable.class, XML_EATABLE_KEY);
+            list.add(eatable);
+            refresh(list, XML_EATABLE_KEY);
+            return writeToMongo(new Result(SUCCESS, eatable, CREATE, String.format(PERSISTENCE_SUCCESS, eatable.getId())));
         }
-        return writeToMongo(new Result(ERROR, product, CREATE, String.format(PRESENT_BEAN, product.getId())));
+        return writeToMongo(new Result(ERROR, eatable, CREATE, String.format(PRESENT_BEAN, eatable.getId())));
     }
 
 
     @Override
-    public Result<Product> readProductById(Long id) throws IOException {
-        Optional optional = getAll(Product.class, XML_PRODUCT_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
+    public Result<Eatable> readEatableById(Long id) throws IOException {
+        Optional optional = getAll(Eatable.class, XML_EATABLE_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
         if (optional.isEmpty()) {
-            return writeToMongo(new Result(ERROR,new Customer(id,null,null),READ,NPE_PRODUCT));
+            return writeToMongo(new Result(ERROR,new Eatable(id,null,null,0),READ,NPE_EATABLE));
         }
         else{
-            return writeToMongo(new Result(SUCCESS,optional.get(),READ,CSV_PRODUCT_KEY));
+            return writeToMongo(new Result(SUCCESS,optional.get(),READ,CSV_EATABLE_KEY));
 
         }
     }
 
 
     @Override
-    public Result<Product> updateProduct(Product product) throws IOException {
-        List<Product> products = getAll(Product.class, XML_PRODUCT_KEY);
-        if (products.stream().noneMatch(o -> o.getId().equals(product.getId()))) {
-            return writeToMongo(new Result(ERROR, product, UPDATE, String.format(EMPTY_BEAN, product.getId())));
+    public Result<Eatable> updateEatable(Eatable eatable) throws IOException {
+        List<Eatable> eatables = getAll(Eatable.class, XML_EATABLE_KEY);
+        if (eatables.stream().noneMatch(o -> o.getId().equals(eatable.getId()))) {
+            return writeToMongo(new Result(ERROR, eatable, UPDATE, String.format(EMPTY_BEAN, eatable.getId())));
         }
-        products.removeIf(o -> o.getId().equals(product.getId()));
-        products.add(product);
-        Result<Product> refresh = refresh(products, XML_PRODUCT_KEY);
+        eatables.removeIf(o -> o.getId().equals(eatable.getId()));
+        eatables.add(eatable);
+        Result<Eatable> refresh = refresh(eatables, XML_EATABLE_KEY);
         if (refresh.getStatus() == SUCCESS) {
-            return writeToMongo(new Result(SUCCESS, product, UPDATE, String.format(UPDATE_SUCCESS, product.toString())));
+            return writeToMongo(new Result(SUCCESS, eatable, UPDATE, String.format(UPDATE_SUCCESS, eatable.toString())));
         } else {
-            return writeToMongo(new Result(ERROR, product, UPDATE, refresh.getLog()));
+            return writeToMongo(new Result(ERROR, eatable, UPDATE, refresh.getLog()));
         }
     }
 
     @Override
-    public Result<Product> deleteProductById(Long id) throws IOException {
-        List<Product> products = getAll(Product.class, XML_PRODUCT_KEY);
-        if (products.stream().noneMatch(o -> o.getId().equals(id))) {
-            return writeToMongo(new Result(ERROR, new Product(id,null,null), DELETE, String.format(EMPTY_BEAN, id)));
+    public Result<Eatable> deleteEatableById(Long id) throws IOException {
+        List<Eatable> eatables = getAll(Eatable.class, XML_EATABLE_KEY);
+        if (eatables.stream().noneMatch(o -> o.getId().equals(id))) {
+            return writeToMongo(new Result(ERROR, new Eatable(id,null,null,0), DELETE, String.format(EMPTY_BEAN, id)));
         }
 
-        products.removeIf(o -> o.getId().equals(id));
-        Result<Product> result = refresh(products, XML_PRODUCT_KEY);
-        return writeToMongo(new Result(result.getStatus(), new Product(id,null,null), DELETE, result.getLog()));
+        eatables.removeIf(o -> o.getId().equals(id));
+        Result<Eatable> result = refresh(eatables, XML_EATABLE_KEY);
+        return writeToMongo(new Result(result.getStatus(), new Eatable(id,null,null,0), DELETE, result.getLog()));
     }
+    @Override
+    public Result<Uneatable> createUneatable(Uneatable uneatable) throws IOException {
+
+        if (readUneatableById(uneatable.getId()).getStatus().equals(ERROR)) {
+            List<Uneatable> list = getAll(Uneatable.class, XML_UNEATABLE_KEY);
+            list.add(uneatable);
+            refresh(list, XML_UNEATABLE_KEY);
+            return writeToMongo(new Result(SUCCESS, uneatable, CREATE, String.format(PERSISTENCE_SUCCESS, uneatable.getId())));
+        }
+        return writeToMongo(new Result(ERROR, uneatable, CREATE, String.format(PRESENT_BEAN, uneatable.getId())));
+    }
+
+
+    @Override
+    public Result<Uneatable> readUneatableById(Long id) throws IOException {
+        Optional optional = getAll(Uneatable.class, XML_UNEATABLE_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
+        if (optional.isEmpty()) {
+            return writeToMongo(new Result(ERROR,new Uneatable(id,null,null,0),READ,NPE_UNEATABLE));
+        }
+        else{
+            return writeToMongo(new Result(SUCCESS,optional.get(),READ,CSV_UNEATABLE_KEY));
+
+        }
+    }
+
+
+    @Override
+    public Result<Uneatable> updateUneatable(Uneatable uneatable) throws IOException {
+        List<Uneatable> uneatables = getAll(Uneatable.class, XML_UNEATABLE_KEY);
+        if (uneatables.stream().noneMatch(o -> o.getId().equals(uneatable.getId()))) {
+            return writeToMongo(new Result(ERROR, uneatable, UPDATE, String.format(EMPTY_BEAN, uneatable.getId())));
+        }
+        uneatables.removeIf(o -> o.getId().equals(uneatable.getId()));
+        uneatables.add(uneatable);
+        Result<Uneatable> refresh = refresh(uneatables, XML_UNEATABLE_KEY);
+        if (refresh.getStatus() == SUCCESS) {
+            return writeToMongo(new Result(SUCCESS, uneatable, UPDATE, String.format(UPDATE_SUCCESS, uneatable.toString())));
+        } else {
+            return writeToMongo(new Result(ERROR, uneatable, UPDATE, refresh.getLog()));
+        }
+    }
+
+    @Override
+    public Result<Uneatable> deleteUneatableById(Long id) throws IOException {
+        List<Uneatable> uneatables = getAll(Uneatable.class, XML_UNEATABLE_KEY);
+        if (uneatables.stream().noneMatch(o -> o.getId().equals(id))) {
+            return writeToMongo(new Result(ERROR, new Uneatable(id,null,null,0), DELETE, String.format(EMPTY_BEAN, id)));
+        }
+
+        uneatables.removeIf(o -> o.getId().equals(id));
+        Result<Uneatable> result = refresh(uneatables, XML_UNEATABLE_KEY);
+        return writeToMongo(new Result(result.getStatus(), new Uneatable(id,null,null,0), DELETE, result.getLog()));
+    }
+
 
     @Override
     public Result<Order> createOrder(Order order) throws IOException {
-        if ((order.getCustomer().getAge()<18)&&(order.getProduct().getType().equals(ProductType.ALCOHOL)))
+        if ((order.getCustomer().getAge()<18)&&(order.getEatable().getType().equals(ProductType.ALCOHOL)))
         {
 
             return writeToMongo(new Result(ERROR, order,CREATE,AGE_ERROR));
         }/**Проверка на возраст покупателя если в заказе алкоголь.*/
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
-            Customer customer = readCustomerById(order.getId()).getBean();
-            Product product = readProductById(order.getId()).getBean();
-            if (customer.equals(null)) {
+
+            if (readCustomerById(order.getId()).getStatus().equals(ERROR)) {
                 return writeToMongo(new Result(ERROR, order, CREATE, String.format(EMPTY_BEAN, order.getCustomer().getId())));
             }
-            if (product.equals(null)) {
-                return new Result(ERROR, order, CREATE, String.format(EMPTY_BEAN, order.getProduct().getId()));
+            if (readEatableById(order.getId()).getStatus().equals(ERROR)) {
+                return new Result(ERROR, order, CREATE, String.format(EMPTY_BEAN, order.getEatable().getId()));
             }
-            /**Проверка на возраст
-             *
-             * if (customer.get().getAge() < product.get().getAgeLimit()) {
-                return new Result<>(UNSUCCESSFUL, null, EXCEPTION_AGE_LIMIT);
-            }*/
+            if (readUneatableById(order.getId()).getStatus().equals(ERROR)) {
+                return new Result(ERROR, order, CREATE, String.format(EMPTY_BEAN, order.getUneatable().getId()));
+            }
+
             List<Order> list = getAll(Order.class, XML_ORDER_KEY);
             list.add(order);
             refresh(list, XML_ORDER_KEY);
@@ -170,7 +219,7 @@ public class DataProviderXML extends IDataProvider{
     public Result<Order> readOrderById(Long id) throws IOException {
         Optional optional = getAll(Order.class, XML_ORDER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
         if (optional.isEmpty()) {
-            return writeToMongo(new Result(ERROR, new Order(id,null,null), READ, NPE_ORDER));
+            return writeToMongo(new Result(ERROR, new Order(id,null,null,null), READ, NPE_ORDER));
         }
         else{
             return writeToMongo(new Result(SUCCESS,optional.get(),READ,CSV_ORDER_KEY));}
@@ -196,7 +245,7 @@ public class DataProviderXML extends IDataProvider{
     public Result<Order> deleteOrderById(Long id) throws IOException {
         List<Order> orders = getAll(Order.class, XML_ORDER_KEY);
         if (orders.stream().noneMatch(o -> o.getId().equals(id))) {
-            return writeToMongo(new Result(ERROR, new Order(id,null,null), DELETE, String.format(EMPTY_BEAN, id)));
+            return writeToMongo(new Result(ERROR, new Order(id,null,null,null), DELETE, String.format(EMPTY_BEAN, id)));
         }
 
         /**Order order = getOrderById(id).get();
@@ -205,9 +254,9 @@ public class DataProviderXML extends IDataProvider{
 
         Result<Order> result = refresh(orders, XML_ORDER_KEY);
         if (result.getStatus() == SUCCESS) {
-            result = new Result(SUCCESS, new Order(id,null,null), DELETE, ORDER_CLOSE);
+            result = new Result(SUCCESS, new Order(id,null,null,null), DELETE, ORDER_CLOSE);
         }
-        return writeToMongo(new Result(result.getStatus(), new Order(id,null,null), DELETE, result.getLog()));
+        return writeToMongo(new Result(result.getStatus(), new Order(id,null,null,null), DELETE, result.getLog()));
     }
 
 
