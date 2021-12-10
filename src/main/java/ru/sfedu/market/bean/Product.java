@@ -9,13 +9,13 @@ import java.util.Optional;
 
 
 public class Product extends Object {
-
+    @Element
     @CsvBindByPosition(position = 0)
     protected Long id;
-
+    @Element
     @CsvBindByPosition(position = 1)
     protected String name;
-
+    @Element
     @CsvCustomBindByPosition(position = 2, converter = ProductTypeConverter.class)
     protected ProductType type;
 

@@ -45,7 +45,7 @@ public class DataProviderXML extends IDataProvider{
             return writeToMongo(new Result(ERROR,new Customer(id,null,null),READ,NPE_CUSTOMER));
         }
         else{
-            return writeToMongo(new Result(SUCCESS,optional.get(),READ,CSV_CUSTOMER_KEY));
+            return writeToMongo(new Result(SUCCESS,optional.get(),READ,EXIST_CUSTOMER));
         }
 
     }
@@ -60,7 +60,7 @@ public class DataProviderXML extends IDataProvider{
         customers.add(customer);
         Result<Customer> refresh = refresh(customers, XML_CUSTOMER_KEY);
         if (refresh.getStatus() == SUCCESS) {
-            return writeToMongo(new Result<>(SUCCESS, customer, UPDATE, String.format(UPDATE_SUCCESS, customer.toString())));
+            return writeToMongo(new Result<>(SUCCESS, customer, UPDATE, String.format(UPDATE_SUCCESS, customer.getId())));
         } else {
             return writeToMongo(new Result<>(ERROR, customer, UPDATE, refresh.getLog()));
         }
@@ -98,7 +98,7 @@ public class DataProviderXML extends IDataProvider{
             return writeToMongo(new Result(ERROR,new Eatable(id,null,null,0),READ,NPE_EATABLE));
         }
         else{
-            return writeToMongo(new Result(SUCCESS,optional.get(),READ,CSV_EATABLE_KEY));
+            return writeToMongo(new Result(SUCCESS,optional.get(),READ,EXIST_PRODUCT));
 
         }
     }
@@ -167,7 +167,7 @@ public class DataProviderXML extends IDataProvider{
         uneatables.add(uneatable);
         Result<Uneatable> refresh = refresh(uneatables, XML_UNEATABLE_KEY);
         if (refresh.getStatus() == SUCCESS) {
-            return writeToMongo(new Result(SUCCESS, uneatable, UPDATE, String.format(UPDATE_SUCCESS, uneatable.toString())));
+            return writeToMongo(new Result(SUCCESS, uneatable, UPDATE, String.format(UPDATE_SUCCESS,uneatable.getId())));
         } else {
             return writeToMongo(new Result(ERROR, uneatable, UPDATE, refresh.getLog()));
         }
@@ -222,7 +222,7 @@ public class DataProviderXML extends IDataProvider{
             return writeToMongo(new Result(ERROR, new Order(id,null,null,null), READ, NPE_ORDER));
         }
         else{
-            return writeToMongo(new Result(SUCCESS,optional.get(),READ,CSV_ORDER_KEY));}
+            return writeToMongo(new Result(SUCCESS,optional.get(),READ,EXIST_ORDER));}
     }
 
     @Override
@@ -235,7 +235,7 @@ public class DataProviderXML extends IDataProvider{
         orders.add(order);
         Result<Order> refresh = refresh(orders,XML_ORDER_KEY);
         if (refresh.getStatus() == SUCCESS) {
-            return writeToMongo(new Result(SUCCESS, order, UPDATE, String.format(UPDATE_SUCCESS, order.toString())));
+            return writeToMongo(new Result(SUCCESS, order, UPDATE,String.format(UPDATE_SUCCESS,order.getId())));
         } else {
             return writeToMongo(new Result(ERROR, order, UPDATE, refresh.getLog()));
         }
@@ -248,8 +248,7 @@ public class DataProviderXML extends IDataProvider{
             return writeToMongo(new Result(ERROR, new Order(id,null,null,null), DELETE, String.format(EMPTY_BEAN, id)));
         }
 
-        /**Order order = getOrderById(id).get();
-        removeProductByOrderCascade(order.getType(), order.getProduct().getId());*/
+
         orders.removeIf(o -> o.getId().equals(id));
 
         Result<Order> result = refresh(orders, XML_ORDER_KEY);

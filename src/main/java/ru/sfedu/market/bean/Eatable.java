@@ -10,25 +10,25 @@ import java.util.Date;
 public class Eatable extends Product{
     @Element
     @CsvBindByPosition(position = 3)
-    private int bestBefore;
+    private int bestbefore;
 
     //
     // Constructors
     //
     public Eatable () { };
 
-    public Eatable(Long id, String name, ProductType type,int bestBefore) {
+    public Eatable(Long id, String name, ProductType type,int bestbefore) {
         this.id=id;
         this.name=name;
         this.type=type;
-        this.bestBefore=bestBefore;
+        this.bestbefore=bestbefore;
     }
 
     public int getBestBefore() {
-        return bestBefore;
+        return bestbefore;
     }
 
     public void setBestBefore(int bestBefore) {
-        this.bestBefore = bestBefore;
+        this.bestbefore = bestbefore;
     }
 }

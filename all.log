@@ -477,3 +477,6 @@ SELECT id, eatable_id, uneatable_id, customer_id FROM "order" WHERE id = 1; [421
 14:16:20.413 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "EATABLE" не найдена
 Table "EATABLE" not found; SQL statement:
 SELECT id , name , type FROM eatable WHERE id = 1; [42102-200]
+14:46:16.468 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Неверное количество столбцов
+Column count does not match; SQL statement:
+INSERT INTO eatable VALUES (1, 'Moloko_Vkusnoteevo', 'MILK'); [21002-200]
