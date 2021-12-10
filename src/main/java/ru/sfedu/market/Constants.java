@@ -37,6 +37,14 @@ public final class Constants {
     public static final String CREATE_SUCCESS_PRODUCT = "Продукт создан";
     public static final String CREATE_SUCCESS_ORDER = "Заказ создан";
 
+    public static final String UPDATE_SUCCESS_CUSTOMER = "Клиент обновлен";
+    public static final String UPDATE_SUCCESS_PRODUCT = "Продукт обновлен";
+    public static final String UPDATE_SUCCESS_ORDER = "Заказ обновлен";
+
+    public static final String UPDATE_ERROR_CUSTOMER = "Клиент обновлен";
+    public static final String UPDATE_ERROR_PRODUCT = "Продукт обновлен";
+    public static final String UPDATE_ERROR_ORDER = "Заказ обновлен";
+
     public static final String CREATE_ERROR_CUSTOMER = "Клиент не создан";
     public static final String CREATE_ERROR_PRODUCT = "Продукт не создан";
     public static final String CREATE_ERROR_ORDER = "Заказ не создан";

@@ -42,7 +42,6 @@ public class DataProviderCSV extends IDataProvider {
 
     @Override
     public Result<Customer> readCustomerById(Long id) throws IOException {
-        List<Customer> customers = getAll(Customer.class, CSV_CUSTOMER_KEY);
         Optional optional = getAll(Customer.class, CSV_CUSTOMER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
         if (optional.isEmpty()) {
 
@@ -51,7 +50,7 @@ public class DataProviderCSV extends IDataProvider {
         }
         else{
 
-            return writeToMongo(new Result(SUCCESS,optional.get(),READ, CSV_CUSTOMER_KEY));
+            return writeToMongo(new Result(SUCCESS,optional.get(),READ, EXIST_CUSTOMER));
 
         }
 
@@ -106,7 +105,7 @@ public class DataProviderCSV extends IDataProvider {
             return writeToMongo(new Result(ERROR,new Product(id,null,null),READ,NPE_EATABLE));
         }
         else{
-            return writeToMongo(new Result(SUCCESS,optional.get(),READ, CSV_EATABLE_KEY));
+            return writeToMongo(new Result(SUCCESS,optional.get(),READ,CREATE_SUCCESS_PRODUCT));
         }
     }
 
@@ -160,7 +159,7 @@ public class DataProviderCSV extends IDataProvider {
             return writeToMongo(new Result(ERROR,new Uneatable(id,null,null, 0),READ,NPE_UNEATABLE));
         }
         else{
-            return writeToMongo(new Result(SUCCESS,optional.get(),READ, CSV_UNEATABLE_KEY));
+            return writeToMongo(new Result(SUCCESS,optional.get(),READ, EXIST_PRODUCT));
         }
     }
 
@@ -176,9 +175,9 @@ public class DataProviderCSV extends IDataProvider {
         uneatables.add(uneatable);
         Result refresh = remove(uneatables, CSV_UNEATABLE_KEY);
         if (refresh.getStatus() == SUCCESS) {
-            return writeToMongo(new Result(SUCCESS, uneatable, UPDATE, String.format(UPDATE_SUCCESS, uneatable.toString())));
+            return writeToMongo(new Result(SUCCESS, uneatable, UPDATE, String.format(UPDATE_SUCCESS, uneatable.getId())));
         } else {
-            return writeToMongo(new Result(ERROR, uneatable, UPDATE, refresh.getLog()));
+            return writeToMongo(new Result(ERROR, uneatable, UPDATE, UPDATE_SUCCESS));
         }
     }
 
@@ -244,9 +243,9 @@ public class DataProviderCSV extends IDataProvider {
         orders.add(order);
         Result refresh = remove(orders, CSV_ORDER_KEY);
         if (refresh.getStatus() == SUCCESS) {
-            return writeToMongo(new Result(SUCCESS, order, UPDATE, String.format(UPDATE_SUCCESS, order.toString())));
+            return writeToMongo(new Result(SUCCESS, order, UPDATE, CREATE_SUCCESS_ORDER));
         } else {
-            return writeToMongo(new Result(ERROR, order, UPDATE, refresh.getLog()));
+            return writeToMongo(new Result(ERROR, order, UPDATE, UPDATE_ERROR_ORDER));
         }
     }
 

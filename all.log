@@ -459,3 +459,21 @@ INSERT INTO "order" VALUES (1, 1, 1); [23505-200]
 01:45:02.687 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
 01:45:02.714 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: Error parsing CSV.
 18:33:43.298 [main] ERROR ru.sfedu.market.api.DataProviderCSV - java.lang.RuntimeException: java.lang.NullPointerException: Такого продукта не существует
+14:16:20.281 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "UNEATABLE" не найдена
+Table "UNEATABLE" not found; SQL statement:
+SELECT id , name , type FROM uneatable WHERE id = 1; [42102-200]
+14:16:20.308 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "UNEATABLE" не найдена
+Table "UNEATABLE" not found; SQL statement:
+INSERT INTO uneatable VALUES (1, 'Mobile_phone', 'ELECTRONICS'); [42102-200]
+14:16:20.328 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "EATABLE" не найдена
+Table "EATABLE" not found; SQL statement:
+SELECT id , name , type FROM eatable WHERE id = 1; [42102-200]
+14:16:20.349 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "EATABLE" не найдена
+Table "EATABLE" not found; SQL statement:
+INSERT INTO eatable VALUES (1, 'Moloko_Vkusnoteevo', 'MILK'); [42102-200]
+14:16:20.374 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Столбец "EATABLE_ID" не найден
+Column "EATABLE_ID" not found; SQL statement:
+SELECT id, eatable_id, uneatable_id, customer_id FROM "order" WHERE id = 1; [42122-200]
+14:16:20.413 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "EATABLE" не найдена
+Table "EATABLE" not found; SQL statement:
+SELECT id , name , type FROM eatable WHERE id = 1; [42102-200]
