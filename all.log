@@ -489,3 +489,32 @@ Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.EATABLE(ID)"; SQL 
 INSERT INTO eatable VALUES (1, 'Moloko_Vkusnoteevo', 'MILK','10'); [23505-200]
 15:10:09.499 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLDataException: Недопустимое значение "4" для параметра "columnIndex"
 Invalid value "4" for parameter "columnIndex" [90008-200]
+15:31:11.196 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLDataException: Недопустимое значение "4" для параметра "columnIndex"
+Invalid value "4" for parameter "columnIndex" [90008-200]
+15:31:12.428 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.EATABLE(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.EATABLE(ID)"; SQL statement:
+INSERT INTO eatable VALUES (1, 'Moloko_Vkusnoteevo', 'MILK',10); [23505-200]
+15:31:12.467 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLDataException: Недопустимое значение "4" для параметра "columnIndex"
+Invalid value "4" for parameter "columnIndex" [90008-200]
+15:33:56.785 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLDataException: Недопустимое значение "4" для параметра "columnIndex"
+Invalid value "4" for parameter "columnIndex" [90008-200]
+15:33:57.917 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.EATABLE(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.EATABLE(ID)"; SQL statement:
+INSERT INTO eatable VALUES (1, 'Moloko_Vkusnoteevo', 'MILK',10); [23505-200]
+15:33:57.958 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLDataException: Недопустимое значение "4" для параметра "columnIndex"
+Invalid value "4" for parameter "columnIndex" [90008-200]
+15:35:57.590 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLDataException: Недопустимое значение "4" для параметра "columnIndex"
+Invalid value "4" for parameter "columnIndex" [90008-200]
+15:37:02.494 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLDataException: Недопустимое значение "4" для параметра "columnIndex"
+Invalid value "4" for parameter "columnIndex" [90008-200]
+15:37:03.890 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Нарушение уникального индекса или первичного ключа: "PRIMARY KEY ON PUBLIC.EATABLE(ID)"
+Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.EATABLE(ID)"; SQL statement:
+INSERT INTO eatable VALUES (1, 'Moloko_Vkusnoteevo', 'MILK',10); [23505-200]
+15:38:45.073 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLDataException: Недопустимое значение "4" для параметра "columnIndex"
+Invalid value "4" for parameter "columnIndex" [90008-200]
+15:47:08.633 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Столбец "DATA" не найден
+Column "DATA" not found; SQL statement:
+UPDATE uneatable SET name='Vacuum_cleaner', type='ELECTRONICS',guarantee=720,data WHERE id = 1; [42122-200]
+15:49:00.434 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: Столбец "PRODUCT_ID" не найден
+Column "PRODUCT_ID" not found; SQL statement:
+UPDATE "order" SET product_id=1, customer_id=1 WHERE id = 1; [42122-200]

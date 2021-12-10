@@ -42,6 +42,7 @@ public class JDBCDataProviderTest extends BeanTest {
     }
     @Test
     void crudJdbcEatableSuccess() throws IOException{
+
         assertEquals(jdbc.createEatable(readyEatable1()).getStatus(),SUCCESS);/** Crud  */
         assertEquals(jdbc.readEatableById(readyEatable1().getId()).getStatus(),SUCCESS);/** cRud  */
         assertEquals(jdbc.updateEatable(readyEatable2()).getStatus(),SUCCESS);/** crUd  */
