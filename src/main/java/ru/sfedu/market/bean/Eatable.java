@@ -1,11 +1,9 @@
 package ru.sfedu.market.bean;
 
 import com.opencsv.bean.CsvBindByPosition;
-import com.opencsv.bean.CsvDate;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
-import java.util.Date;
 @Root(name="Uneatable")
 public class Eatable extends Product{
     @Element

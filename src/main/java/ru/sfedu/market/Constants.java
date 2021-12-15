@@ -91,5 +91,9 @@ public final class Constants {
     public static final String ORDER_SELECT_CUSTOMER = "SELECT id, eatable_id, uneatable_id, customer_id  FROM \"order\" WHERE customer_id = %d;";
 
 
+    public static final String UNEATABLE_DELETE_CASCADE_BY_UNEATABLE = "DELETE FROM \"order\" WHERE uneatable_id = %d;";
+    public static final String UNEATABLE_DELETE_CASCADE_BY_EATABLE = "DELETE FROM \"order\" WHERE eatable_id = %d;";
+    public static final String UNEATABLE_DELETE_CASCADE_BY_CUSTOMER = "DELETE FROM \"order\" WHERE customer_id = %d;";
+
 
 }

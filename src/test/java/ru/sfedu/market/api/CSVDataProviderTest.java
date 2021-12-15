@@ -3,7 +3,7 @@ package ru.sfedu.market.api;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
-import ru.sfedu.market.bean.Mongo;
+
 
 import java.io.IOException;
 

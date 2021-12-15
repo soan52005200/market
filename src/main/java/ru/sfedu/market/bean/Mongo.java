@@ -1,33 +1,15 @@
 package ru.sfedu.market.bean;
 
-import com.mongodb.DB;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientSettings;
-import com.mongodb.MongoClientURI;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.bson.Document;
-import org.bson.codecs.configuration.CodecRegistries;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.codecs.pojo.ClassModel;
-import org.bson.codecs.pojo.PojoCodecProvider;
-import ru.sfedu.market.bean.Customer;
-import ru.sfedu.market.bean.Order;
-import ru.sfedu.market.bean.Product;
 import ru.sfedu.market.utils.Crud;
 import ru.sfedu.market.utils.Result;
 import ru.sfedu.market.utils.Status;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
+
 
 import static ru.sfedu.market.Constants.USER;
-import static ru.sfedu.market.bean.ProductType.*;
 import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
 
 

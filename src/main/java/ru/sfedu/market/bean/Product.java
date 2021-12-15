@@ -4,9 +4,6 @@ import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvCustomBindByPosition;
 import org.simpleframework.xml.Element;
 
-import javax.swing.text.html.Option;
-import java.util.Optional;
-
 
 public class Product extends Object {
     @Element
