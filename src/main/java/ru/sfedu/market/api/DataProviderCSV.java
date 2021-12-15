@@ -82,7 +82,7 @@ public class DataProviderCSV extends IDataProvider {
             return writeToMongo(new Result(ERROR, new Customer(id,null,null), DELETE, String.format(EMPTY_BEAN, id)));
         }
         Customer customer = readCustomerById(id).getBean();
-        /**removeOrderByCustomerCascade(id);   Удаление заказа(include)*/
+        /**CASCADE STARTif ()*/
         customers.removeIf(o -> o.getId().equals(id));
         remove(customers,CSV_CUSTOMER_KEY);
         return writeToMongo(new Result(SUCCESS,customer,DELETE, REMOVE_SUCCESS));
