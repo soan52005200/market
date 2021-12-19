@@ -206,6 +206,7 @@ public class DataProviderJDBC extends IDataProvider{
 
     @Override
     public Result<Uneatable> deleteUneatableById(Long id) throws IOException {
+
         Uneatable uneatable = readUneatableById(id).getBean();
         if (readUneatableById(id).getStatus().equals(SUCCESS)) {
             execute(String.format(UNEATABLE_DELETE, id));

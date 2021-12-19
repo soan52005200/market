@@ -145,11 +145,8 @@ public abstract class IDataProvider{
 
     public abstract Result<Order> deleteOrderById(Long id) throws IOException;
 
-    /**
-     * Обработка продукта
-     * @param id type
-     * @return
-     */
+
+
 
 
 

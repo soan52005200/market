@@ -133,9 +133,13 @@ public class DataProviderCSV extends IDataProvider {
         if (readEatableById(id).getStatus().equals(ERROR)) {
             return writeToMongo(new Result(ERROR, new Eatable(id,null,null,0), DELETE, String.format(EMPTY_BEAN, id)));
         }
-        /**Надо реализовать автоматическое удаление заказов с этим покупателем
-         *
-         * реализовать удаление заказов с этими товарами.*/
+
+        Optional optional = getAll(Order.class, CSV_ORDER_KEY).stream().filter(o -> o.getEatable().getId().equals(id)).findFirst();
+
+        if (!optional.isEmpty()){
+            removeOrderByEatableCascade(id);
+        }
+
         Eatable eatable = readEatableById(id).getBean();
         eatables.removeIf(o -> o.getId().equals(id));
         remove(eatables,CSV_EATABLE_KEY);
@@ -189,6 +193,12 @@ public class DataProviderCSV extends IDataProvider {
         if (readUneatableById(id).getStatus().equals(ERROR)) {
             return writeToMongo(new Result(ERROR, new Uneatable(id,null,null,0), DELETE, String.format(EMPTY_BEAN, id)));
         }
+        Optional optional = getAll(Order.class, CSV_ORDER_KEY).stream().filter(o -> o.getUneatable().getId().equals(id)).findFirst();
+
+        if (!optional.isEmpty()){
+            removeOrderByUneatableCascade(id);
+        }
+
         /**Надо реализовать автоматическое удаление заказов с этим покупателем
          *
          * реализовать удаление заказов с этими товарами.*/
@@ -219,7 +229,7 @@ public class DataProviderCSV extends IDataProvider {
     @Override
 
     public Result<Order> readOrderById(Long id) throws IOException {
-        List<Order> orders = getAll(Order.class, CSV_ORDER_KEY);
+
         Optional optional = getAll(Order.class, CSV_ORDER_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
 
         if (optional.isEmpty()) {
@@ -256,10 +266,30 @@ public class DataProviderCSV extends IDataProvider {
         if (readOrderById(id).getStatus().equals(ERROR)) {
             return writeToMongo(new Result(ERROR, new Order(id,null,null,null), DELETE, String.format(EMPTY_BEAN, id)));
         }
+        Optional optional = getAll(Order.class, CSV_ORDER_KEY).stream().filter(o -> o.getCustomer().getId().equals(id)).findFirst();
 
+        if (!optional.isEmpty()){
+            removeOrderByCustomerCascade(id);
+        }
         orders.removeIf(o -> o.getId().equals(id));
         remove(orders,CSV_ORDER_KEY);
         return writeToMongo(new Result(SUCCESS,order,DELETE, REMOVE_SUCCESS));
+    }
+    public void removeOrderByEatableCascade(Long productId) {
+        List<Order> orders = getAll(Order.class, CSV_ORDER_KEY);
+        orders.removeIf(o -> o.getEatable().getId().equals(productId));
+        remove(orders, CSV_ORDER_KEY);
+
+    }
+    public void removeOrderByUneatableCascade(Long productId) {
+        List<Order> orders = getAll(Order.class, CSV_ORDER_KEY);
+        orders.removeIf(o -> o.getUneatable().getId().equals(productId));
+        remove(orders, CSV_ORDER_KEY);
+    }
+    public void removeOrderByCustomerCascade(Long customerId) {
+        List<Order> orders = getAll(Order.class, CSV_ORDER_KEY);
+        orders.removeIf(o -> o.getCustomer().getId().equals(customerId));
+        remove(orders, CSV_ORDER_KEY);
     }
 
 
