@@ -12,7 +12,8 @@ import static ru.sfedu.market.Constants.NPE_EATABLE;
 import static ru.sfedu.market.utils.Status.ERROR;
 
 
-public class EatableConverter extends AbstractBeanField<Eatable> {
+public class
+EatableConverter extends AbstractBeanField<Eatable> {
 
     private final IDataProvider csv = new DataProviderCSV();
 

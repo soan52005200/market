@@ -10,7 +10,11 @@ import ru.sfedu.market.utils.Status;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static ru.sfedu.market.Constants.*;
 import static ru.sfedu.market.bean.ProductType.MILK;
@@ -78,6 +82,8 @@ public class DataProviderJDBC extends IDataProvider{
     public Result<Customer> deleteCustomerById(Long id) throws IOException {
         Customer customer = readCustomerById(id).getBean();
         if (readCustomerById(id).getStatus().equals(SUCCESS)) {
+            removeOrderByCustomerCascade(id);
+
             execute(String.format(CUSTOMER_DELETE, id));
             return writeToMongo(new Result(SUCCESS,customer, DELETE, REMOVE_SUCCESS));
         }
@@ -144,6 +150,7 @@ public class DataProviderJDBC extends IDataProvider{
     public Result<Eatable> deleteEatableById(Long id) throws IOException {
         Eatable eatable = readEatableById(id).getBean();
         if (readEatableById(id).getStatus().equals(SUCCESS)) {
+            removeOrderByEatableCascade(id);
             execute(String.format(EATABLE_DELETE, id));
             return writeToMongo(new Result(SUCCESS,eatable, DELETE, REMOVE_SUCCESS));
         }
@@ -209,6 +216,7 @@ public class DataProviderJDBC extends IDataProvider{
 
         Uneatable uneatable = readUneatableById(id).getBean();
         if (readUneatableById(id).getStatus().equals(SUCCESS)) {
+            removeOrderByUneatableCascade(id);
             execute(String.format(UNEATABLE_DELETE, id));
             return writeToMongo(new Result(SUCCESS,uneatable, DELETE, REMOVE_SUCCESS));
         }
@@ -311,6 +319,60 @@ public class DataProviderJDBC extends IDataProvider{
         execute(String.format(ORDER_DELETE, id));
         return writeToMongo(new Result(SUCCESS, order, DELETE, REMOVE_SUCCESS));
     }
+
+    @Override
+    public void removeOrderByEatableCascade(Long id) {
+        if (getCountingAllOrdersForCascade(id,ORDER_SELECT_EATABLE)>1){
+            execute(String.format(ORDER_DELETE_CASCADE_BY_EATABLE, id));
+        }
+    }
+
+    @Override
+    public void removeOrderByUneatableCascade(Long id) {
+        if (getCountingAllOrdersForCascade(id,ORDER_SELECT_UNEATABLE)>1){
+            execute(String.format(ORDER_DELETE_CASCADE_BY_UNEATABLE, id));
+        }
+        execute(String.format(UNEATABLE_DELETE, id));
+
+    }
+
+    @Override
+    public void removeOrderByCustomerCascade(Long id) {
+        if (getCountingAllOrdersForCascade(id,ORDER_SELECT_CUSTOMER)>1){
+            execute(String.format(ORDER_DELETE_CASCADE_BY_CUSTOMER, id));
+        }
+    }
+    /** ПОШЛИ СИСТЕМНЫЕ МЕТОДЫ */
+    /** ПОШЛИ СИСТЕМНЫЕ МЕТОДЫ */
+    /** ПОШЛИ СИСТЕМНЫЕ МЕТОДЫ */
+
+
+
+    /**
+     *
+     * Проверка на количество заказов с этой сущностью для дальнейшего удаления
+     *
+     */
+
+    public Long getCountingAllOrdersForCascade(Long id,String SqlRequest) {
+        List<Order> list = new ArrayList<>();
+        ResultSet set = select(String.format(SqlRequest,id));
+        try {
+            while (set != null && set.next()) {
+                list.add(new Order(
+                        set.getLong(1),
+                        readEatableById(set.getLong(2)).getBean(),
+                        readUneatableById(set.getLong(3)).getBean(),
+                        readCustomerById(set.getLong(4)).getBean()
+                ));
+            }
+
+        } catch (Exception exception) {
+            log.error(exception);
+        }
+        return list.stream().collect(Collectors.counting());
+    }
+
 
     private <T> Result<T> execute(String sql) {
         Statement statement;

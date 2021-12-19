@@ -145,6 +145,28 @@ public abstract class IDataProvider{
 
     public abstract Result<Order> deleteOrderById(Long id) throws IOException;
 
+    /**
+     * Удалить все заказы с этим продуктом
+     * @param productId
+     * @return
+     */
+
+    public abstract void removeOrderByEatableCascade(Long productId);
+
+    /**
+     * Удалить все заказы с этим продуктом
+     * @param productId
+     * @return
+     */
+
+    public abstract void removeOrderByUneatableCascade(Long productId);
+    /**
+     * Удалить все заказы с этим покупателем
+     * @param customerId
+     * @return
+     */
+
+    public abstract void removeOrderByCustomerCascade(Long customerId);
 
 
 

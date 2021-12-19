@@ -259,6 +259,31 @@ public class DataProviderXML extends IDataProvider{
     }
 
 
+    @Override
+    public void removeOrderByEatableCascade(Long productId) {
+        List<Order> orders = getAll(Order.class, XML_ORDER_KEY);
+        orders.removeIf(o -> o.getEatable().getId().equals(productId));
+        refresh(orders, XML_ORDER_KEY);
+    }
+
+    @Override
+    public void removeOrderByUneatableCascade(Long productId) {
+        List<Order> orders = getAll(Order.class, XML_ORDER_KEY);
+        orders.removeIf(o -> o.getUneatable().getId().equals(productId));
+        refresh(orders, XML_ORDER_KEY);
+
+    }
+
+    @Override
+    public void removeOrderByCustomerCascade(Long customerId) {
+        List<Order> orders = getAll(Order.class, XML_ORDER_KEY);
+        orders.removeIf(o -> o.getCustomer().getId().equals(customerId));
+        refresh(orders, XML_ORDER_KEY);
+    }
+
+    /** ПОШЛИ СИСТЕМНЫЕ МЕТОДЫ */
+    /** ПОШЛИ СИСТЕМНЫЕ МЕТОДЫ */
+    /** ПОШЛИ СИСТЕМНЫЕ МЕТОДЫ */
 
     private <T> Result<T> refresh(List<T> container, String key) {
         try {
