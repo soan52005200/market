@@ -9,13 +9,25 @@ public final class Constants {
     public static final String LOG4J2_PROPERTIES = "log4j2.configurationFile";
     public static final String UPDATE_SUCCESS = "Объект %s успешно обновлен";
 
+    public static final String CLI_CSV = "csv";
+    public static final String CLI_XML = "xml";
+    public static final String CLI_JDBC = "jdbc";
+    public static final String CLI_EXCEPTION = "Ключа %s не существует";
+    public static final String CLI_SAVE = "save";
+    public static final String CLI_CREATE = "create";
+    public static final String CLI_CLOSE = "close";
+    public static final String CLI_DEL = "del";
+    public static final String CLI_UPD = "upd";
+    public static final String CLI_GET = "get";
+    public static final String CLI_GET_ALL = "get_all";
+    public static final String CLI_CUSTOMER = "customer";
+    public static final String CLI_EATABLE = "eatable";
+    public static final String CLI_UNEATABLE = "uneatable";
+    public static final String CLI_ORDER = "order";
 
     public static final String SUCCESS_UPDATE = "Объект успешно обновлен";
-    public static final String FIRST_TEST_RESULT="Первый тест успешно пройдет";
-
     public static final String PERSISTENCE_SUCCESS = "Объект %s успешно сохранен";
     public static final String REMOVE_SUCCESS = "Объект успешно удалён";
-    public static final String REMOVE_UNSUCCESSFUL = "Объект не удалён";
     public static final String USER="user";
 
     public static final String CSV_CUSTOMER_KEY = "csvCustomer";
@@ -80,20 +92,14 @@ public final class Constants {
     public static final String UNEATABLE_UPDATE = "UPDATE uneatable SET name='%s', type='%s',guarantee=%d WHERE id = %d;";
     public static final String UNEATABLE_DELETE = "DELETE FROM uneatable WHERE id = %d;";
 
-
-
-
-
     public static final String ORDER_INSERT = "INSERT INTO \"order\" VALUES (%d, %d, %d, %d);";
     public static final String ORDER_UPDATE = "UPDATE \"order\" SET eatable_id=%d,uneatable_id=%d, customer_id=%d WHERE id = %d;";
     public static final String ORDER_SELECT = "SELECT id, eatable_id, uneatable_id, customer_id FROM \"order\" WHERE id = %d;";
     public static final String ORDER_DELETE = "DELETE FROM \"order\" WHERE id = %d;";
 
-
     public static final String ORDER_SELECT_EATABLE = "SELECT id FROM \"order\" WHERE eatable_id = %d;";
     public static final String ORDER_SELECT_UNEATABLE = "SELECT id FROM \"order\" WHERE uneatable_id = %d;";
     public static final String ORDER_SELECT_CUSTOMER = "SELECT id FROM \"order\" WHERE customer_id = %d;";
-
 
     public static final String ORDER_DELETE_CASCADE_BY_UNEATABLE = "DELETE FROM \"order\" WHERE uneatable_id = %d;";
     public static final String ORDER_DELETE_CASCADE_BY_EATABLE = "DELETE FROM \"order\" WHERE eatable_id = %d;";
