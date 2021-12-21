@@ -518,3 +518,9 @@ UPDATE uneatable SET name='Vacuum_cleaner', type='ELECTRONICS',guarantee=720,dat
 15:49:00.434 [main] ERROR ru.sfedu.market.api.DataProviderJDBC - org.h2.jdbc.JdbcSQLSyntaxErrorException: РЎС‚РѕР»Р±РµС† "PRODUCT_ID" РЅРµ РЅР°Р№РґРµРЅ
 Column "PRODUCT_ID" not found; SQL statement:
 UPDATE "order" SET product_id=1, customer_id=1 WHERE id = 1; [42122-200]
+18:20:52.991 [main] DEBUG ru.sfedu.market.Main - null
+18:20:52.997 [main] DEBUG ru.sfedu.market.Main - null
+18:20:54.480 [main] INFO  ru.sfedu.market.Main - Клиент создан
+18:22:33.369 [main] DEBUG ru.sfedu.market.Main - null
+18:22:33.373 [main] DEBUG ru.sfedu.market.Main - null
+18:22:34.996 [main] INFO  ru.sfedu.market.Main - Клиент создан

@@ -13,13 +13,10 @@ public final class Constants {
     public static final String CLI_XML = "xml";
     public static final String CLI_JDBC = "jdbc";
     public static final String CLI_EXCEPTION = "Ключа %s не существует";
-    public static final String CLI_SAVE = "save";
     public static final String CLI_CREATE = "create";
-    public static final String CLI_CLOSE = "close";
     public static final String CLI_DEL = "del";
     public static final String CLI_UPD = "upd";
-    public static final String CLI_GET = "get";
-    public static final String CLI_GET_ALL = "get_all";
+    public static final String CLI_READ = "read";
     public static final String CLI_CUSTOMER = "customer";
     public static final String CLI_EATABLE = "eatable";
     public static final String CLI_UNEATABLE = "uneatable";
