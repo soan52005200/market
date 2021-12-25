@@ -85,9 +85,9 @@ public class Main {
 
     /**
      *  0     1     2   3  4   5
-     * csv eatable save 1 Milk 6
-     * csv eatable save 2 Milk 10
-     * csv eatable get 1
+     * csv eatable create 1 Milk 6
+     * csv eatable create 2 Milk 10
+     * csv eatable read 1
      * csv eatable del 1
      * csv eatable del 2
      * @param provider
@@ -141,7 +141,7 @@ public class Main {
 
 
      * csv order create 1 1 1 1
-
+     * csv order delete 1
 
      * @param provider
      * @param s

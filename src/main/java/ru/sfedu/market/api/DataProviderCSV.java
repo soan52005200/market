@@ -199,9 +199,7 @@ public class DataProviderCSV extends IDataProvider {
             removeOrderByUneatableCascade(id);
         }
 
-        /**Надо реализовать автоматическое удаление заказов с этим покупателем
-         *
-         * реализовать удаление заказов с этими товарами.*/
+
         Uneatable uneatable = readUneatableById(id).getBean();
         uneatables.removeIf(o -> o.getId().equals(id));
         remove(uneatables,CSV_UNEATABLE_KEY);
@@ -214,7 +212,7 @@ public class DataProviderCSV extends IDataProvider {
         {
 
             return writeToMongo(new Result(ERROR, order,CREATE,AGE_ERROR));
-        }/**Проверка на возраст покупателя если в заказе алкоголь.*/
+        }
 
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
             create(order,CSV_ORDER_KEY);
