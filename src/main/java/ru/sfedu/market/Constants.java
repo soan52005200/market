@@ -3,6 +3,8 @@ package ru.sfedu.market;
 public final class Constants {
 
     public static final String ENV_PROPERTIES = "env";
+    public static final String USER="user";
+    public static final Integer DAY=31;
 
     public static final String ENV_DEFAULT = "./src/main/resources/environment.properties";
     public static final String EMPTY_BEAN = "Объект с ID=%d не существует";
@@ -25,7 +27,7 @@ public final class Constants {
     public static final String SUCCESS_UPDATE = "Объект успешно обновлен";
     public static final String PERSISTENCE_SUCCESS = "Объект %s успешно сохранен";
     public static final String REMOVE_SUCCESS = "Объект успешно удалён";
-    public static final String USER="user";
+
 
     public static final String CSV_CUSTOMER_KEY = "csvCustomer";
     public static final String CSV_EATABLE_KEY = "csvEatable";
@@ -38,6 +40,7 @@ public final class Constants {
     public static final String XML_ORDER_KEY = "xmlOrder";
 
     public static final String AGE_ERROR="Покупателю меньше 18";
+    public static final String BESTBEFORE_ERROR="Продукция просрочена";
 
     public static final String ORDER_CLOSE = "Заказ успешно закрыт";
     public static final String PRESENT_BEAN = "Объект с ID=%d уже существует";

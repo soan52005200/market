@@ -168,6 +168,24 @@ public abstract class IDataProvider{
 
     public abstract void removeOrderByCustomerCascade(Long customerId);
 
+    /**
+     * Проверка
+     * @param eatableBestbefore
+     * @return
+     */
+
+    public abstract boolean checkBestBefore(int eatableBestbefore) throws IOException;
+
+    /**
+     * Проверка
+     * @param customerAge
+     * @return
+     */
+
+    public abstract boolean checkAge(int customerAge);
+
+
+
 
 
 

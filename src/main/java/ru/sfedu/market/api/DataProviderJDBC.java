@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
 import static ru.sfedu.market.Constants.*;
 import static ru.sfedu.market.bean.ProductType.MILK;
 import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
@@ -228,10 +229,21 @@ public class DataProviderJDBC extends IDataProvider{
 
     @Override
     public Result<Order> createOrder(Order order) throws IOException {
-        if ((order.getCustomer().getAge()<18)&&(order.getEatable().getType().equals(ProductType.ALCOHOL)))
+        /**Проверка на возраст покупателя если в заказе алкоголь.*/
+        if (order.getEatable().getType().equals(ProductType.ALCOHOL))
         {
+            if (checkAge(order.getCustomer().getAge())==false){
+                return writeToMongo(new Result(ERROR, order, CREATE,AGE_ERROR));
+            }
 
-            return writeToMongo(new Result(ERROR, order,CREATE,AGE_ERROR));
+        }
+        /**Проверка на срок годности если в заказе есть съедобный продукт*/
+        if (!isNull(order.getEatable().getBestBefore())){
+            if (checkBestBefore(order.getEatable().getBestBefore())){
+
+                return writeToMongo(new Result(ERROR, order, CREATE,BESTBEFORE_ERROR));
+
+            }
         }
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
             Customer customer = order.getCustomer();
@@ -342,6 +354,22 @@ public class DataProviderJDBC extends IDataProvider{
             execute(String.format(ORDER_DELETE_CASCADE_BY_CUSTOMER, id));
         }
     }
+
+    @Override
+    public boolean checkBestBefore(int eatableBestbefore) throws IOException {
+        if (DAY<eatableBestbefore){
+            return false;
+        }
+        return true;
+    }
+    @Override
+    public boolean checkAge(int customerAge){
+        if (customerAge<18){
+            return false;}
+        return true;
+    }
+
+
     /** ПОШЛИ СИСТЕМНЫЕ МЕТОДЫ */
     /** ПОШЛИ СИСТЕМНЫЕ МЕТОДЫ */
     /** ПОШЛИ СИСТЕМНЫЕ МЕТОДЫ */

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Objects.isNull;
 import static ru.sfedu.market.Constants.*;
 import static ru.sfedu.market.utils.ConfigurationUtil.getConfigurationEntry;
 import static ru.sfedu.market.utils.Crud.*;
@@ -188,11 +189,22 @@ public class DataProviderXML extends IDataProvider{
 
     @Override
     public Result<Order> createOrder(Order order) throws IOException {
-        if ((order.getCustomer().getAge()<18)&&(order.getEatable().getType().equals(ProductType.ALCOHOL)))
+        /**Проверка на возраст покупателя если в заказе алкоголь.*/
+        if (order.getEatable().getType().equals(ProductType.ALCOHOL))
         {
+            if (checkAge(order.getCustomer().getAge())==false){
+                return writeToMongo(new Result(ERROR, order, CREATE,AGE_ERROR));
+            }
 
-            return writeToMongo(new Result(ERROR, order,CREATE,AGE_ERROR));
-        }/**Проверка на возраст покупателя если в заказе алкоголь.*/
+        }
+        /**Проверка на срок годности если в заказе есть съедобный продукт*/
+        if (!isNull(order.getEatable().getBestBefore())){
+            if (checkBestBefore(order.getEatable().getBestBefore())){
+
+                return writeToMongo(new Result(ERROR, order, CREATE,BESTBEFORE_ERROR));
+
+            }
+        }
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
 
             if (readCustomerById(order.getId()).getStatus().equals(ERROR)) {
@@ -279,6 +291,22 @@ public class DataProviderXML extends IDataProvider{
         List<Order> orders = getAll(Order.class, XML_ORDER_KEY);
         orders.removeIf(o -> o.getCustomer().getId().equals(customerId));
         refresh(orders, XML_ORDER_KEY);
+    }
+    @Override
+    public boolean checkBestBefore(int eatableBestbefore) throws IOException {
+        if (DAY<eatableBestbefore){
+            return false;
+
+        }
+        return true;
+    }
+    @Override
+    public boolean checkAge(int customerAge){
+        if (customerAge<18){
+            return false;}
+        return true;
+
+
     }
 
     /** ПОШЛИ СИСТЕМНЫЕ МЕТОДЫ */

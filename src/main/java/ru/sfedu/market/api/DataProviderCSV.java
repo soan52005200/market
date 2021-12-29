@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.sfedu.market.bean.*;
 import ru.sfedu.market.utils.Result;
-
+import static java.util.Objects.isNull;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -208,10 +208,21 @@ public class DataProviderCSV extends IDataProvider {
 
     @Override
     public Result<Order> createOrder(Order order) throws IOException {
-        if ((order.getCustomer().getAge()<18)&&(order.getEatable().getType().equals(ProductType.ALCOHOL)))
+        /**Проверка на возраст покупателя если в заказе алкоголь.*/
+        if (order.getEatable().getType().equals(ProductType.ALCOHOL))
         {
+            if (checkAge(order.getCustomer().getAge())==false){
+                return writeToMongo(new Result(ERROR, order, CREATE,AGE_ERROR));
+            }
 
-            return writeToMongo(new Result(ERROR, order,CREATE,AGE_ERROR));
+        }
+        /**Проверка на срок годности если в заказе есть съедобный продукт*/
+        if (!isNull(order.getEatable().getBestBefore())){
+            if (checkBestBefore(order.getEatable().getBestBefore())){
+
+                return writeToMongo(new Result(ERROR, order, CREATE,BESTBEFORE_ERROR));
+
+            }
         }
 
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
@@ -295,6 +306,22 @@ public class DataProviderCSV extends IDataProvider {
         List<Order> orders = getAll(Order.class, CSV_ORDER_KEY);
         orders.removeIf(o -> o.getCustomer().getId().equals(customerId));
         remove(orders, CSV_ORDER_KEY);
+    }
+
+    @Override
+    public boolean checkBestBefore(int eatableBestbefore) throws IOException {
+        if (DAY<eatableBestbefore){
+            return false;
+        }
+        return true;
+    }
+    @Override
+    public boolean checkAge(int customerAge){
+        if (customerAge<18){
+            return false;}
+        return true;
+
+
     }
 
 
