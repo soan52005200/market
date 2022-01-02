@@ -199,7 +199,7 @@ public class DataProviderXML extends IDataProvider{
         }
         /**Проверка на срок годности если в заказе есть съедобный продукт*/
         if (!isNull(order.getEatable().getBestBefore())){
-            if (checkBestBefore(order.getEatable().getBestBefore())){
+            if (checkBestBefore(order.getEatable().getBestBefore())==false){
 
                 return writeToMongo(new Result(ERROR, order, CREATE,BESTBEFORE_ERROR));
 

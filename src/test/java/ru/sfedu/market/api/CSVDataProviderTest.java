@@ -47,9 +47,9 @@ class CSVDataProviderTest extends BeanTest {
     @Test
     void crudCsvEatableSuccess() throws IOException{
         assertEquals(csv.createEatable(readyEatable1()).getStatus(),SUCCESS);/** Crud  */
-        //assertEquals(csv.readEatableById(readyEatable1().getId()).getStatus(),SUCCESS);/** cRud  */
-        //assertEquals(csv.updateEatable(readyEatable2()).getStatus(),SUCCESS);/** crUd  */
-        //assertEquals(csv.deleteEatableById(readyEatable2().getId()).getStatus(),SUCCESS); /** cruD*/
+        assertEquals(csv.readEatableById(readyEatable1().getId()).getStatus(),SUCCESS);/** cRud  */
+        assertEquals(csv.updateEatable(readyEatable2()).getStatus(),SUCCESS);/** crUd  */
+        assertEquals(csv.deleteEatableById(readyEatable2().getId()).getStatus(),SUCCESS); /** cruD*/
     }
 
 
@@ -69,9 +69,9 @@ class CSVDataProviderTest extends BeanTest {
     @Test
     void crudCsvUneatableSuccess() throws IOException{
         assertEquals(csv.createUneatable(readyUneatable1()).getStatus(),SUCCESS);/** Crud  */
-        //assertEquals(csv.readUneatableById(readyUneatable1().getId()).getStatus(),SUCCESS);/** cRud  */
-        //assertEquals(csv.updateUneatable(readyUneatable2()).getStatus(),SUCCESS);/** crUd  */
-        //assertEquals(csv.deleteUneatableById(readyUneatable2().getId()).getStatus(),SUCCESS); /** cruD*/
+        assertEquals(csv.readUneatableById(readyUneatable1().getId()).getStatus(),SUCCESS);/** cRud  */
+        assertEquals(csv.updateUneatable(readyUneatable2()).getStatus(),SUCCESS);/** crUd  */
+        assertEquals(csv.deleteUneatableById(readyUneatable2().getId()).getStatus(),SUCCESS); /** cruD*/
     }
 
 

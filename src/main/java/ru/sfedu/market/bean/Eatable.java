@@ -1,5 +1,6 @@
 package ru.sfedu.market.bean;
 
+import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvCustomBindByPosition;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -8,7 +9,7 @@ import org.simpleframework.xml.Root;
 @Root(name="Eatable")
 public class Eatable extends Product{
     @Element
-    @CsvCustomBindByPosition(position = 3,converter = IntegerConverterForOpenCsv.class)
+    @CsvBindByPosition(position = 3)
     protected Integer bestBefore;
 
     //
