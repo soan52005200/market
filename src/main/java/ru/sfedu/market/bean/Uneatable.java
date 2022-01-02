@@ -1,6 +1,6 @@
 package ru.sfedu.market.bean;
 
-import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.CsvCustomBindByPosition;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
@@ -8,16 +8,14 @@ import org.simpleframework.xml.Root;
 @Root(name="Uneatable")
 public class Uneatable extends Product{
 
-        @Element
-        @CsvBindByPosition(position = 3)
-        private int guarantee;
+    @Element
+    @CsvCustomBindByPosition(position = 3,converter = IntegerConverterForOpenCsv.class)
+    protected Integer guarantee;
 
-        //
-        // Constructors
-        //
-        public Uneatable () { };
 
-    public Uneatable(Long id, String name, ProductType type,int guarantee) {
+    public Uneatable () { }
+
+    public Uneatable(Long id, String name, ProductType type,Integer guarantee) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -25,11 +23,19 @@ public class Uneatable extends Product{
 
     }
 
-    public int getGuarantee() {
-        return guarantee;
+    public Integer getGuarantee() {return guarantee;
     }
 
-    public void setGuarantee(int guarantee) {
-        this.guarantee = guarantee;
+    public void setGuarantee(Integer guarantee) {this.guarantee = guarantee;
+    }
+
+    @Override
+    public String toString() {
+        return "Uneatable{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", guarantee=" + guarantee +
+                '}';
     }
 }

@@ -156,6 +156,7 @@ public class DataProviderCSV extends IDataProvider {
 
     }
 
+
     @Override
     public Result<Uneatable> readUneatableById(Long id) throws IOException {
         Optional optional = getAll(Uneatable.class, CSV_UNEATABLE_KEY).stream().filter(o -> o.getId().equals(id)).findFirst();
