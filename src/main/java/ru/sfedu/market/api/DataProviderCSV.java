@@ -210,21 +210,18 @@ public class DataProviderCSV extends IDataProvider {
     @Override
     public Result<Order> createOrder(Order order) throws IOException {
         /**Проверка на возраст покупателя если в заказе алкоголь.*/
-        if (order.getEatable().getType().equals(ProductType.ALCOHOL))
-        {
             if (checkAge(order.getCustomer().getAge())==false){
                 return writeToMongo(new Result(ERROR, order, CREATE,AGE_ERROR));
             }
 
-        }
         /**Проверка на срок годности если в заказе есть съедобный продукт*/
-        if (!isNull(order.getEatable().getBestBefore())){
+
             if (checkBestBefore(order.getEatable().getBestBefore())==false){
 
                 return writeToMongo(new Result(ERROR, order, CREATE,BESTBEFORE_ERROR));
 
             }
-        }
+
 
         if (readOrderById(order.getId()).getStatus().equals(ERROR)) {
             create(order,CSV_ORDER_KEY);
