@@ -174,7 +174,7 @@ public abstract class IDataProvider{
      * @return
      */
 
-    public abstract boolean checkBestBefore(int eatableBestbefore) throws IOException;
+    public abstract boolean checkBestBefore(Integer eatableBestbefore) throws IOException;
 
     /**
      * Проверка
@@ -182,7 +182,7 @@ public abstract class IDataProvider{
      * @return
      */
 
-    public abstract boolean checkAge(int customerAge);
+    public abstract boolean checkAge(Integer customerAge);
 
 
 

@@ -1,7 +1,7 @@
 package ru.sfedu.market.bean;
 
 import com.opencsv.bean.CsvBindByPosition;
-import com.opencsv.bean.CsvCustomBindByPosition;
+import com.opencsv.bean.CsvBindByPosition;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 

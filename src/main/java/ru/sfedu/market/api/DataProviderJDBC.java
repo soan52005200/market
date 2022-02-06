@@ -353,14 +353,14 @@ public class DataProviderJDBC extends IDataProvider{
     }
 
     @Override
-    public boolean checkBestBefore(int eatableBestbefore) throws IOException {
-        if (DAY<eatableBestbefore){
+    public boolean checkBestBefore(Integer eatableBestBefore) throws IOException {
+        if (DAY<eatableBestBefore){
             return false;
         }
         return true;
     }
     @Override
-    public boolean checkAge(int customerAge){
+    public boolean checkAge(Integer customerAge){
         if (customerAge<18){
             return false;}
         return true;
